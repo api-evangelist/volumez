@@ -1,0 +1,76 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  openapi/volumez-orchestrator-api-openapi.yaml (components.securitySchemes) enriched from the
+  provider's own "Sign In and Authentication", "API" and "User and Token Management" documentation
+  pages, which are no longer reachable live (docs.volumez.com serves no valid TLS certificate) and
+  were read from the Internet Archive captures of docs.volumez.com/docs/authentication,
+  /docs/api-1 and /docs/user-and-token-management.
+docs: https://web.archive.org/web/2025/https://docs.volumez.com/docs/authentication
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  identity_provider: AWS Cognito user pool
+  token_format: JWT
+schemes:
+- name: storage.io-authorizer
+  type: apiKey
+  in: header
+  parameter: authorization
+  description: >-
+    Every protected operation takes a JWT in the `authorization` request header. The OpenAPI declares
+    this as an apiKey-in-header scheme carrying the AWS API Gateway extension
+    x-amazon-apigateway-authtype: cognito_user_pools, so the token is validated against a Cognito user
+    pool (providerARN arn:aws:cognito-idp:us-east-1:...:userpool/us-east-1_Mk5LdUo2I) rather than by a
+    bespoke key store. 108 of the 124 operations declare it; 16 are unauthenticated (signin, signup,
+    password reset, SSO callback, the public infra planner and the version endpoint).
+  sources:
+  - openapi/volumez-orchestrator-api-openapi.yaml
+token_exchange:
+  operation: signIn
+  endpoint: POST /signin
+  documented_host: https://api.volumez.com
+  request:
+    content_type: application/json
+    body: '{ "email": "string", "password": "string" }'
+  response_fields:
+  - {name: AccessToken, type: string, description: Token used for accessing protected routes.}
+  - {name: IdToken, type: string, description: JWT carrying user identity; this is the value the provider's own examples put in the authorization header.}
+  - {name: RefreshToken, type: string, description: Token used to obtain new access tokens.}
+  - {name: ExpiresIn, type: number, description: Token lifetime in seconds (86400 in the published sample).}
+  - {name: TokenType, type: string, description: 'Bearer'}
+  note: >-
+    The provider's own curl samples send the raw IdToken as the `authorization` header value with no
+    "Bearer " prefix. The generated Go client README instead sets `Authorization: Bearer <token>`.
+    Both forms appear in first-party material; an integrator should expect the raw-JWT form the
+    documentation samples use.
+token_types:
+  - name: Volumez REST API Token (JWT Identity Token)
+    use: Public REST API calls.
+  - name: Tenant Token (JWT Access Token)
+    use: Used by a Volumez Connector; identifies the tenant. Also the `tenant_token` Terraform input.
+  - name: Tenant Host Token / Refresh Token (JWT Refresh Token)
+    use: Used by a Volumez Connector; identifies the tenant's host.
+  - name: CSI Driver Token (Refresh Token)
+    use: Passed to the Kubernetes CSI driver as helm value `vlzAuthToken`. Documented to expire in 10 years.
+token_types_source: https://web.archive.org/web/2025/https://docs.volumez.com/docs/api-1
+issuance:
+  self_serve: true
+  path: >-
+    POST /signup registers an account; tokens are then read from the Volumez portal under
+    DEVELOPER > Developer Info. As of 2026-09-04 the portal, the API host (api.volumez.com) and the
+    documentation host are no longer resolvable/serving, so no new credential can be obtained.
+related_operations:
+  signin: signIn
+  signout: signOut
+  signup: SignUp
+  refresh: getTenantRefreshToken
+  tenant_access_token: getTenantAccessToken
+  rotate_api_credentials: RefreshTenantAPIAccessCredentials
+  change_password: [requestChangePassword, approveChangePassword, ChangePasswordLoggedIn]
+  sso: [putAzureSSOMapping, getAzureSSOMapping, deleteAzureSSOMapping, handleSSOCallback]
+sso:
+  supported: true
+  providers: [Azure Active Directory / Entra ID]
+  operations: [putAzureSSOMapping, getAzureSSOMapping, deleteAzureSSOMapping, handleSSOCallback]
+  docs: https://web.archive.org/web/2025/https://docs.volumez.com/docs/azure-active-directory-ad

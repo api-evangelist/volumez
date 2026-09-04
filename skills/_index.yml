@@ -1,0 +1,33 @@
+generated: '2026-09-04'
+method: generated
+source: >-
+  Packaged Agent Skills generated from Volumez's own OpenAPI
+  (openapi/volumez-orchestrator-api-openapi.yaml; capture in openapi/_original/). Every operationId
+  named in these skills was verified verbatim against the specification. Cross-cutting rules cite
+  ../authentication/, ../conventions/, ../errors/ and ../data-model/.
+caveat: >-
+  Volumez publishes no skills, no AGENTS.md and no agent-facing documentation of any kind; these are
+  API Evangelist generations from the contract. They describe a real API whose hosts
+  (api.volumez.com, api.dev.volumez.com) did not resolve on 2026-09-04 — the flows are correct, the
+  endpoint is currently unreachable. See lifecycle/volumez-lifecycle.yml.
+skills:
+- file: volumez-provision-a-volume-from-a-policy.md
+  name: Provision a volume from a policy
+  api: openapi/volumez-orchestrator-api-openapi.yaml
+  operations: [PoliciesList, PolicyCreate, PolicyGet, PolicyPlan, BatchVolumesPlan, VolumeCreate, JobGet, VolumeGet, VolumeDescribe]
+- file: volumez-attach-a-volume-to-a-node.md
+  name: Attach a volume to a node
+  api: openapi/volumez-orchestrator-api-openapi.yaml
+  operations: [NodesList, NodeGet, VolumesList, AttachmentsListForVolume, AttachmentCreate, AttachmentGet, AttachmentModify, AttachmentDelete, AttachmentsListAll, JobGet]
+- file: volumez-snapshot-and-roll-back-a-volume.md
+  name: Snapshot and roll back a volume
+  api: openapi/volumez-orchestrator-api-openapi.yaml
+  operations: [SnapshotsList, SnapshotsListAll, SnapshotCreate, SnapshotGet, SnapshotModify, SnapshotRollback, SnapshotDelete, ConsistencyGroupSnapshotCreate, ConsistencyGroupGet, JobGet, VolumeRecoverInitiate]
+- file: volumez-onboard-a-node-and-assign-media.md
+  name: Onboard a node and assign media
+  api: openapi/volumez-orchestrator-api-openapi.yaml
+  operations: [NodesList, NodeGet, NodeDescribe, NodeHwScan, NodeSetTags, NodeUpgrade, NodeDrain, NodeDelete, MediaList, MediaGet, MediaAssign, MediaUnassign, MediaDrain, MediaProfileModify, MediaDelete, capacityGroupGet, JobGet]
+- file: volumez-plan-and-price-before-provisioning.md
+  name: Plan and price infrastructure before provisioning
+  api: openapi/volumez-orchestrator-api-openapi.yaml
+  operations: [PolicyPlan, BatchVolumesPlan, createInfraPlan, createPublicInfraPlan, ProviderPricingInfo, ConnectivityCheck, getVMZones, getVMVPCs, getVMVPCsByRegion, AutoProvisionVolumes, Provision, JobGet]

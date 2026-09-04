@@ -1,0 +1,89 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for the Volumez Orchestrator API
+  version: 1.0.0
+extends: openapi/_original/volumez-api-openapi-original.yaml
+x-generated: '2026-09-04'
+x-method: generated
+x-source: openapi/_original/volumez-api-openapi-original.yaml
+x-rationale: >-
+  The captured contract is a generator artifact (openapi-generator via Volumez's "squire" pipeline,
+  x-squire-version 1.54.0) and carries three gaps that matter to a consumer, none of which we fix by
+  mutating the original. (1) servers[] names ONLY https://api.dev.volumez.com — a non-production host
+  — while Volumez's own authentication, user-management and job-status documentation consistently
+  publishes https://api.volumez.com as the production base. (2) info has no contact, license or terms.
+  (3) The single securityScheme carries no description, so a reader cannot tell what token to send or
+  how to get one. This overlay records all three WITHOUT touching the original document. Apply with
+  any Overlay 1.0.0 processor.
+x-caveat: >-
+  BOTH hosts were NXDOMAIN when this overlay was written (2026-09-04). Adding api.volumez.com does not
+  make the API callable; it records the base URL the provider itself documented, which is the value a
+  reader needs in order to understand the contract. See lifecycle/volumez-lifecycle.yml.
+actions:
+- target: $.servers
+  description: >-
+    Add the production base URL Volumez publishes in its own documentation, alongside the dev host the
+    generator emitted. Source — the provider's "Sign In and Authentication" page:
+    "Endpoint : POST https://api.volumez.com/signin"; and "Job Status":
+    "curl -X GET https://api.volumez.com/jobs/544".
+  update:
+  - url: https://api.volumez.com
+    description: >-
+      Production base URL, documented by Volumez. NOTE — this hostname did not resolve on 2026-09-04.
+    x-source: https://web.archive.org/web/2025/https://docs.volumez.com/docs/authentication
+    x-dns-status-2026-09-04: NXDOMAIN
+- target: $.info
+  description: Add contact, terms and the provenance of this capture.
+  update:
+    contact:
+      name: Volumez
+      url: https://volumez.com/contact-us
+    termsOfService: https://volumez.com/terms-of-use
+    x-source-repository: https://github.com/VolumezTech/volumez-rest-client
+    x-source-file: pkg/openapi/api/openapi.yaml
+    x-captured: '2026-09-04'
+- target: $.components.securitySchemes['storage.io-authorizer']
+  description: >-
+    Describe the token the authorizer expects and how a caller obtains it, so the scheme is
+    self-explanatory without the (now unreachable) documentation site.
+  update:
+    description: >-
+      A JWT in the `authorization` request header, validated against an AWS Cognito user pool.
+      Obtain one with POST /signin (email + password), which returns AccessToken, IdToken,
+      RefreshToken, ExpiresIn (86400) and TokenType (Bearer); Volumez's own examples send the raw
+      IdToken as the header value with no "Bearer " prefix, while the generated Go client sends
+      "Bearer <token>". 108 of the 124 operations require it. See
+      authentication/volumez-authentication.yml.
+- target: $.tags
+  description: >-
+    Fill in the empty descriptions the generator emitted for the resource tags. Only Policies carried
+    a description in the original; the other thirteen were empty strings.
+  update:
+  - name: Volumes
+    description: Block volumes composed from assigned media according to a Policy. Creation is asynchronous and returns a job id.
+  - name: Snapshots
+    description: Point-in-time copies of volumes, including consistency-group snapshots across several volumes, and the rollback path that reverses a volume to one.
+  - name: Attachments
+    description: Bindings of a volume or snapshot to a node, with mountpoint and read-only flag.
+  - name: Media
+    description: The NVMe devices discovered on nodes that Volumez composes volumes out of; assign, unassign, drain and profile them.
+  - name: Nodes
+    description: Hosts running the Volumez connector; hardware scan, tagging, upgrade and drain.
+  - name: Networks
+    description: Named IP ranges per zone used for the data path.
+  - name: Connectivities
+    description: Declared paths between sets of zones and system types, with media and replication protocols.
+  - name: Exports
+    description: Shared exports of a volume or snapshot, with an xqn/wwn and a client connect script.
+  - name: Associations
+    description: Named associations between a volume and a snapshot.
+  - name: CapacityGroups
+    description: Named groupings that volumes and media are assigned to.
+  - name: Jobs
+    description: Asynchronous units of work; the handle every mutating call returns and the only way to know a request finished.
+  - name: Alerts
+    description: Raised conditions with severity and object reference; acknowledgeable. Poll-only — there is no event surface.
+  - name: AutoProvisionVolumes
+    description: One-call provisioning of volumes together with the infrastructure they need.
+  - name: provision
+    description: The provisioning service surface added in the 2025-09-28 contract revision.

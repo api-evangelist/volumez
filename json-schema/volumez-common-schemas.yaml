@@ -1,0 +1,52 @@
+# Captured verbatim by API Evangelist on 2026-09-04 from Volumez's own shared schema library,
+# https://github.com/VolumezTech/common-public (schemas/error.yaml and schemas/health.yaml).
+# The repository README describes it as "the central location for shared OpenAPI schemas that define
+# common data models, request/response structures, and API specifications used by multiple Volumez
+# services."
+#
+# method: searched
+# source: https://raw.githubusercontent.com/VolumezTech/common-public/master/schemas/{error,health}.yaml
+#
+# NOTE ON SHAPE: these are OpenAPI 3 `components.schemas` fragments, not standalone JSON Schema
+# documents. They are kept here because they are the only schema artifacts Volumez publishes OUTSIDE
+# the orchestrator contract.
+#
+# NOTE ON DIVERGENCE: this shared ErrorResponse carries `requestId` (vlz-<uuid>) and `traceId`
+# alongside `message`. The orchestrator API's own ErrorResponse (see
+# openapi/volumez-orchestrator-api-openapi.yaml) has ONLY `message` — the shared tracing fields have
+# not reached the public API. Do not document requestId/traceId as available on orchestrator errors.
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
+          example: Invalid request parameters
+        requestId:
+          type: string
+          description: Request ID for tracking purposes
+          example: vlz-12345678-1234-1234-1234-123456789abc
+        traceId:
+          type: string
+          description: Trace ID for distributed tracing
+          example: 12345678-1234-1234-1234-123456789abc
+      example:
+        message: Invalid request parameters
+        requestId: vlz-12345678-1234-1234-1234-123456789abc
+        traceId: 12345678-1234-1234-1234-123456789abc
+    HealthCheckResponse:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Health check status message
+          example: Service is healthy
+      example:
+        message: Service is healthy

@@ -1,0 +1,40 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://volumez.com/ and its full sitemap (15 URLs, read 2026-09-04), plus the AWS Marketplace
+  seller profile and the ProviderPricingInfo operation in the provider's own OpenAPI.
+plan_count: 0
+pricing_published: false
+pricing_url: null
+billing_model: cloud-marketplace-and-sales
+summary: >-
+  Volumez publishes NO pricing page and NO plans. Its sitemap contains exactly 15 URLs — home, about,
+  contact, terms, cookie policy, privacy, certifications, six case studies, solutions and open
+  positions — with no /pricing, no /plans and no self-serve signup. Every call to action on the site
+  is "Get a Demo" or "Contact Us". This is an honest zero, not a gap in the sweep.
+probed:
+- {url: 'https://volumez.com/sitemap.xml', status: 200, checked: '2026-09-04', note: '15 URLs, none pricing-related'}
+- {url: 'https://volumez.com/solutions', status: 200, checked: '2026-09-04', note: 'Product page; no prices'}
+- {url: 'https://volumez.com/contact-us', status: 200, checked: '2026-09-04', note: 'Demo request form'}
+- {url: 'https://aws.amazon.com/marketplace/seller-profile?id=seller-mvllvw745umdk', status: 200, checked: '2026-09-04'}
+- {url: 'https://marketplace.microsoft.com/en-us/marketplace/apps?search=Volumez', status: 403, checked: '2026-09-04', note: 'Microsoft blocks the crawler; not a finding about Volumez'}
+distribution_channels:
+- {channel: AWS Marketplace, url: 'https://aws.amazon.com/marketplace/seller-profile?id=seller-mvllvw745umdk', status: 200, note: 'Seller profile confirmed live. Individual product listings are rendered client-side and were not machine-readable; no price captured.'}
+- {channel: Azure Marketplace, note: 'The API itself carries GET /azuremarketplace/subscription (operationId GetSubscription), which is first-party evidence that Volumez bills at least some customers through an Azure Marketplace SaaS subscription. No public listing price was captured.'}
+- {channel: Oracle Cloud Marketplace, url: 'https://github.com/VolumezTech/vlz-oci-marketplace', status: 200, note: '"Getting started in OCI Marketplace" — first-party repo confirming an OCI Marketplace motion.'}
+in_product_pricing_api:
+  operation: ProviderPricingInfo
+  path: POST /infra-planner/provider-pricing-info
+  request_schema: ProviderPricingInfoRequest
+  response_schema: ProviderPricingInfoResponse
+  item_schema: ProviderPriceItem
+  note: >-
+    The orchestrator exposes a pricing endpoint, but it prices the CLOUD PROVIDER's instances and
+    media for an infrastructure plan — it does not price Volumez itself. Recorded so a later round
+    does not mistake it for a Volumez rate card.
+tiers: []
+note: >-
+  Enterprise "contact us" only, sold through the three cloud marketplaces. Consistent with the 2026
+  repositioning of the public site around agentic-AI infrastructure and the withdrawal of the
+  self-serve signup surface (POST /signup exists in the contract, but api.volumez.com no longer
+  resolves).

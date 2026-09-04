@@ -1,0 +1,215 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from openapi/volumez-orchestrator-api-openapi.yaml (OpenAPI 3.0.1, 95 paths / 124
+  operations / 108 schemas) and corroborated against the provider's own documentation pages
+  "Pagination", "Response Types", "Job Status" and "Sign In and Authentication", which are no longer
+  reachable live (docs.volumez.com has no valid TLS certificate) and were read from Internet Archive
+  captures.
+docs: https://web.archive.org/web/2025/https://docs.volumez.com/docs/pagination
+summary: >-
+  A flat, unversioned REST surface over a single host. Auth is a JWT in the `authorization` header.
+  Long-running work is asynchronous: mutating calls return a job id that the client polls on /jobs.
+  There is no idempotency mechanism, no rate-limit signalling, no request-id header and no RFC 9457
+  problem+json; errors are a bare {"message": string} envelope.
+authentication:
+  styles: [jwt_header]
+  header: authorization
+  identity_provider: 'AWS Cognito user pool (x-amazon-apigateway-authtype: cognito_user_pools)'
+  unauthenticated_operations: [signIn, SignUp, signOut, requestChangePassword, approveChangePassword, createPublicInfraPlan, versionGet, handleSSOCallback]
+  see: authentication/volumez-authentication.yml
+versioning:
+  style: unversioned-path
+  notes: >-
+    No version segment appears in any of the 95 paths. The only version signal is GET /version
+    (operationId versionGet) and info.version, which is a build stamp — "1.0.0 - 8d1ee8c4" — not a
+    semantic API version. See lifecycle/volumez-lifecycle.yml.
+pagination:
+  style: mixed
+  documented: true
+  params:
+  - {name: page, in: query, type: integer, used_by: [JobsList], note: '1-based page number.'}
+  - {name: count, in: query, type: integer, used_by: [JobsList, AssociationsList, ExportsList, VirtualMediaList], note: 'Items per page. The provider''s own example uses count=2500.'}
+  - {name: startfrom, in: query, type: integer, used_by: [AssociationsList, ExportsList, VirtualMediaList], note: 'Offset cursor; used INSTEAD of page on these three list operations.'}
+  response_fields: []
+  notes: >-
+    Two different pagination idioms coexist. /jobs takes page+count (the pair the published
+    Pagination doc describes: "jobs&page=1&count=2500"). /associations, /exports/ and /virtualmedia
+    take startfrom+count instead. The remaining ~20 list operations — including VolumesList,
+    NodesList, MediaList, PoliciesList, SnapshotsListAll and AlertsList — take NO pagination
+    parameters at all and return the full collection. No total-count or next-cursor field is
+    declared in any response schema, so a client cannot tell whether a page is the last one.
+  agent_risk: >-
+    An agent listing volumes or media on a large tenant has no way to bound the response and no
+    documented cap.
+async_pattern:
+  supported: true
+  documented: true
+  mechanism: >-
+    "All user requests can be Synchronous or Asynchronous." An asynchronous mutation returns
+    {"Message": "<jobId>"} (the job id as a STRING in a field named Message). The client then polls
+    GET /jobs/{job} (JobGet) until state == "done" and progress == 100.
+  poll_operation: JobGet
+  list_operation: JobsList
+  cancel_operation: JobDelete
+  job_fields: [id, type, object, args, state, status, progress, starttime, endtime, username, useremail, details]
+  states_observed: [running, done]
+  source: https://web.archive.org/web/2025/https://docs.volumez.com/docs/job-status
+  agent_note: >-
+    The job id arrives in a field called `Message`, not `id` or `job_id`. An agent that treats
+    `Message` as human-readable prose will lose the handle to its own work.
+error_envelope:
+  media_type: application/json
+  shape: '{ "message": string }'
+  rfc9457: false
+  job_error_shape: '{ "Message": string, "ErrorCode": integer, "ObjectID": string, "JobID": string }'
+  see: errors/volumez-problem-types.yml
+request_tracing:
+  supported: false
+  headers: []
+  notes: >-
+    No X-Request-Id / traceparent / correlation header is declared on any response in the spec, and
+    the API host is no longer reachable to observe one live. Volumez's own common-public repository
+    publishes an ErrorResponse schema carrying `requestId` (vlz-<uuid>) and `traceId` fields, but
+    that shared schema is NOT the one wired into this contract — the orchestrator's ErrorResponse has
+    a single `message` property. The tracing fields exist in the company's shared schema library and
+    have not reached this API.
+  see: json-schema/volumez-common-schemas.yaml
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: 429
+  documented: false
+  notes: >-
+    Exactly two operations declare a 429 (modifyTenantSettings, resetTenantSettings). No
+    X-RateLimit-*, RateLimit-* or Retry-After header is declared anywhere in the spec, and no limits
+    are published. See rate-limits/volumez-rate-limits.yml.
+cors:
+  supported: true
+  notes: >-
+    94 OPTIONS preflight operations are declared alongside the 124 real operations, and
+    Access-Control-Allow-Origin is declared on 331 responses. This is an AWS API Gateway
+    mock-integration CORS surface; the browser is a first-class client.
+idempotency:
+  documented: false
+  header: null
+  coverage: none
+  scope: []
+  notes: >-
+    Zero occurrences of "idempoten" in the 647 KB specification. No Idempotency-Key header, no
+    client-supplied request id, no conditional-request (If-Match / ETag) support on any of the 69
+    mutating operations. Resource creation is POST with a server-visible name in the body
+    (VolumeCreate, PolicyCreate, NetworkCreate, SnapshotCreate), so a retried create either
+    duplicates or collides on name depending on the resource.
+  agent_risk: >-
+    Provisioning is expensive and asynchronous: a retried POST /volumes after a timeout can allocate
+    a second volume across real cloud media before the first job reports. There is no safe replay
+    primitive. NO Idempotency pointer is emitted for this provider — the agent-readiness idempotency
+    dimension is a genuine zero.
+reversibility:
+  grade: documented
+  rationale: >-
+    Real reversal operations exist and are declared in the contract, but NO time window is stated
+    anywhere for any of them. Volumez publishes no retention, undelete or grace-period policy, so the
+    reversal paths below are `documented` (a reversal exists) and not `verified` (a reversal exists
+    AND its window is stated). Nothing here asserts a window the provider does not publish.
+  write_surface_operations: 69
+  reversals:
+  - action: Write to a volume / corrupt volume contents
+    reversal: SnapshotRollback
+    operation: PATCH /volumes/{volume}/snapshots/{snapshot}/rollback
+    window: unstated
+    note: >-
+      Rolls a volume back to a named snapshot. How far back you can go is governed by the volume's
+      policy fields snapshotkeep / snapshotfrequency / snapshotday / snapshothour / snapshotminute —
+      i.e. the retention window is whatever the customer configured in the Policy, not a
+      provider-stated guarantee. There is no published default.
+  - action: Volume becomes unavailable / degraded
+    reversal: VolumeRecoverInitiate
+    operation: POST /volumes/{volume}/recover
+    window: unstated
+    note: Initiates recovery; progress is reported through the volume's volumerecoveryjob field.
+  - action: VolumeCreate
+    reversal: VolumeDelete
+    operation: DELETE /volumes/{volume}
+    window: unstated
+    note: >-
+      Deletion is destructive and takes only a `force` flag — there is no delayDelete, no soft-delete
+      state and no restore-a-deleted-volume operation. Once a volume is deleted its data is gone
+      unless a snapshot survives it.
+  - action: NodeDelete
+    reversal: none
+    operation: null
+    window: unstated
+    note: >-
+      NodeDelete uniquely accepts `delayDelete=true`, which defers the removal — the closest thing in
+      this API to a cancellation window. Its length is NOT documented anywhere, so it cannot be
+      graded as verified.
+  - action: MediaAssign
+    reversal: MediaUnassign
+    operation: PATCH /media/{media}/unassign
+    window: unstated
+  - action: Node in service
+    reversal: NodeDrain
+    operation: POST /nodes/{node}/drain
+    window: unstated
+    note: Drains a node before removal; `cleanup=true` also removes leftover state. MediaDrain is the media-level equivalent.
+  - action: modifyTenantSettings
+    reversal: resetTenantSettings
+    operation: PATCH /tenant-settings/reset
+    window: unstated
+    note: The one true "undo" in the API — restores tenant settings to defaults.
+  - action: AttachmentCreate
+    reversal: AttachmentDelete
+    operation: DELETE /volumes/{volume}/snapshots/{snapshot}/attachments/{node}
+    window: unstated
+  - action: ExportCreate
+    reversal: ExportDelete
+    operation: DELETE /exports/{export}
+    window: unstated
+  - action: AssociationCreate
+    reversal: AssociationDelete
+    operation: DELETE /associations/{association}
+    window: unstated
+  - action: SnapshotCreate
+    reversal: SnapshotDelete
+    operation: DELETE /volumes/{volume}/snapshots/{snapshot}
+    window: unstated
+  - action: inviteUser / addUser
+    reversal: disableUser
+    operation: POST /disable-user/{email}
+    window: unstated
+    note: enableUser reverses disableUser, so account disablement is itself reversible.
+dry_run_mode:
+  supported: true
+  operations: [PolicyPlan, BatchVolumesPlan, createInfraPlan, createPublicInfraPlan, ConnectivityCheck, ProviderPricingInfo]
+  notes: >-
+    A genuine rehearsal surface. GET /policies/{policy}/size/{size}/zone/{zone} (PolicyPlan) and
+    POST /volumes/plan (BatchVolumesPlan, with verbose=true) return the placement plan a create WOULD
+    produce without creating anything; POST /infra-planner/create-infra-plan sizes the cloud
+    infrastructure a policy needs, and POST /infra-planner/provider-pricing-info prices it;
+    POST /connectivities/test validates connectivity before ConnectivityCreate. An agent can price
+    and rehearse a provisioning decision before spending.
+field_expansion:
+  supported: partial
+  notes: >-
+    GET /volumes?capacity=true and GET /volumes/{volume}/describe (VolumeDescribe) /
+    GET /nodes/{node}/describe (NodeDescribe) return expanded representations; POST /volumes/plan
+    takes verbose to include or omit the plan. No general sparse-fieldset or expand grammar.
+metadata:
+  supported: true
+  notes: 'Nodes carry free-form tags (PATCH /nodes/tags/{node}, NodeSetTags) and a label field. No metadata surface on volumes.'
+event_surface:
+  webhooks: false
+  asyncapi: false
+  streaming: false
+  notes: >-
+    No webhooks, no callbacks and no AsyncAPI anywhere in the contract or the GitHub organization.
+    The only push-shaped surface is the Alerts collection (AlertsList / AlertAcknowledge), which is
+    poll-only. Change notification for an agent is polling /jobs and /alerts. asyncapi/ is
+    deliberately empty — an absent event surface is not penalised and must never be fabricated.
+cross_links:
+  errors: errors/volumez-problem-types.yml
+  lifecycle: lifecycle/volumez-lifecycle.yml
+  authentication: authentication/volumez-authentication.yml
+  rate_limits: rate-limits/volumez-rate-limits.yml
+  data_model: data-model/volumez-data-model.yml

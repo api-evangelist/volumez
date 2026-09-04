@@ -1,18 +1,88 @@
 aid: volumez
 name: Volumez
-description: 'Volumez is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Volumez is a SaaS data-infrastructure-as-a-service (DIaaS) company, founded in 2020, headquartered
+  in the San Francisco Bay Area with R&D in Tel Aviv, that composes block and file storage directly out of cloud
+  instance-local NVMe media instead of a storage controller. Its orchestrator exposes a declarative REST API — volumes,
+  policies, media, nodes, networks, snapshots, attachments, exports, connectivities, capacity groups, jobs and tenant/user
+  administration — so applications can request precise IO characteristics (IOPS, latency, resiliency) the same way
+  they request CPU and memory. The platform ships a Kubernetes CSI driver (Helm chart), Terraform and Bicep infrastructure
+  modules for AWS, Azure and OCI, and a generated Go REST client. Through 2026 the company repositioned its public
+  site around enterprise agentic-AI infrastructure and retired its public developer portal, API host and status
+  page; the machine-readable contract now lives only in its own GitHub organization.
+image: https://cdn.prod.website-files.com/697f0ed00fa3efb03f6269c4/698dc3c03de73edbaf042a8a_Share%20thumbnail%20(1).jpg
 url: https://raw.githubusercontent.com/api-evangelist/volumez/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-04'
 modified: '2026-09-04'
+position: Producing
 tags:
-- Company
-apis: []
+- Storage
+- Block Storage
+- Data Infrastructure
+- Cloud Infrastructure
+- Kubernetes
+- Container Storage Interface
+- AI Infrastructure
+- Snapshots
+- Infrastructure as Code
+- DIaaS
+tags_raw:
+- storage
+- block-storage
+- data-infrastructure
+- cloud-infrastructure
+- kubernetes
+- container-storage-interface
+- ai-infrastructure
+- snapshots
+- infrastructure-as-code
+- diaas
+apis:
+- name: Volumez Orchestrator API
+  description: REST API for the Volumez orchestrator — create and modify volumes from declarative policies, plan
+    and auto-provision infrastructure, manage media and nodes, take and roll back snapshots, attach volumes to nodes,
+    publish NFS/exports, configure networks and connectivities, watch asynchronous jobs and alerts, and administer
+    tenants, users, roles and cloud-provider credentials. 124 operations over 95 paths, described by a first-party
+    OpenAPI 3.0.1 document Volumez publishes inside its generated Go client. Authenticated with a JWT bearer token
+    in the `authorization` header, backed by an AWS Cognito user pool.
+  image: https://cdn.prod.website-files.com/697f0ed00fa3efb03f6269c4/698dc3c03de73edbaf042a8a_Share%20thumbnail%20(1).jpg
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Storage
+  - Block Storage
+  - Data Infrastructure
+  - Snapshots
+  - Kubernetes
+  tags_raw:
+  - storage
+  - block-storage
+  - data-infrastructure
+  - snapshots
+  - kubernetes
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-orchestrator-api-openapi.yaml
+  - type: Overlay
+    url: overlays/volumez-orchestrator-api-overlay.yaml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +90,47 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://volumez.com/
+- type: GitHubOrganization
+  url: https://github.com/VolumezTech
+- type: Support
+  url: https://volumez.com/contact-us
+- type: TermsOfService
+  url: https://volumez.com/terms-of-use
+- type: PrivacyPolicy
+  url: https://volumez.com/privacy-policy
+- type: StatusPage
+  url: https://volumez.statuspage.io/
+- type: Lifecycle
+  url: lifecycle/volumez-lifecycle.yml
+- type: ChangeLog
+  url: changelog/volumez-changelog.yml
+- type: Conformance
+  url: conformance/volumez-conformance.yml
+- type: Compliance
+  url: conformance/volumez-conformance.yml
+- type: Authentication
+  url: authentication/volumez-authentication.yml
+- type: Conventions
+  url: conventions/volumez-conventions.yml
+- type: DomainSecurity
+  url: security/volumez-domain-security.yml
+- type: Packages
+  url: packages/volumez-packages.yml
+- type: SDKs
+  url: packages/volumez-packages.yml
+- type: Plans
+  url: plans/volumez-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/volumez-rate-limits.yml
+- type: LLMsTxt
+  url: llms/volumez-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: X-MCPServerCandidate
+  url: mcp/volumez-mcp.yml
+x-enrichment:
+  date: '2026-09-04'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v3

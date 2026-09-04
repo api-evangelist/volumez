@@ -1,0 +1,100 @@
+generated: '2026-09-04'
+method: probed
+source: live /.well-known/ probes across every host this record knows, 2026-09-04
+summary: >-
+  Volumez serves NO /.well-known/ document on any host it controls. The apex and www sites (Webflow)
+  answer 404 with a Webflow "Invalid .well-known request" body on every path. The two API hosts the
+  provider names — api.volumez.com (production, named throughout its own documentation) and
+  api.dev.volumez.com (the servers[] value in its own OpenAPI) — no longer resolve in DNS at all.
+  The documentation host docs.volumez.com resolves to Document360 behind Cloudflare but has no valid
+  TLS certificate for the custom hostname (immediate handshake_failure, HTTP/1.1 409 "error code:
+  1001" on port 80), so nothing can be probed there by anyone.
+pointer_basis: >-
+  NO WellKnown pointer and NO SecurityTxt pointer are emitted. Every path is a 404, an NXDOMAIN, or
+  an unreachable host. This file records a measured absence, not a served surface.
+false_positive_watch: >-
+  https://volumez.statuspage.io/.well-known/security.txt returns HTTP 200 with a real, PGP-signed
+  RFC 9116 document — but it is ATLASSIAN's, not Volumez's: Contact security@atlassian.com,
+  Canonical https://www.atlassian.com/.well-known/security.txt. volumez.statuspage.io is a
+  vendor-operated Atlassian Statuspage host on the statuspage.io domain, so that document says
+  nothing about Volumez's own vulnerability-disclosure posture. It is recorded below as a miss.
+  Any future round that credits Volumez with a security.txt on the strength of that 200 is wrong.
+hosts:
+- host: https://volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  note: >-
+    Webflow-hosted marketing site. Every /.well-known/* path returns 404 with the body
+    "<html><body><p>Invalid .well-known request</p></body></html>".
+- host: https://www.volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  note: www 301s to the apex; probed independently and returns the same 404s.
+- host: https://api.volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 0}
+  - {path: /.well-known/agent-card.json, status: 0}
+  - {path: /.well-known/agent.json, status: 0}
+  note: >-
+    NXDOMAIN as of 2026-09-04. This is the production API host named in Volumez's own authentication
+    and job-status documentation (POST https://api.volumez.com/signin). status 0 = the name does not
+    resolve, so nothing could be requested. Not "absent"; gone.
+- host: https://api.dev.volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 0}
+  - {path: /.well-known/agent-card.json, status: 0}
+  - {path: /.well-known/agent.json, status: 0}
+  note: >-
+    NXDOMAIN as of 2026-09-04. This is the single servers[] entry in the provider's own OpenAPI
+    document.
+- host: https://docs.volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 0}
+  - {path: /.well-known/agent-card.json, status: 0}
+  - {path: /.well-known/agent.json, status: 0}
+  note: >-
+    Resolves (CNAME lb-cdmz1.document360.io, Cloudflare 104.18.6.159/104.18.7.159) but the TLS
+    handshake is refused immediately with alert 40 and no peer certificate on both IPv4 and IPv6,
+    and port 80 answers HTTP/1.1 409 "error code: 1001" — the Cloudflare-for-SaaS signature for a
+    custom hostname whose certificate is no longer provisioned. Unreachable for every client, not
+    just this crawler.
+- host: https://volumez.statuspage.io
+  documents:
+  - {path: /.well-known/security.txt, status: 200, owner: atlassian, counted: false}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  note: >-
+    Vendor-operated Atlassian Statuspage host. The 200 on security.txt is Atlassian's own document
+    (see false_positive_watch) and is NOT saved or counted as a Volumez surface.
+- host: https://status.volumez.com
+  documents:
+  - {path: /.well-known/security.txt, status: 0}
+  note: >-
+    The Volumez-branded status hostname resolves to Atlassian Statuspage but presents a certificate
+    for *.statuspage.io only, so every HTTPS request fails name verification; with verification
+    disabled it 302s to https://www.statuspage.io. The working status page is the vendor URL
+    https://volumez.statuspage.io/ (see lifecycle/volumez-lifecycle.yml).
+a2a_agent_card:
+  found: false
+  probed: [https://volumez.com, https://www.volumez.com, https://volumez.statuspage.io]
+  unreachable: [https://api.volumez.com, https://api.dev.volumez.com, https://docs.volumez.com]
+  note: >-
+    No agent card at /.well-known/agent-card.json or the legacy /.well-known/agent.json on any
+    reachable host. NOTHING is written to a2a/ — an agent card must be served by the provider and
+    must never be authored on its behalf.

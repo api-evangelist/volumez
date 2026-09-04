@@ -1,0 +1,86 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from openapi/volumez-orchestrator-api-openapi.yaml (OpenAPI 3.0.1, 108 components.schemas):
+  schema $ref links plus the name-reference fields the schemas carry (policy, node, zone, volumename,
+  volumeid, snapshotname, snapshotid, capacitygroup, consistencygroup, media, mediaid, accountID) and
+  the path grammar (/volumes/{volume}/snapshots/{snapshot}/attachments/{node}).
+notation: >-
+  Volumez addresses almost every object by its NAME in the path, not by an opaque id — /volumes/{volume},
+  /policies/{policy}, /nodes/{node}, /media/{media} — while the response bodies ALSO carry an opaque id
+  (volumeid, snapshotid, mediaid, instanceid). Both are live keys: the name is the address, the id is
+  the stable handle. Relationships below use has_one / has_many / belongs_to with the reference field
+  name in `via`; direction is from the object that carries the reference field.
+identifier_grammar:
+  addressing: name (path parameter)
+  opaque_ids:
+  - {entity: Volume, field: volumeid}
+  - {entity: Snapshot, field: snapshotid}
+  - {entity: Media, field: mediaid, example_shape: 'AWS29D8D9AAAC8C865C6 — cloud-provider prefix + hex'}
+  - {entity: Node, field: instanceid}
+  - {entity: Export, field: id}
+  - {entity: Job, field: id (integer)}
+  - {entity: Alert, field: alertid}
+  agent_note: >-
+    Renaming is therefore identity-changing from the API's point of view. An agent that caches a
+    volume by name and then the volume is renamed will 404, not redirect.
+entities:
+- {name: Volume, schema: Volume, domain: storage, description: 'A provisioned block volume created from a Policy; carries state/status/progress and a link to its recovery job.'}
+- {name: Policy, schema: Policy, domain: storage, description: 'A declarative statement of desired outcomes — iopsread/iopswrite, bandwidthread/write, latencyread/write/readcold, resiliencymedia/node/zone, encryption, sed, integrity, capacityoptimization, plus a snapshot schedule. Volumes are created FROM a policy, and the policy is what makes the API declarative rather than imperative.'}
+- {name: Snapshot, schema: Snapshot, domain: storage, description: 'A point-in-time copy of a Volume; may belong to a consistency group.'}
+- {name: Attachment, schema: Attachment, domain: storage, description: 'The binding of a Volume/Snapshot to a Node, with mountpoint and readonly flag.'}
+- {name: Media, schema: Media, domain: infrastructure, description: 'A physical/cloud NVMe device discovered on a Node, with measured free IOPS/bandwidth and an assignment state. This is the raw capacity Volumez composes volumes out of.'}
+- {name: MediaProfile, schema: MediaProfile, domain: infrastructure, description: Performance profile attached to a Media device.}
+- {name: Node, schema: Node, domain: infrastructure, description: 'A host running the Volumez connector — cloud instance id, OS/kernel version, connector version, zone/region and fault/resiliency domains.'}
+- {name: Network, schema: Network, domain: infrastructure, description: 'A named IP range (ipstart/ipend) in a zone, used for data-path connectivity.'}
+- {name: Connectivity, schema: Connectivity, domain: infrastructure, description: 'A declared path between two sets of zones/system types with a media protocol, replication protocol and replication bandwidth.'}
+- {name: CapacityGroup, schema: CapacityGroup, domain: infrastructure, description: A named grouping of capacity that Volumes and Media are assigned to.}
+- {name: Export, schema: Export, domain: storage, description: 'A shared export of a Volume/Snapshot with an xqn/wwn and ports; ExportConnectScript returns the client-side connect script.'}
+- {name: Association, schema: Association, domain: storage, description: A named association between a Volume and a Snapshot.}
+- {name: Job, schema: Job, domain: control, description: 'An asynchronous unit of work with type, object, args, state, progress and the initiating user. The handle every mutating call hands back.'}
+- {name: Alert, schema: Alert, domain: control, description: 'A raised condition with type, severity, objecttype/objectid and clear time; acknowledgeable.'}
+- {name: Tenant, schema: GetTenantIDResponse, domain: identity, description: The account boundary. Carries settings, hosts, users, roles and cloud-provider credentials.}
+- {name: User, schema: GetTenantUserResponse, domain: identity, description: A member of a Tenant, with a Role.}
+- {name: Role, schema: GetRolesResponseRolesInner, domain: identity, description: A named permission set assigned to a User within a Tenant.}
+- {name: CloudProviderAccount, schema: CloudProvider, domain: identity, description: 'A linked AWS/Azure/OCI account (accountID) whose roles, VPCs, regions and zones the planner reads.'}
+- {name: InfraPlan, schema: CreateInfraPlanResponse, domain: planning, description: 'A proposed infrastructure layout for a policy — what instances and media would be needed. Rehearsal, not provisioning.'}
+- {name: Plan, schema: Plan, domain: planning, description: The placement plan a Volume create would produce; returned by PolicyPlan and BatchVolumesPlan.}
+relationships:
+- {from: Volume, to: Policy, type: belongs_to, via: policy, note: 'The volume names the policy that specifies it.'}
+- {from: Volume, to: Node, type: belongs_to, via: node}
+- {from: Volume, to: CapacityGroup, type: belongs_to, via: capacitygroup}
+- {from: Volume, to: Snapshot, type: has_many, via: 'GET /volumes/{volume}/snapshots'}
+- {from: Volume, to: Attachment, type: has_many, via: 'GET /volumes/{volume}/attachments'}
+- {from: Volume, to: Volume, type: belongs_to, via: contentvolume, note: A volume can be created from the content of another volume.}
+- {from: Volume, to: Snapshot, type: belongs_to, via: contentsnapshot, note: A volume can be created from the content of a snapshot (clone).}
+- {from: Volume, to: Job, type: has_one, via: volumerecoveryjob}
+- {from: Policy, to: Volume, type: has_many, via: 'GET /policies/{policy}/volumes'}
+- {from: Snapshot, to: Volume, type: belongs_to, via: volumename/volumeid}
+- {from: Snapshot, to: Policy, type: belongs_to, via: policy}
+- {from: Snapshot, to: Attachment, type: has_many, via: 'GET /volumes/{volume}/snapshots/{snapshot}/attachments'}
+- {from: Snapshot, to: Snapshot, type: belongs_to, via: consistencygroup, note: 'Consistency-group snapshots are created together by ConsistencyGroupSnapshotCreate and read back by ConsistencyGroupGet.'}
+- {from: Attachment, to: Node, type: belongs_to, via: node}
+- {from: Attachment, to: Volume, type: belongs_to, via: volumename/volumeid}
+- {from: Attachment, to: Snapshot, type: belongs_to, via: snapshotname/snapshotid}
+- {from: Media, to: Node, type: belongs_to, via: node}
+- {from: Media, to: CapacityGroup, type: belongs_to, via: capacitygroup}
+- {from: Media, to: CloudProviderAccount, type: belongs_to, via: accountID}
+- {from: Media, to: MediaProfile, type: has_one, via: 'PATCH /media/{media}/profile'}
+- {from: Node, to: Media, type: has_many, via: 'node field on Media; NodeHwScan discovers them'}
+- {from: Node, to: CloudProviderAccount, type: belongs_to, via: accountID}
+- {from: Export, to: Volume, type: belongs_to, via: volumename}
+- {from: Export, to: Snapshot, type: belongs_to, via: snapshotname}
+- {from: Association, to: Volume, type: belongs_to, via: volumename/volumeid}
+- {from: Association, to: Snapshot, type: belongs_to, via: snapshotname/snapshotid}
+- {from: Connectivity, to: Network, type: references, via: 'zones1/zones2 (zone names shared with Network.zone)'}
+- {from: Job, to: 'any', type: references, via: 'object (a resource path such as /media/AWS29D8...)'}
+- {from: Alert, to: 'any', type: references, via: objecttype + objectid}
+- {from: User, to: Tenant, type: belongs_to, via: tenantId}
+- {from: User, to: Role, type: has_one, via: 'PATCH /role/{userId}/{roleId}'}
+- {from: Tenant, to: CloudProviderAccount, type: has_many, via: cloudProviderAccountId}
+core_flow: >-
+  Node registers (connector) -> NodeHwScan discovers Media -> MediaAssign puts media under Volumez
+  control -> a Policy declares the desired outcome -> PolicyPlan / BatchVolumesPlan rehearses the
+  placement -> VolumeCreate composes a Volume out of assigned Media across zones -> AttachmentCreate
+  binds it to a Node (or ExportCreate publishes it) -> SnapshotCreate protects it -> SnapshotRollback
+  reverses it. Every step past the plan returns a Job to poll.

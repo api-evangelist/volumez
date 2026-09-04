@@ -1,0 +1,102 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  GitHub release/tag history of https://github.com/VolumezTech/helm-csi and the commit history of
+  https://github.com/VolumezTech/volumez-rest-client (both read 2026-09-04). Volumez's own
+  "What's New" changelog lived at docs.volumez.com/docs/en/whats-newx and is unreachable — the
+  documentation host serves no valid TLS certificate.
+scheme: semver-per-component
+api_changelog:
+  published: false
+  former_url: https://docs.volumez.com/docs/en/whats-newx
+  probed: {url: 'https://docs.volumez.com/docs', status: 0, checked: '2026-09-04', note: 'TLS handshake_failure; HTTP/1.1 409 error code 1001 on port 80'}
+  note: >-
+    There is NO dated changelog for the orchestrator REST API. The only version marker the API itself
+    exposes is info.version "1.0.0 - 8d1ee8c4" and the unauthenticated GET /version operation.
+current_version:
+  api_spec: '1.0.0 - 8d1ee8c4'
+  api_spec_last_committed: '2025-09-28'
+  csi_chart_latest: 1.36.0-rc.1
+  csi_chart_latest_stable: 1.35.0
+window: 2025-04-21 to 2026-07-07
+entries:
+- component: volumez-csi (Helm chart / CSI driver)
+  version: 1.36.0-rc.1
+  date: '2025-11-03'
+  type: prerelease
+  breaking: false
+  highlights: Release candidate for chart 1.36.0. Most recent Volumez software release of any kind.
+  source: https://github.com/VolumezTech/helm-csi/releases/tag/volumez-csi-1.36.0-rc.1
+- component: volumez-csi
+  version: 1.35.0
+  date: '2025-10-23'
+  type: release
+  breaking: false
+  highlights: Latest stable CSI chart.
+  source: https://github.com/VolumezTech/helm-csi/releases/tag/volumez-csi-1.35.0
+- component: volumez-csi
+  version: 1.35.0-rc.1
+  date: '2025-09-09'
+  type: prerelease
+  breaking: false
+- component: volumez-rest-client (Go SDK + OpenAPI)
+  version: c03963f
+  date: '2025-09-28'
+  type: commit
+  breaking: false
+  additions:
+  - Added the /provision endpoint (Provision, tag provision-service) and the ProvisionRequest model — 'VLZ-14463: new provision endpoint'.
+  - Regenerated the client and the shipped OpenAPI document for the new surface; 'fix broken type' (PR #11).
+  highlights: >-
+    The most recent change to the API contract itself. The specification captured in openapi/ is this
+    commit's artifact. Nothing has changed in the contract since.
+  source: https://github.com/VolumezTech/volumez-rest-client/commits/main
+- component: volumez-csi
+  version: 1.34.0
+  date: '2025-08-21'
+  type: release
+  breaking: false
+  note: Tagged CD_prod_114_finish, released as volumez-csi-1.34.0.
+- component: volumez-rest-client
+  version: n/a
+  date: '2025-08-05'
+  type: commit
+  breaking: false
+  additions: [Added the provision endpoint and its request model to the client.]
+- component: volumez-csi
+  version: 1.33.0
+  date: '2025-07-14'
+  type: release
+  breaking: false
+- component: volumez (Terraform + Bicep modules)
+  version: null
+  date: '2026-07-07'
+  type: commit
+  breaking: unknown
+  highlights: >-
+    Last commit to the infrastructure automation repository — the most recently maintained Volumez
+    artifact. Untagged, so there is no release to cite.
+  source: https://github.com/VolumezTech/volumez
+- component: volumez-csi
+  version: 1.32.0
+  date: '2025-06-15'
+  type: release
+  breaking: false
+- component: volumez-csi
+  version: 1.31.0
+  date: '2025-04-27'
+  type: release
+  breaking: false
+- component: volumez-csi
+  version: 1.30.0
+  date: '2025-04-21'
+  type: release
+  breaking: false
+release_cadence:
+  csi_chart: 111 published chart versions; roughly monthly minor releases through 2025, each preceded by one or more -rc builds.
+  api_contract: One captured revision (2025-09-28). No release stream.
+caveat: >-
+  These are the CSI driver's and the SDK's changelogs, not the orchestrator API's. They are recorded
+  here because they are the only dated, provider-published release stream Volumez still operates, and
+  because the SDK commits are the only visible evidence of when the API contract last changed. Do not
+  read a chart release as an API release.

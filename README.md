@@ -64,5 +64,21 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Volumez is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Volumez is a SaaS data-infrastructure-as-a-service (DIaaS) company, founded in 2020, headquartered in
+the San Francisco Bay Area with R&D in Tel Aviv, that composes block and file storage directly out of
+cloud instance-local NVMe media instead of a storage controller. Its orchestrator exposes a
+declarative REST API — volumes, policies, media, nodes, networks, snapshots, attachments, exports,
+connectivities, capacity groups, jobs and tenant/user administration — so applications can request
+precise IO characteristics (IOPS, latency, resiliency) the same way they request CPU and memory.
+
+- Website: https://volumez.com/
+- Code: https://github.com/VolumezTech
+- Contract: OpenAPI 3.0.1, 95 paths / 124 operations, published by Volumez inside its own generated
+  Go client at `VolumezTech/volumez-rest-client` and captured here in `openapi/`.
+- Status: https://volumez.statuspage.io/
+
+**Note on reachability (probed 2026-09-04).** Volumez's public developer surface has been withdrawn
+while the contract remains published. `api.volumez.com` (the production base named in Volumez's own
+documentation) and `api.dev.volumez.com` (the `servers[]` entry in its OpenAPI) both return NXDOMAIN;
+`docs.volumez.com` resolves but serves no valid TLS certificate. See
+`lifecycle/volumez-lifecycle.yml` for the full host-by-host record.

@@ -1,0 +1,61 @@
+generated: '2026-09-04'
+method: derived
+status: candidate
+source: >-
+  Derived from openapi/volumez-orchestrator-api-openapi.yaml. Searched first and found nothing:
+  no MCP server is published by Volumez on any surface. Checked the 16 public repositories under
+  github.com/VolumezTech (2026-09-04), the npm and PyPI registries (no volumez/@volumez package),
+  the marketing site and its full 15-URL sitemap, and every /.well-known/ path on every reachable
+  host. The provider's own site talks extensively about enterprise agentic AI and cites Gartner on
+  firms building MCP servers — but ships none of its own.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+  note: >-
+    NOBODY SHIPS A SERVER. mode is `none` because this file is a derived candidate, not a discovered
+    product. No endpoint is guessed and none must ever be. If Volumez later publishes one, replace
+    this file with a `searched` artifact.
+server: null
+searched:
+- {surface: 'github.com/VolumezTech (16 repos)', result: 'no MCP server repo', checked: '2026-09-04'}
+- {surface: 'registry.npmjs.org (volumez, volumez-sdk, @volumez/sdk)', result: '404 on all', checked: '2026-09-04'}
+- {surface: 'pypi.org (volumez, volumez-sdk, vlz)', result: '404 on all', checked: '2026-09-04'}
+- {surface: 'https://volumez.com/sitemap.xml', result: '15 URLs, no developer or MCP page', checked: '2026-09-04'}
+- {surface: '/.well-known/* on volumez.com, www.volumez.com, volumez.statuspage.io', result: '404 on every path', checked: '2026-09-04'}
+candidate_note: >-
+  The tools below are a DERIVED proposal showing what an MCP server over the Volumez orchestrator API
+  would expose. Each binds to a real operationId verified verbatim in the captured specification.
+  Nothing here is published by Volumez and nothing here is callable.
+candidate_tool_count: 20
+candidate_tools:
+- {name: list_volumes, category: volumes, rest: [VolumesList], description: List all volumes in the tenant, optionally with capacity detail.}
+- {name: get_volume, category: volumes, rest: [VolumeGet, VolumeDescribe], description: Read one volume by name, or its expanded description.}
+- {name: create_volume, category: volumes, rest: [VolumeCreate], description: 'Create a volume from a policy. Asynchronous — returns a job id. NOT idempotent.', mutating: true}
+- {name: modify_volume, category: volumes, rest: [VolumeModify], description: Change a volume (including resize)., mutating: true}
+- {name: delete_volume, category: volumes, rest: [VolumeDelete], description: 'Delete a volume. Destructive and irreversible; no soft delete.', mutating: true, destructive: true}
+- {name: plan_volumes, category: planning, rest: [BatchVolumesPlan, PolicyPlan], description: 'Rehearse a volume placement without creating anything. The safe first call for an agent.'}
+- {name: list_policies, category: policies, rest: [PoliciesList], description: List declarative outcome policies.}
+- {name: get_policy, category: policies, rest: [PolicyGet, PolicyGetVolumes], description: Read a policy and the volumes created from it.}
+- {name: create_policy, category: policies, rest: [PolicyCreate], description: 'Declare desired IOPS, bandwidth, latency, resiliency, encryption and snapshot schedule.', mutating: true}
+- {name: list_snapshots, category: snapshots, rest: [SnapshotsList, SnapshotsListAll], description: List snapshots for a volume or across the tenant.}
+- {name: create_snapshot, category: snapshots, rest: [SnapshotCreate, ConsistencyGroupSnapshotCreate], description: Take a snapshot of a volume, or a consistency-group snapshot across volumes., mutating: true}
+- {name: rollback_snapshot, category: snapshots, rest: [SnapshotRollback], description: 'Roll a volume back to a snapshot. The primary reversal path in this API.', mutating: true}
+- {name: list_nodes, category: infrastructure, rest: [NodesList], description: List connector hosts.}
+- {name: get_node, category: infrastructure, rest: [NodeGet, NodeDescribe], description: Read a node and its hardware detail.}
+- {name: drain_node, category: infrastructure, rest: [NodeDrain], description: Drain a node before maintenance or removal., mutating: true}
+- {name: list_media, category: infrastructure, rest: [MediaList, MediaGet], description: List or read the NVMe media Volumez composes volumes from.}
+- {name: assign_media, category: infrastructure, rest: [MediaAssign, MediaUnassign], description: Bring media under Volumez control, or release it., mutating: true}
+- {name: list_jobs, category: control, rest: [JobsList, JobGet], description: 'Poll asynchronous work. Required after every mutating call — the create returns {"Message": "<jobId>"}.'}
+- {name: list_alerts, category: control, rest: [AlertsList, AlertAcknowledge], description: Read and acknowledge raised conditions. The only push-shaped surface, and it is poll-only.}
+- {name: plan_infrastructure, category: planning, rest: [createInfraPlan, ProviderPricingInfo], description: Size and price the cloud infrastructure a policy would need, before spending anything.}
+tool_crosswalk:
+  emitted: false
+  reason: >-
+    A ToolCrosswalk binds published MCP tools (or GraphQL fields) to backing REST operations. Volumez
+    publishes neither an MCP server nor a GraphQL endpoint, so there is nothing real to bind — a
+    crosswalk built from the candidate list above would only restate it. Emit one if Volumez ever
+    ships a server.

@@ -1,0 +1,116 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://volumez.statuspage.io/api/v2/summary.json (live, probed 2026-09-04), the release/tag history
+  of github.com/VolumezTech/helm-csi, openapi/volumez-orchestrator-api-openapi.yaml, and the
+  provider's own "Status Page" documentation page read from the Internet Archive.
+headline: >-
+  Volumez's public developer surface has been decommissioned while its contract, SDK and CSI driver
+  remain published on GitHub. The API host, the developer portal and the documentation site are all
+  gone; the status page is still live at the vendor URL and still reports every component
+  "operational".
+versioning:
+  scheme: unversioned-path
+  spec_version: '1.0.0 - 8d1ee8c4'
+  notes: >-
+    info.version is a semantic prefix plus a git short-sha build stamp, not a negotiable API version.
+    No version segment in any path, no Accept-version header, no version query parameter.
+  version_endpoint:
+    operation: versionGet
+    path: GET /version
+    unauthenticated: true
+    note: Returns component versions; the closest thing to a machine-readable release marker.
+host_status:
+  probed: '2026-09-04'
+  hosts:
+  - {host: api.volumez.com, role: 'production API base named in the provider''s own documentation', dns: NXDOMAIN, status: 0}
+  - {host: api.dev.volumez.com, role: 'the single servers[] entry in the provider''s own OpenAPI', dns: NXDOMAIN, status: 0}
+  - {host: docs.volumez.com, role: 'Document360 documentation portal', dns: 'resolves (lb-cdmz1.document360.io)', tls: 'handshake_failure, alert 40, no peer certificate', http: '409 error code 1001 on port 80', status: 0}
+  - {host: status.volumez.com, role: 'branded status hostname', dns: 'resolves (Atlassian Statuspage)', tls: 'certificate is *.statuspage.io — name mismatch', status: 0}
+  - {host: volumez.statuspage.io, role: 'vendor status page URL', status: 200}
+  - {host: volumez.com, role: marketing site, status: 200}
+  note: >-
+    Both API hosts and the docs host were reachable in 2024-2025 (Internet Archive captures exist for
+    api.volumez.com, docs.volumez.com and the WordPress blog on blue.volumez.com). All three are gone
+    as of this probe. The company's public site was rebuilt on Webflow around enterprise agentic-AI
+    infrastructure and contains no developer, docs, pricing or status link at all.
+changelog:
+  url: null
+  artifact: changelog/volumez-changelog.yml
+  notes: >-
+    The provider published a "What's New" changelog at docs.volumez.com/docs/en/whats-newx. It is
+    unreachable with the rest of the docs host. The only dated public release stream Volumez still
+    operates is the GitHub release/tag history of the volumez-csi Helm chart — captured in
+    changelog/volumez-changelog.yml and clearly labelled as the CSI driver's changelog, not the
+    orchestrator API's.
+status_page:
+  url: https://volumez.statuspage.io/
+  branded_url: https://status.volumez.com
+  branded_url_working: false
+  provider: Atlassian Statuspage
+  page_id: h6rwb7xql7s9
+  machine_readable_api: true
+  api_endpoints:
+  - https://volumez.statuspage.io/api/v2/status.json
+  - https://volumez.statuspage.io/api/v2/summary.json
+  probed:
+  - {url: 'https://volumez.statuspage.io/', status: 200, checked: '2026-09-04'}
+  - {url: 'https://volumez.statuspage.io/api/v2/summary.json', status: 200, checked: '2026-09-04'}
+  - {url: 'https://status.volumez.com/', status: 0, checked: '2026-09-04', note: 'TLS name mismatch; with verification disabled it 302s to https://www.statuspage.io'}
+  current_state:
+    indicator: none
+    description: All Systems Operational
+    page_updated_at: '2025-10-20T12:08:15.178Z'
+  components:
+  - {name: Volumez Engine, status: operational, updated_at: '2025-07-27'}
+  - {name: Volumez SaaS, status: operational, updated_at: '2024-08-08'}
+  - {name: API, status: operational, updated_at: '2025-10-20'}
+  - {name: Volumez Website, status: operational, updated_at: '2025-07-27'}
+  - {name: Connectivity, status: operational, updated_at: '2024-08-12'}
+  - {name: Volumez Documentation Site, status: operational, updated_at: '2025-07-22'}
+  - {name: DB, status: operational, updated_at: '2025-10-20'}
+  - {name: Volumez Login, status: operational, updated_at: '2024-09-18'}
+  open_incidents: 0
+  scheduled_maintenances: 0
+  contradiction: >-
+    The status page reports the "API" and "Volumez Documentation Site" components operational, with
+    the page last updated 2025-10-20. api.volumez.com does not resolve and docs.volumez.com serves no
+    valid certificate. The status page is stale, not a live health signal — record it as a published
+    surface, not as evidence the API is up.
+deprecation:
+  policy_documented: false
+  sunset_headers: false
+  deprecated_operations: []
+  notes: >-
+    No deprecation or sunset policy is published, no operation in the 124-operation contract carries
+    `deprecated: true`, and no Deprecation/Sunset (RFC 8594) header is declared. The API was not
+    deprecated — its hosts were simply withdrawn from DNS, with no notice surface left standing.
+    NO Deprecation pointer is emitted.
+sla:
+  documented: false
+  notes: >-
+    No SLA or uptime commitment is published. The Policies resource lets a customer declare per-volume
+    outcome targets (iopsread/iopswrite, bandwidth, latencyread/latencywrite, failureperformance,
+    resiliencymedia/node/zone) — that is a workload guarantee expressed in the contract, not a service
+    availability SLA.
+terms:
+  url: https://volumez.com/terms-of-use
+  probed: {status: 200, checked: '2026-09-04'}
+privacy:
+  url: https://volumez.com/privacy-policy
+  probed: {status: 200, checked: '2026-09-04'}
+roadmap:
+  published: false
+support:
+  url: https://volumez.com/contact-us
+  probed: {status: 200, checked: '2026-09-04'}
+  notes: Contact form only. The former support portal (customer.support.volumez.com) no longer resolves.
+maintenance_signals:
+  last_openapi_commit: '2025-09-28'
+  last_helm_chart_release: '2025-11-03'
+  last_terraform_commit: '2026-07-07'
+  notes: >-
+    The Terraform/Bicep deployment repo is the most recently touched artifact (2026-07-07); the
+    contract and Go client have not moved since 2025-09-28. The infrastructure automation is being
+    maintained after the public API surface was withdrawn, which fits a shift from self-serve SaaS to
+    a deployed/enterprise motion.

@@ -1,0 +1,114 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/volumez-orchestrator-api-openapi.yaml, live /.well-known/ probes across every Volumez host,
+  https://volumez.com/certifications (200, probed 2026-09-04), the volumez-csi Helm chart repository,
+  and the provider's own documentation read from the Internet Archive.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Volumez publishes a first-party OpenAPI 3.0.1 document (info.title "Volumez API",
+    info.description "Volumez orchestrator API", 95 paths / 124 operations / 108 schemas, 647 KB)
+    inside its own generated Go client at
+    https://raw.githubusercontent.com/VolumezTech/volumez-rest-client/main/pkg/openapi/api/openapi.yaml
+    (HTTP 200, fetched 2026-09-04). Captured verbatim to
+    openapi/_original/volumez-api-openapi-original.yaml.
+- id: aws-api-gateway
+  conforms: true
+  evidence: >-
+    The contract carries AWS API Gateway vendor extensions — x-amazon-apigateway-authtype
+    cognito_user_pools and x-amazon-apigateway-authorizer with a us-east-1 Cognito user-pool ARN —
+    and 94 OPTIONS mock-integration preflight operations. The API is an API Gateway deployment.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 or openIdConnect securityScheme is declared. Authentication is an opaque JWT in the
+    `authorization` header, minted by POST /signin against an AWS Cognito user pool. Cognito speaks
+    OIDC upstream, but Volumez publishes no authorization-server metadata, no discovery document and
+    no scopes, so there is nothing an OAuth client can negotiate against.
+- id: oidc-discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on volumez.com and www.volumez.com; the API and docs hosts do not resolve/serve.
+- id: rfc8414-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 404 on every reachable host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Zero application/problem+json media types in the 124-operation contract. 291 of 306 error
+    responses use a bare {"message": string} envelope. See errors/volumez-problem-types.yml.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: >-
+    No /.well-known/security.txt on any Volumez-controlled host (404 on volumez.com and
+    www.volumez.com; api/docs hosts unreachable). The 200 at volumez.statuspage.io is Atlassian's
+    own document — see well-known/volumez-well-known.yml false_positive_watch.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Deprecation/Sunset headers declared and no deprecation policy published; no operation is marked deprecated.
+- id: pagination
+  conforms: partial
+  evidence: >-
+    page+count on JobsList and startfrom+count on AssociationsList/ExportsList/VirtualMediaList, with
+    a published Pagination doc. The other ~20 list operations declare no pagination at all and no
+    response carries a total or next-cursor field.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    Zero occurrences of "idempoten" in the specification; no Idempotency-Key header, no client
+    request id, no ETag/If-Match on any of the 69 mutating operations.
+- id: asyncapi
+  conforms: false
+  evidence: No event, webhook, callback or streaming surface exists in the contract or the GitHub organization. Alerts are poll-only. Not penalised — there is no event product to describe.
+- id: mcp
+  conforms: false
+  evidence: No Model Context Protocol server is published by Volumez. See mcp/volumez-mcp.yml.
+- id: a2a
+  conforms: false
+  evidence: No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any reachable host.
+- id: cors
+  conforms: true
+  evidence: 94 OPTIONS preflight operations and Access-Control-Allow-Origin declared on 331 responses.
+- id: csi
+  conforms: true
+  standard: Container Storage Interface (CNCF)
+  evidence: >-
+    Volumez ships and maintains a CSI driver as a first-party Helm chart —
+    https://github.com/VolumezTech/helm-csi, repository index
+    https://volumeztech.github.io/helm-csi/index.yaml (HTTP 200), 111 published chart versions,
+    latest 1.36.0-rc.1 dated 2025-11-03 — installed into namespace vlz-csi-driver and authenticated
+    with a Volumez tenant refresh token. Documented by the provider under "CSI Management" and
+    "Create PVC on AWS EKS / Azure AKS".
+  declared_in_contract: false
+  note: >-
+    This is a DOMAIN-STANDARD conformance for the block-storage market — a Kubernetes operator who
+    already speaks CSI can consume Volumez with no bespoke connector — but it is asserted by the Helm
+    chart and the driver, NOT by the REST contract. The OpenAPI contains no CSI, NVMe, iSCSI or NFS
+    token at all. Do not credit the REST document with it.
+- id: terraform
+  conforms: true
+  evidence: >-
+    First-party Terraform (>= 1.7.0) and Bicep modules for AWS EC2/EKS, Azure VM/VMSS/AKS and OCI
+    instance pools at https://github.com/VolumezTech/volumez (HTTP 200, last commit 2026-07-07).
+    NOT published to the Terraform Registry (v1 provider lookup 404, v2 provider search and v1 module
+    search both return zero results, probed 2026-09-04) — git clone is the only distribution.
+- id: iso-27001
+  conforms: true
+  evidence: >-
+    "ISO 27001" listed under Certifications on https://volumez.com/certifications (HTTP 200, read
+    2026-09-04).
+  verification: claim-only
+  note: >-
+    A one-word list entry. No certificate, certification body, scope statement, issue/expiry date or
+    trust center is published, and there is no portal from which to request the report.
+- id: soc2
+  conforms: true
+  evidence: '"SOC 2" listed under Certifications on https://volumez.com/certifications (HTTP 200, read 2026-09-04).'
+  verification: claim-only
+  note: The page does not say Type I or Type II, and publishes no report, auditor or period.
+domain_standards_note: >-
+  Block/file storage-as-a-service has no contract-level interoperability standard the way SCIM,
+  OData, FHIR or OpenRTB do for their markets, and Volumez declares none in its OpenAPI. Its real
+  domain-standard surface is CSI (above), delivered as a Kubernetes driver rather than as a shape in
+  the REST document. Recorded honestly rather than left blank or invented.

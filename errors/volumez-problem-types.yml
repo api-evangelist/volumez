@@ -1,0 +1,100 @@
+generated: '2026-09-04'
+method: derived
+format: bare-json-message
+rfc9457: false
+source: >-
+  Derived from the 4xx/5xx responses declared in openapi/volumez-orchestrator-api-openapi.yaml
+  (OpenAPI 3.0.1, 124 operations, 306 declared error responses), enriched from the provider's own
+  "Response Types" documentation page (read from the Internet Archive; docs.volumez.com no longer
+  serves a valid TLS certificate).
+docs: https://web.archive.org/web/2025/https://docs.volumez.com/docs/response-types
+envelope:
+  media_type: application/json
+  default_shape: '{ "message": string }'
+  schema: ErrorResponse
+  note: >-
+    291 of the 306 declared error responses point at a single component schema, ErrorResponse, whose
+    ONLY property is a string `message`. There is no error code, no type URI, no field path, no
+    request id and no retry hint. application/problem+json appears nowhere in the specification.
+  agent_risk: >-
+    Errors are not machine-classifiable. An agent cannot distinguish "policy name already exists"
+    from "insufficient media capacity in zone" without string-matching prose, and cannot decide
+    whether a failure is retryable.
+job_error_envelope:
+  media_type: application/json
+  schema: ErrorJobResponse
+  shape: '{ "Message": string, "ErrorCode": integer, "ObjectID": string, "JobID": string }'
+  used_by: [VolumeCreate, AutoProvisionVolumes, Provision]
+  note: >-
+    The asynchronous provisioning operations return a SECOND, richer error shape carrying a numeric
+    ErrorCode plus the offending ObjectID and the JobID. This is the only machine-readable error
+    discriminator in the API — and the numeric ErrorCode values are not enumerated anywhere public.
+    Note the capitalised keys: `Message` here vs `message` in ErrorResponse.
+problems:
+- status: 400
+  title: Bad Request
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 86
+  meaning: >-
+    "The server could not understand the request due to invalid syntax. This status code is typically
+    caused by client-side errors, such as invalid input." (provider wording)
+  remediation: Fix the request body/parameters. Not retryable unchanged.
+- status: 401
+  title: Unauthorized
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 2
+  declared_on: [signIn, ChangePasswordLoggedIn]
+  meaning: Credentials rejected by the Cognito authorizer.
+  remediation: Re-authenticate via POST /signin and resend with a fresh IdToken.
+- status: 404
+  title: Not Found
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 89
+  meaning: >-
+    "The requested resource could not be found. This is commonly seen when a page has been renamed or
+    removed, and the server cannot locate the requested resource." (provider wording)
+  remediation: Verify the resource name in the path; Volumez addresses volumes, policies, media, nodes and snapshots by NAME, not by an opaque id.
+- status: 409
+  title: Conflict
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 3
+  meaning: >-
+    "Conflict response status code indicates a request conflict with the current state of the target
+    resource." (provider wording) In practice: a name that already exists, or an object in a state
+    that forbids the transition.
+  remediation: Re-read the resource state and choose a different name or wait for the in-flight job.
+- status: 429
+  title: Too Many Requests
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 2
+  declared_on: [modifyTenantSettings, resetTenantSettings]
+  meaning: Rate limit on the tenant-settings surface. The only throttling declared anywhere in the API.
+  remediation: >-
+    Back off and retry. No Retry-After header is declared and no limit is published, so the client
+    must choose its own backoff. See rate-limits/volumez-rate-limits.yml.
+- status: 500
+  title: Internal Server Error
+  media_type: application/json
+  schema: ErrorResponse
+  occurrences: 124
+  meaning: >-
+    "The server encountered an unexpected condition that prevented it from fulfilling the request."
+    (provider wording) Declared on every single operation.
+  remediation: >-
+    Retryable — but WITHOUT idempotency protection (see conventions/volumez-conventions.yml), a
+    retried 500 on a create operation can duplicate provisioning work.
+non_2xx_success_codes:
+- {status: 202, meaning: 'Accepted for asynchronous processing; poll GET /jobs/{job}.', occurrences: 5}
+- {status: 204, meaning: No content., occurrences: 3}
+- {status: 302, meaning: 'Redirect, used by the SSO callback (handleSSOCallback).', occurrences: 1}
+gaps:
+- No RFC 9457 problem+json.
+- No error code vocabulary published for the synchronous ErrorResponse envelope.
+- ErrorJobResponse.ErrorCode is an integer with no published enumeration.
+- No `requestId`/`traceId` on the wire, although Volumez's own shared common-public ErrorResponse schema defines both (see json-schema/volumez-common-schemas.yaml). The orchestrator does not use it.
+- 9 error responses declare an empty schema ({}), so their body shape is undefined.

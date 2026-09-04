@@ -1,0 +1,94 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  Registry sweeps of npm (registry.npmjs.org), PyPI (pypi.org/pypi/<pkg>/json), the Go module proxy
+  (proxy.golang.org), the Terraform Registry (registry.terraform.io v1 + v2 APIs) and the provider's
+  own Helm chart repository index (volumeztech.github.io/helm-csi/index.yaml), plus an enumeration of
+  the 16 public repositories under github.com/VolumezTech.
+summary:
+  first_party_sdk_count: 1
+  first_party_package_count: 3
+  third_party_package_count: 0
+  note: >-
+    Volumez publishes ONE first-party client library — a Go REST client generated from its own
+    OpenAPI — plus a Kubernetes CSI Helm chart and a set of Terraform/Bicep infrastructure modules.
+    Nothing is published to npm, PyPI, RubyGems, crates.io, NuGet, Maven Central or the Terraform
+    Registry. The Go client carries no semver tag at all, so consumers can only pin a commit
+    pseudo-version.
+github_organization:
+  found: true
+  url: https://github.com/VolumezTech
+  account_type: user
+  public_repos: 16
+  created: '2022-03-21'
+  checked: '2026-09-04'
+  note: >-
+    github.com/VolumezTech is the company's real code home (helm-csi, volumez, volumez-rest-client,
+    common-public, support, vlz-oci-marketplace, dlio_benchmark, storage). It is a GitHub *user*
+    account, not an organization. Do not confuse it with github.com/Volumez (a personal profile repo)
+    or with unrelated repos named "volumez" under third-party accounts.
+packages:
+- language: go
+  registry: goproxy
+  name: github.com/VolumezTech/volumez-rest-client
+  url: https://pkg.go.dev/github.com/VolumezTech/volumez-rest-client
+  repository: https://github.com/VolumezTech/volumez-rest-client
+  install: go get github.com/VolumezTech/volumez-rest-client/pkg/openapi
+  official: true
+  version: v0.0.0-20250928121505-c03963f268fd
+  published: '2025-09-28'
+  semver_tagged: false
+  description: >-
+    "Volumez OpenAPI Client" — a Go client library generated from the Volumez OpenAPI specification
+    (openapi-generator; the generated spec ships in the module at pkg/openapi/api/openapi.yaml and is
+    the contract captured in openapi/). Exposes VolumesAPI, NodesAPI, SystemAPI and ~20 more tagged
+    API groups plus ~100 model types.
+  source: https://proxy.golang.org/github.com/!volumez!tech/volumez-rest-client/@latest
+  note: >-
+    proxy.golang.org/@v/list is EMPTY — the repository carries no version tag, so the only resolvable
+    version is the commit pseudo-version recorded above (HEAD c03963f, 2025-09-28). A consumer cannot
+    pin a release, only a commit.
+- language: kubernetes
+  registry: helm
+  name: volumez-csi
+  url: https://volumeztech.github.io/helm-csi
+  repository: https://github.com/VolumezTech/helm-csi
+  install: helm repo add volumez-csi https://volumeztech.github.io/helm-csi --force-update
+  official: true
+  version: 1.36.0-rc.1
+  published: '2025-11-03'
+  latest_stable_version: 1.35.0
+  latest_stable_published: '2025-10-23'
+  release_count: 111
+  description: >-
+    Helm chart for the Volumez Container Storage Interface (CSI) driver, installed into namespace
+    vlz-csi-driver and authenticated with the tenant refresh token as `vlzAuthToken`. This is the
+    Kubernetes integration surface for the orchestrator API.
+  source: https://volumeztech.github.io/helm-csi/index.yaml
+- language: hcl
+  registry: git
+  name: volumez terraform + bicep modules
+  url: https://github.com/VolumezTech/volumez
+  repository: https://github.com/VolumezTech/volumez
+  install: git clone https://github.com/VolumezTech/volumez.git
+  official: true
+  version: null
+  published: null
+  last_commit: '2026-07-07'
+  description: >-
+    First-party Terraform (AWS EC2/EKS, Azure VM/VMSS/AKS, OCI instance pools) and Bicep modules plus
+    k8s-configs that stand up a Volumez environment and install the connector. Requires Terraform
+    >= 1.7.0 and a tenant JWT access token.
+  note: >-
+    version/published are null because these modules are distributed only by `git clone` — they are
+    NOT published to the Terraform Registry. Probed 2026-09-04:
+    registry.terraform.io/v1/providers/Volumez/volumez -> 404; v2 provider search filter[name]=volumez
+    -> 0 results; v1/modules?namespace=VolumezTech -> 0 results. A consumer has no versioned
+    artifact to pin; the repository default branch is the distribution.
+  source: https://github.com/VolumezTech/volumez
+registries_checked:
+- {registry: npm, queries: [volumez, volumez-sdk, '@volumez/sdk'], result: 404 on all, checked: '2026-09-04'}
+- {registry: pypi, queries: [volumez, volumez-sdk, vlz], result: 404 on all, checked: '2026-09-04'}
+- {registry: terraform, queries: [providers Volumez/volumez, providers filter name=volumez, modules namespace=VolumezTech], result: none published, checked: '2026-09-04'}
+- {registry: goproxy, queries: [github.com/VolumezTech/volumez-rest-client], result: resolves, untagged, checked: '2026-09-04'}
+- {registry: helm, queries: ['volumeztech.github.io/helm-csi'], result: 111 chart versions, checked: '2026-09-04'}

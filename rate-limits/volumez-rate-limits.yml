@@ -1,0 +1,37 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/volumez-orchestrator-api-openapi.yaml (declared responses and response headers across 124
+  operations) plus a full-text search of the 647 KB specification.
+limit_count: 0
+published: false
+summary: >-
+  Volumez publishes NO rate limits and signals none on the wire. Exactly two of the 124 operations
+  declare a 429 at all, and no operation declares a rate-limit response header of any kind.
+observed:
+  method: derived
+  note: >-
+    The API host (api.volumez.com) no longer resolves, so no live unauthenticated response could be
+    observed to corroborate or contradict the specification. Nothing here is probed.
+declared_429_operations:
+- {operationId: modifyTenantSettings, method: PUT, path: /tenant-settings, response_schema: ErrorResponse}
+- {operationId: resetTenantSettings, method: PATCH, path: /tenant-settings/reset, response_schema: ErrorResponse}
+response_headers:
+  ratelimit_family: []
+  retry_after: false
+  note: >-
+    The only response headers declared anywhere in the contract are CORS headers
+    (Access-Control-Allow-Origin on 331 responses, plus Allow-Methods/Allow-Headers/Allow-Credentials
+    on the preflight surface), one Set-Cookie and one Location. No X-RateLimit-*, no RateLimit-*
+    (RFC 9239 draft family), no Retry-After.
+limits: []
+quotas:
+  documented: false
+  note: >-
+    No request quota, no concurrency cap and no documented ceiling on list-operation result size.
+    Capacity is governed by CapacityGroups and by the customer's own cloud media, not by an API quota.
+agent_risk: >-
+    An agent has no runtime backoff signal. On the two throttled operations it receives a 429 with a
+    bare {"message": string} body and no Retry-After, so it must invent its own backoff; everywhere
+    else it cannot tell throttling from failure at all, because a 500 is the only other declared
+    failure mode on most operations.
