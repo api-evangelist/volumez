@@ -40,33 +40,1008 @@ tags_raw:
 - infrastructure-as-code
 - diaas
 apis:
-- name: Volumez Orchestrator API
-  description: REST API for the Volumez orchestrator — create and modify volumes from declarative policies, plan
-    and auto-provision infrastructure, manage media and nodes, take and roll back snapshots, attach volumes to nodes,
-    publish NFS/exports, configure networks and connectivities, watch asynchronous jobs and alerts, and administer
-    tenants, users, roles and cloud-provider credentials. 124 operations over 95 paths, described by a first-party
-    OpenAPI 3.0.1 document Volumez publishes inside its generated Go client. Authenticated with a JWT bearer token
-    in the `authorization` header, backed by an AWS Cognito user pool.
-  image: https://cdn.prod.website-files.com/697f0ed00fa3efb03f6269c4/698dc3c03de73edbaf042a8a_Share%20thumbnail%20(1).jpg
+- aid: volumez:volumez-add-user-api
+  name: Volumez Add User API
+  description: The Add User API from Volumez — 1 operation(s) for add user.
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
-  - Storage
-  - Block Storage
-  - Data Infrastructure
-  - Snapshots
-  - Kubernetes
-  tags_raw:
-  - storage
-  - block-storage
-  - data-infrastructure
-  - snapshots
-  - kubernetes
+  - Add User
   properties:
   - type: OpenAPI
-    url: openapi/volumez-orchestrator-api-openapi.yaml
-  - type: Overlay
-    url: overlays/volumez-orchestrator-api-overlay.yaml
+    url: openapi/volumez-add-user-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-alerts-api
+  name: Volumez Alerts API
+  description: The Alerts API from Volumez — 2 operation(s) for alerts.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-alerts-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-associations-api
+  name: Volumez Associations API
+  description: The Associations API from Volumez — 2 operation(s) for associations.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Associations
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-associations-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-attachments-api
+  name: Volumez Attachments API
+  description: The Attachments API from Volumez — 4 operation(s) for attachments.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-attachments-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-auth-api
+  name: Volumez Auth API
+  description: The auth API from Volumez — 3 operation(s) for auth.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-auth-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-autoprovisionvolumes-api
+  name: Volumez Auto Provision Volumes API
+  description: The AutoProvisionVolumes API from Volumez — 1 operation(s) for autoprovisionvolumes.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - AutoProvisionVolumes
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-autoprovisionvolumes-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-azuremarketplace-api
+  name: Volumez Azuremarketplace API
+  description: The Azuremarketplace API from Volumez — 1 operation(s) for azuremarketplace.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Azuremarketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-azuremarketplace-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-capacitygroups-api
+  name: Volumez Capacity Groups API
+  description: The CapacityGroups API from Volumez — 1 operation(s) for capacitygroups.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - CapacityGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-capacitygroups-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-charts-api
+  name: Volumez Charts API
+  description: The Charts API from Volumez — 2 operation(s) for charts.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Charts
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-charts-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-connectivities-api
+  name: Volumez Connectivities API
+  description: The Connectivities API from Volumez — 3 operation(s) for connectivities.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Connectivities
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-connectivities-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-disable-user-api
+  name: Volumez Disable User API
+  description: The Disable User API from Volumez — 1 operation(s) for disable user.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Disable User
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-disable-user-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-enable-user-api
+  name: Volumez Enable User API
+  description: The Enable User API from Volumez — 1 operation(s) for enable user.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Enable User
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-enable-user-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-exports-api
+  name: Volumez Exports API
+  description: The Exports API from Volumez — 3 operation(s) for exports.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-exports-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-infra-planner-api
+  name: Volumez Infra Planner API
+  description: The Infra Planner API from Volumez — 3 operation(s) for infra planner.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Infra Planner
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-infra-planner-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-invite-user-api
+  name: Volumez Invite User API
+  description: The Invite User API from Volumez — 1 operation(s) for invite user.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Invite User
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-invite-user-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-jobs-api
+  name: Volumez Jobs API
+  description: The Jobs API from Volumez — 2 operation(s) for jobs.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-jobs-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-log-api
+  name: Volumez Log API
+  description: The Log API from Volumez — 1 operation(s) for log.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Log
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-log-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-media-api
+  name: Volumez Media API
+  description: The Media API from Volumez — 8 operation(s) for media.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-media-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-networks-api
+  name: Volumez Networks API
+  description: The Networks API from Volumez — 2 operation(s) for networks.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Networks
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-networks-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-nodes-api
+  name: Volumez Nodes API
+  description: The Nodes API from Volumez — 7 operation(s) for nodes.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Nodes
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-nodes-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-policies-api
+  name: Volumez Policies API
+  description: >-
+    Policies allow you to declare the desired characteristics of volumes you will later create. Policies
+    are expressed in terms of outcomes (such as desired performance and resiliency). When you later ask
+    Volumez to create volumes using a policy, it will automatically allocate and configure whatever is
+    necessary to match these desired outcomes.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-policies-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-provision-api
+  name: Volumez Provision API
+  description: The Provision API from Volumez — 1 operation(s) for provision.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Provision
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-provision-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-provision-service-api
+  name: Volumez Provision Service API
+  description: The provision-service API from Volumez — 1 operation(s) for provision-service.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - provision-service
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-provision-service-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-role-api
+  name: Volumez Role API
+  description: The Role API from Volumez — 1 operation(s) for role.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Role
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-role-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-roles-api
+  name: Volumez Roles API
+  description: The Roles API from Volumez — 2 operation(s) for roles.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-roles-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-signout-api
+  name: Volumez Signout API
+  description: The Signout API from Volumez — 1 operation(s) for signout.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Signout
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-signout-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-signup-api
+  name: Volumez Signup API
+  description: The Signup API from Volumez — 1 operation(s) for signup.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Signup
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-signup-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-snapshots-api
+  name: Volumez Snapshots API
+  description: The Snapshots API from Volumez — 6 operation(s) for snapshots.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-snapshots-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-sso-api
+  name: Volumez SSO API
+  description: The Sso API from Volumez — 2 operation(s) for sso.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Sso
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-sso-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-system-api
+  name: Volumez System API
+  description: The System API from Volumez — 2 operation(s) for system.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-system-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-tenant-api
+  name: Volumez Tenant API
+  description: The Tenant API from Volumez — 12 operation(s) for tenant.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Tenant
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-tenant-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-tenant-cloud-resources-api
+  name: Volumez Tenant Cloud Resources API
+  description: The Tenant Cloud Resources API from Volumez — 6 operation(s) for tenant cloud resources.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Tenant Cloud Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-tenant-cloud-resources-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-tenant-settings-api
+  name: Volumez Tenant Settings API
+  description: The Tenant Settings API from Volumez — 2 operation(s) for tenant settings.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Tenant Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-tenant-settings-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-user-api
+  name: Volumez User API
+  description: The user API from Volumez — 23 operation(s) for user.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - user
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-user-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-users-api
+  name: Volumez Users API
+  description: The Users API from Volumez — 1 operation(s) for users.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-users-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-version-api
+  name: Volumez Version API
+  description: The Version API from Volumez — 1 operation(s) for version.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Version
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-version-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-virtualmedia-api
+  name: Volumez Virtualmedia API
+  description: The Virtualmedia API from Volumez — 2 operation(s) for virtualmedia.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Virtualmedia
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-virtualmedia-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-volumes-api
+  name: Volumez Volumes API
+  description: The Volumes API from Volumez — 13 operation(s) for volumes.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Volumes
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-volumes-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/VolumezTech/volumez-rest-client
+  - type: Documentation
+    url: https://github.com/VolumezTech/volumez-rest-client/blob/main/pkg/openapi/README.md
+  - type: Authentication
+    url: authentication/volumez-authentication.yml
+  - type: Conventions
+    url: conventions/volumez-conventions.yml
+  - type: ErrorCatalog
+    url: errors/volumez-problem-types.yml
+  - type: DataModel
+    url: data-model/volumez-data-model.yml
+  - type: RateLimits
+    url: rate-limits/volumez-rate-limits.yml
+  - type: JSONSchema
+    url: json-schema/volumez-common-schemas.yaml
+- aid: volumez:volumez-sign-in-api
+  name: Volumez Sign In API
+  description: The Sign In API from Volumez — 1 operation(s) for sign in.
+  humanURL: https://github.com/VolumezTech/volumez-rest-client
+  baseURL: https://api.dev.volumez.com
+  tags:
+  - Sign In
+  properties:
+  - type: OpenAPI
+    url: openapi/volumez-sign-in-api-openapi.yml
   - type: SourceCode
     url: https://github.com/VolumezTech/volumez-rest-client
   - type: Documentation
@@ -89,6 +1064,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/volumez-orchestrator-api-overlay.yaml
 - type: Website
   url: https://volumez.com/
 - type: GitHubOrganization
