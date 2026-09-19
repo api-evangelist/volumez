@@ -150,6 +150,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -202,6 +204,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Azure Marketplace
+  tags_raw:
   - Azuremarketplace
   properties:
   - type: OpenAPI
@@ -358,6 +362,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
@@ -436,6 +442,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -540,6 +548,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Node
+  tags_raw:
   - Nodes
   properties:
   - type: OpenAPI
@@ -726,6 +736,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Sign Up
+  tags_raw:
   - Signup
   properties:
   - type: OpenAPI
@@ -778,6 +790,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - SSO
+  tags_raw:
   - Sso
   properties:
   - type: OpenAPI
@@ -830,6 +844,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - Tenants
+  tags_raw:
   - Tenant
   properties:
   - type: OpenAPI
@@ -908,6 +924,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
@@ -934,6 +952,8 @@ apis:
   humanURL: https://github.com/VolumezTech/volumez-rest-client
   baseURL: https://api.dev.volumez.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
