@@ -1,0 +1,1833 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Media API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: ''
+  name: Media
+paths:
+  /media:
+    get:
+      operationId: MediaList
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Media'
+                type: array
+          description: List of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media
+      x-summary-source: derived
+      operationId: optionsMedia
+      x-operation-id-source: derived
+  /media/{media}:
+    delete:
+      operationId: MediaDelete
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - allowEmptyValue: false
+        explode: true
+        in: query
+        name: force
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A node delete job was created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete a media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+          integration.request.querystring.force: method.request.querystring.force
+    get:
+      operationId: MediaGet
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+          description: Properties of a media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of a media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media by media
+      x-summary-source: derived
+      operationId: optionsMediaByMedia
+      x-operation-id-source: derived
+  /media/{media}/assign:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media by media assign
+      x-summary-source: derived
+      operationId: optionsMediaByMediaAssign
+      x-operation-id-source: derived
+    patch:
+      operationId: MediaAssign
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Profile media even if it was already profiled
+        explode: true
+        in: query
+        name: capacity_group
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reprofile
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: LBA size for media format
+        explode: true
+        in: query
+        name: block_size
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Operation completed successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Assign media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}/assign
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+          integration.request.querystring.capacity_group: method.request.querystring.capacity_group
+          integration.request.querystring.reprofile: method.request.querystring.reprofile
+          integration.request.querystring.block_size: method.request.querystring.block_size
+  /media/{media}/unassign:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media by media unassign
+      x-summary-source: derived
+      operationId: optionsMediaByMediaUnassign
+      x-operation-id-source: derived
+    patch:
+      operationId: MediaUnassign
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Operation completed successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error completing the operation
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Unassign media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}/unassign
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+  /media/{media}/profile:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media by media profile
+      x-summary-source: derived
+      operationId: optionsMediaByMediaProfile
+      x-operation-id-source: derived
+    patch:
+      operationId: MediaProfileModify
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaProfile'
+        description: A Media Profile object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A media profile was updated successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a media profile
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a media profile
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a media profile
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Modify a media profile
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}/profile
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+      x-codegen-request-body-name: body
+  /media/{media}/drain:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Media
+      summary: Describe media by media drain
+      x-summary-source: derived
+      operationId: optionsMediaByMediaDrain
+      x-operation-id-source: derived
+    post:
+      operationId: MediaDrain
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Operation completed successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Media drain
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/media/{media}/drain
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+  /virtualmedia:
+    get:
+      operationId: VirtualMediaList
+      parameters:
+      - explode: true
+        in: query
+        name: startfrom
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: count
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/VirtualMedia'
+                type: array
+          description: List of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of virtual media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/virtualmedia
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.startfrom: method.request.querystring.startfrom
+          integration.request.querystring.count: method.request.querystring.count
+    post:
+      operationId: VirtualMediaCreate
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VirtualMediaCreate'
+        description: Virtual media creation parameters
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessJobResponse'
+          description: Virtual media has been created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Create (virtual) media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/virtualmedia
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      x-codegen-request-body-name: body
+  /virtualmedia/{media}:
+    delete:
+      operationId: VirtualMediaDelete
+      parameters:
+      - explode: false
+        in: path
+        name: media
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Virtual media was deleted successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting virtual media
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete virtual media
+      tags:
+      - Media
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/virtualmedia/{media}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.media: method.request.path.media
+components:
+  schemas:
+    VirtualMedia:
+      example:
+        flavor: stripped
+        members:
+        - members
+        - members
+        media:
+          bus: bus
+          latencywrite: 3
+          freebandwidthread: 1
+          media: media
+          lbaformats:
+          - lbaformats
+          - lbaformats
+          cloudprovider: cloudprovider
+          accountID: accountID
+          sed: true
+          zone: zone
+          capacitygroup: capacitygroup
+          model: model
+          freeiopsread: 4
+          freeiopswrite: 7
+          state: state
+          firmware: firmware
+          ResiliencyDomain: ResiliencyDomain
+          bandwidthwrite: 2
+          ResourceNamespace: ResourceNamespace
+          assignment: assignment
+          FaultDomain: FaultDomain
+          iopsread: 1
+          offlinetime: offlinetime
+          PhysicalProximityGroup: PhysicalProximityGroup
+          freebandwidthwrite: 1
+          mediaid: mediaid
+          sectorsize: 6
+          bandwidthread: 5
+          node: node
+          freesize: 2
+          size: 0
+          latencyread: 9
+          BandwidthReserved: 7
+          progress: 6
+          location: location
+          iopswrite: 5
+          region: region
+          volumescount: 1
+          status: status
+      properties:
+        media:
+          $ref: '#/components/schemas/Media'
+        flavor:
+          enum:
+          - stripped
+          - raid1
+          type: string
+        members:
+          items:
+            type: string
+          type: array
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    MediaProfile:
+      example:
+        bandwidthwrite: 5
+        latencywrite: 2
+        freebandwidthread: 3
+        latencyread: 5
+        iopsread: 0
+        iopswrite: 6
+        freeiopsread: 7
+        freeiopswrite: 9
+        freebandwidthwrite: 2
+        bandwidthread: 1
+      properties:
+        iopsread:
+          type: integer
+        iopswrite:
+          type: integer
+        bandwidthread:
+          type: integer
+        bandwidthwrite:
+          type: integer
+        latencyread:
+          type: integer
+        latencywrite:
+          type: integer
+        freeiopsread:
+          type: integer
+        freeiopswrite:
+          type: integer
+        freebandwidthread:
+          type: integer
+        freebandwidthwrite:
+          type: integer
+      type: object
+    VirtualMediaCreate:
+      example:
+        flavor: stripped
+        selector: selector
+      properties:
+        selector:
+          minLength: 1
+          type: string
+        flavor:
+          enum:
+          - stripped
+          - raid1
+          - split
+          type: string
+      type: object
+    Media:
+      example:
+        bus: bus
+        latencywrite: 3
+        freebandwidthread: 1
+        media: media
+        lbaformats:
+        - lbaformats
+        - lbaformats
+        cloudprovider: cloudprovider
+        accountID: accountID
+        sed: true
+        zone: zone
+        capacitygroup: capacitygroup
+        model: model
+        freeiopsread: 4
+        freeiopswrite: 7
+        state: state
+        firmware: firmware
+        ResiliencyDomain: ResiliencyDomain
+        bandwidthwrite: 2
+        ResourceNamespace: ResourceNamespace
+        assignment: assignment
+        FaultDomain: FaultDomain
+        iopsread: 1
+        offlinetime: offlinetime
+        PhysicalProximityGroup: PhysicalProximityGroup
+        freebandwidthwrite: 1
+        mediaid: mediaid
+        sectorsize: 6
+        bandwidthread: 5
+        node: node
+        freesize: 2
+        size: 0
+        latencyread: 9
+        BandwidthReserved: 7
+        progress: 6
+        location: location
+        iopswrite: 5
+        region: region
+        volumescount: 1
+        status: status
+      properties:
+        mediaid:
+          type: string
+        size:
+          type: integer
+        model:
+          type: string
+        media:
+          type: string
+        bus:
+          type: string
+        location:
+          type: string
+        sed:
+          type: boolean
+        node:
+          type: string
+        cloudprovider:
+          type: string
+        accountID:
+          description: the media node ResourceNamespace
+          type: string
+        region:
+          type: string
+        zone:
+          type: string
+        ResourceNamespace:
+          description: the media node ResourceNamespace
+          type: string
+        PhysicalProximityGroup:
+          description: the media node PhysicalProximityGroup
+          type: string
+        ResiliencyDomain:
+          description: the media node ResiliencyDomain
+          type: string
+        FaultDomain:
+          description: the media node FaultDomain
+          type: string
+        firmware:
+          type: string
+        sectorsize:
+          type: integer
+        iopsread:
+          type: integer
+        iopswrite:
+          type: integer
+        bandwidthread:
+          type: integer
+        bandwidthwrite:
+          type: integer
+        BandwidthReserved:
+          type: integer
+        latencyread:
+          type: integer
+        latencywrite:
+          type: integer
+        offlinetime:
+          type: string
+        freesize:
+          type: integer
+        freeiopsread:
+          type: integer
+        freeiopswrite:
+          type: integer
+        freebandwidthread:
+          type: integer
+        freebandwidthwrite:
+          type: integer
+        volumescount:
+          description: count of how many volumes are using the media
+          readOnly: true
+          type: integer
+        assignment:
+          readOnly: true
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          description: the capacity group this media belongs to
+          readOnly: true
+          type: string
+        lbaformats:
+          description: Available LBA formats for the media — ensure the block size specified in the media assignment matches one of these formats
+          items:
+            type: string
+          type: array
+      type: object
+    SuccessJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        JobID:
+          type: string
+        ObjectID:
+          type: string
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

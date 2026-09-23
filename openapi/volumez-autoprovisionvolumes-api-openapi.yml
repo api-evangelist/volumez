@@ -1,0 +1,579 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Auto Provision Volumes API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: ''
+  name: AutoProvisionVolumes
+paths:
+  /autoprovisionvolumes:
+    post:
+      operationId: AutoProvisionVolumes
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutoProvisionVolume'
+        description: Auto Provision Volume object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Auto provision volume has been created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Create a new auto provisioned volume
+      tags:
+      - AutoProvisionVolumes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/autoprovisionvolumes
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      x-codegen-request-body-name: body
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - AutoProvisionVolumes
+      summary: Describe autoprovisionvolumes
+      x-summary-source: derived
+      operationId: optionsAutoprovisionvolumes
+      x-operation-id-source: derived
+components:
+  schemas:
+    Volume:
+      example:
+        replicationvolumegroupname: replicationvolumegroupname
+        type: file
+        throttlingscheme: throttlingscheme
+        zone: zone
+        volumerecoveryjob: volumerecoveryjob
+        capacitygroup: capacitygroup
+        state: state
+        zonereplica: zonereplica
+        consistencygroup: consistencygroup
+        policy: policy
+        contentsnapshot: contentsnapshot
+        contentvolume: contentvolume
+        volumegroupid: volumegroupid
+        replicationnode: replicationnode
+        flavor: regular
+        node: node
+        size: 83973
+        volumegroupname: volumegroupname
+        replicationvolumegroupid: replicationvolumegroupid
+        name: name
+        volumeid: volumeid
+        progress: 1
+        maxsize: 6
+        status: status
+        allowdatamovement: false
+      properties:
+        name:
+          minLength: 1
+          title: Volume name
+          type: string
+        volumeid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        type:
+          enum:
+          - file
+          - block
+          type: string
+        contentvolume:
+          type: string
+        contentsnapshot:
+          type: string
+        size:
+          maximum: 1048576
+          minimum: 1
+          title: Size, GiB
+          type: integer
+        maxsize:
+          readOnly: true
+          title: Upper limit size, GiB
+          type: integer
+        policy:
+          minLength: 1
+          type: string
+        consistencygroup:
+          type: string
+        node:
+          readOnly: true
+          type: string
+        zone:
+          minLength: 1
+          type: string
+        zonereplica:
+          type: string
+        volumegroupname:
+          minLength: 1
+          title: Volume Group name
+          type: string
+        volumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        replicationnode:
+          type: string
+        replicationvolumegroupname:
+          minLength: 1
+          title: Replication Volume Group name
+          type: string
+        replicationvolumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Replication Volume ID
+          type: string
+        volumerecoveryjob:
+          minLength: 1
+          readOnly: true
+          title: Volume Recovery Job ID
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          minLength: 1
+          title: Capacity group from which the volume is allocated
+          type: string
+        throttlingscheme:
+          minLength: 1
+          title: Throttling Scheme for the volume
+          type: string
+        allowdatamovement:
+          default: false
+          title: Allow movement of the volume
+          type: boolean
+        flavor:
+          enum:
+          - regular
+          - filedirect
+          type: string
+      required:
+      - name
+      - policy
+      - size
+      - type
+      type: object
+    AutoProvisionInfraPlan:
+      example:
+        instanceCount: 1
+        price: 1
+        instanceType: instanceType
+        osType: Linux
+        availabilityZones:
+        - availabilityZones
+        - availabilityZones
+      properties:
+        instanceType:
+          minLength: 1
+          title: instance type
+          type: string
+        instanceCount:
+          minimum: 1
+          title: Number of instance to provision
+          type: integer
+        availabilityZones:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        osType:
+          enum:
+          - Linux
+          - Rhel
+          - Ubuntu
+          type: string
+        price:
+          format: float
+          minimum: 1
+          title: Number of instance to provision
+          type: integer
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AutoProvisionVolume:
+      example:
+        volume:
+          replicationvolumegroupname: replicationvolumegroupname
+          type: file
+          throttlingscheme: throttlingscheme
+          zone: zone
+          volumerecoveryjob: volumerecoveryjob
+          capacitygroup: capacitygroup
+          state: state
+          zonereplica: zonereplica
+          consistencygroup: consistencygroup
+          policy: policy
+          contentsnapshot: contentsnapshot
+          contentvolume: contentvolume
+          volumegroupid: volumegroupid
+          replicationnode: replicationnode
+          flavor: regular
+          node: node
+          size: 83973
+          volumegroupname: volumegroupname
+          replicationvolumegroupid: replicationvolumegroupid
+          name: name
+          volumeid: volumeid
+          progress: 1
+          maxsize: 6
+          status: status
+          allowdatamovement: false
+        accountId: accountId
+        sshKeyName: sshKeyName
+        imageId: imageId
+        cloudProvider: cloudProvider
+        osType: Linux
+        infraPlan:
+          instanceCount: 1
+          price: 1
+          instanceType: instanceType
+          osType: Linux
+          availabilityZones:
+          - availabilityZones
+          - availabilityZones
+        availabilityZones:
+        - availabilityZones
+        - availabilityZones
+        subnets:
+        - subnets
+        - subnets
+        region: region
+      properties:
+        volume:
+          $ref: '#/components/schemas/Volume'
+        infraPlan:
+          $ref: '#/components/schemas/AutoProvisionInfraPlan'
+        cloudProvider:
+          minLength: 1
+          title: cloud provider name
+          type: string
+        accountId:
+          minLength: 1
+          title: the customers provider account id
+          type: string
+        sshKeyName:
+          minLength: 1
+          title: ssh key name
+          type: string
+        imageId:
+          minLength: 1
+          title: os image id
+          type: string
+        region:
+          minLength: 1
+          title: Region to create teh volume in
+          type: string
+        availabilityZones:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        subnets:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        osType:
+          enum:
+          - Linux
+          - Rhel
+          - Ubuntu
+          type: string
+      required:
+      - accountId
+      - availabilityZones
+      - cloudProvider
+      - osType
+      - region
+      - subnets
+      - volume
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

@@ -1,0 +1,1787 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Nodes API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: ''
+  name: Nodes
+paths:
+  /nodes:
+    get:
+      operationId: NodesList
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Node'
+                type: array
+          description: List of nodes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of nodes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of nodes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of nodes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of nodes
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes
+      x-summary-source: derived
+      operationId: optionsNodes
+      x-operation-id-source: derived
+  /nodes/tags/{node}:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes tags by node
+      x-summary-source: derived
+      operationId: optionsNodesTagsByNode
+      x-operation-id-source: derived
+    patch:
+      operationId: NodeSetTags
+      parameters:
+      - description: Name of node to return
+        explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tags'
+        description: user defined tags
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A node set tags was successful
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error setting tags for node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error setting tags for node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error setting tags for node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Set the tags of a node
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/tags/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+      x-codegen-request-body-name: tags
+  /nodes/{node}:
+    delete:
+      operationId: NodeDelete
+      parameters:
+      - description: ' node to delete'
+        explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - allowEmptyValue: false
+        explode: true
+        in: query
+        name: force
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - allowEmptyValue: false
+        explode: true
+        in: query
+        name: delayDelete
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A node delete job was created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete a node
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+          integration.request.querystring.force: method.request.querystring.force
+          integration.request.querystring.delayDelete: method.request.querystring.delayDelete
+    get:
+      operationId: NodeGet
+      parameters:
+      - description: Name of node to return
+        explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: Properties of a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of a node
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes by node
+      x-summary-source: derived
+      operationId: optionsNodesByNode
+      x-operation-id-source: derived
+  /nodes/{node}/hw:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes by node hw
+      x-summary-source: derived
+      operationId: optionsNodesByNodeHw
+      x-operation-id-source: derived
+    post:
+      operationId: NodeHwScan
+      parameters:
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: query
+        name: properties
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessJobResponse'
+          description: Node HW scan job was created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Node hardware scan
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/{node}/hw
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+          integration.request.querystring.properties: method.request.querystring.properties
+  /nodes/{node}/drain:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes by node drain
+      x-summary-source: derived
+      operationId: optionsNodesByNodeDrain
+      x-operation-id-source: derived
+    post:
+      operationId: NodeDrain
+      parameters:
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: cleanup
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Operation completed successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error draining node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Node drain
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/{node}/drain
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+          integration.request.querystring.cleanup: method.request.querystring.cleanup
+  /nodes/{node}/describe:
+    get:
+      operationId: NodeDescribe
+      parameters:
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeDescribeResponse'
+          description: Description of a node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting description of the node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting description of the node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting description of the node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Node describe
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/{node}/describe
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes by node describe
+      x-summary-source: derived
+      operationId: optionsNodesByNodeDescribe
+      x-operation-id-source: derived
+  /nodes/upgrade/{node}:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Nodes
+      summary: Describe nodes upgrade by node
+      x-summary-source: derived
+      operationId: optionsNodesUpgradeByNode
+      x-operation-id-source: derived
+    post:
+      operationId: NodeUpgrade
+      parameters:
+      - description: Name of node to upgrade
+        explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeVersion'
+        description: Connector Version
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Node upgrade started successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error trying to upgrade node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error trying to upgrade node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error trying to upgrade node
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: performing node version upgrade
+      tags:
+      - Nodes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/nodes/upgrade/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.node: method.request.path.node
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Volume:
+      example:
+        replicationvolumegroupname: replicationvolumegroupname
+        type: file
+        throttlingscheme: throttlingscheme
+        zone: zone
+        volumerecoveryjob: volumerecoveryjob
+        capacitygroup: capacitygroup
+        state: state
+        zonereplica: zonereplica
+        consistencygroup: consistencygroup
+        policy: policy
+        contentsnapshot: contentsnapshot
+        contentvolume: contentvolume
+        volumegroupid: volumegroupid
+        replicationnode: replicationnode
+        flavor: regular
+        node: node
+        size: 83973
+        volumegroupname: volumegroupname
+        replicationvolumegroupid: replicationvolumegroupid
+        name: name
+        volumeid: volumeid
+        progress: 1
+        maxsize: 6
+        status: status
+        allowdatamovement: false
+      properties:
+        name:
+          minLength: 1
+          title: Volume name
+          type: string
+        volumeid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        type:
+          enum:
+          - file
+          - block
+          type: string
+        contentvolume:
+          type: string
+        contentsnapshot:
+          type: string
+        size:
+          maximum: 1048576
+          minimum: 1
+          title: Size, GiB
+          type: integer
+        maxsize:
+          readOnly: true
+          title: Upper limit size, GiB
+          type: integer
+        policy:
+          minLength: 1
+          type: string
+        consistencygroup:
+          type: string
+        node:
+          readOnly: true
+          type: string
+        zone:
+          minLength: 1
+          type: string
+        zonereplica:
+          type: string
+        volumegroupname:
+          minLength: 1
+          title: Volume Group name
+          type: string
+        volumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        replicationnode:
+          type: string
+        replicationvolumegroupname:
+          minLength: 1
+          title: Replication Volume Group name
+          type: string
+        replicationvolumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Replication Volume ID
+          type: string
+        volumerecoveryjob:
+          minLength: 1
+          readOnly: true
+          title: Volume Recovery Job ID
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          minLength: 1
+          title: Capacity group from which the volume is allocated
+          type: string
+        throttlingscheme:
+          minLength: 1
+          title: Throttling Scheme for the volume
+          type: string
+        allowdatamovement:
+          default: false
+          title: Allow movement of the volume
+          type: boolean
+        flavor:
+          enum:
+          - regular
+          - filedirect
+          type: string
+      required:
+      - name
+      - policy
+      - size
+      - type
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Tags:
+      additionalProperties:
+        type: string
+      type: object
+    NodeVersion:
+      example:
+        version: version
+      properties:
+        version:
+          type: string
+      type: object
+    NodeDescribeResponse:
+      example:
+        volumesMap:
+          key:
+            replicationvolumegroupname: replicationvolumegroupname
+            type: file
+            throttlingscheme: throttlingscheme
+            zone: zone
+            volumerecoveryjob: volumerecoveryjob
+            capacitygroup: capacitygroup
+            state: state
+            zonereplica: zonereplica
+            consistencygroup: consistencygroup
+            policy: policy
+            contentsnapshot: contentsnapshot
+            contentvolume: contentvolume
+            volumegroupid: volumegroupid
+            replicationnode: replicationnode
+            flavor: regular
+            node: node
+            size: 83973
+            volumegroupname: volumegroupname
+            replicationvolumegroupid: replicationvolumegroupid
+            name: name
+            volumeid: volumeid
+            progress: 1
+            maxsize: 6
+            status: status
+            allowdatamovement: false
+      properties:
+        volumesMap:
+          additionalProperties:
+            $ref: '#/components/schemas/Volume'
+          description: Map of volume IDs to volume objects
+          type: object
+      type: object
+    Node:
+      example:
+        cloudprovider: cloudprovider
+        accountID: accountID
+        nodecluster: nodecluster
+        credential: credential
+        zone: zone
+        instancetype: instancetype
+        state: state
+        kversion: kversion
+        ResiliencyDomain: ResiliencyDomain
+        ResourceNamespace: ResourceNamespace
+        os: os
+        FaultDomain: FaultDomain
+        offlinetime: offlinetime
+        PhysicalProximityGroup: PhysicalProximityGroup
+        label: label
+        tags: '{}'
+        connectorversion: connectorversion
+        instanceid: instanceid
+        controladdress: controladdress
+        autoprovisionInfraUUID: autoprovisionInfraUUID
+        name: name
+        progress: 0
+        osversion: osversion
+        region: region
+        status: status
+      properties:
+        instanceid:
+          type: string
+        name:
+          minLength: 1
+          type: string
+        os:
+          type: string
+        osversion:
+          type: string
+        kversion:
+          type: string
+        controladdress:
+          type: string
+        credential:
+          type: string
+        accountID:
+          type: string
+        region:
+          type: string
+        zone:
+          type: string
+        ResourceNamespace:
+          description: global namespace for resources in account empty if not aviliable/supported on cloud provider/node
+          type: string
+        PhysicalProximityGroup:
+          description: identifier of the physical location of the node empty if not aviliable/supported on on cloud provider/node
+          type: string
+        ResiliencyDomain:
+          description: virtual domain for the node fault domains if aviliable/supported on on cloud provider/node
+          type: string
+        FaultDomain:
+          description: identifier for node in FaultDomain
+          type: string
+        offlinetime:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        connectorversion:
+          readOnly: true
+          type: string
+        label:
+          type: string
+        tags:
+          type: object
+        cloudprovider:
+          type: string
+        nodecluster:
+          type: string
+        autoprovisionInfraUUID:
+          readOnly: true
+          type: string
+        instancetype:
+          type: string
+      required:
+      - name
+      - os
+      type: object
+    SuccessJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        JobID:
+          type: string
+        ObjectID:
+          type: string
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

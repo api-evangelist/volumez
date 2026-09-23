@@ -1,0 +1,937 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Attachments API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: ''
+  name: Attachments
+paths:
+  /attachments:
+    get:
+      operationId: AttachmentsListAll
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Attachment'
+                type: array
+          description: List of all attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of all attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of all attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of all attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of all attachments
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/attachments
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Attachments
+      summary: Describe attachments
+      x-summary-source: derived
+      operationId: optionsAttachments
+      x-operation-id-source: derived
+  /volumes/{volume}/attachments:
+    get:
+      operationId: AttachmentsListForVolume
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Attachment'
+                type: array
+          description: List of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of attachments for a given volume
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/attachments
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+  /volumes/{volume}/snapshots/{snapshot}/attachments:
+    get:
+      operationId: AttachmentsList
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Attachment'
+                type: array
+          description: List of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of attachments
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of attachments for a given volume and snapshot
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/snapshots/{snapshot}/attachments
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.path.snapshot: method.request.path.snapshot
+    post:
+      operationId: AttachmentCreate
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+        description: An Attachment object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: New attachment was created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorJobResponse'
+          description: Error creating new attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorJobResponse'
+          description: Error creating new attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorJobResponse'
+          description: Error creating new attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Create a new attachment
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/snapshots/{snapshot}/attachments
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.path.snapshot: method.request.path.snapshot
+      x-codegen-request-body-name: body
+  /volumes/{volume}/snapshots/{snapshot}/attachments/{node}:
+    delete:
+      operationId: AttachmentDelete
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        explode: true
+        in: query
+        name: force
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: An attachment was deleted successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete an attachment
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/snapshots/{snapshot}/attachments/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.path.snapshot: method.request.path.snapshot
+          integration.request.path.node: method.request.path.node
+          integration.request.querystring.force: method.request.querystring.force
+    get:
+      operationId: AttachmentGet
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+          description: Properties of an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of an attachment
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/snapshots/{snapshot}/attachments/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.path.snapshot: method.request.path.snapshot
+          integration.request.path.node: method.request.path.node
+    patch:
+      operationId: AttachmentModify
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: snapshot
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: node
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attachment'
+        description: An Attachment object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: An attachment was updated successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating an attachment
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Modify an attachment
+      tags:
+      - Attachments
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/snapshots/{snapshot}/attachments/{node}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.path.snapshot: method.request.path.snapshot
+          integration.request.path.node: method.request.path.node
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    ErrorJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        ErrorCode: 0
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        ErrorCode:
+          type: integer
+        ObjectID:
+          type: string
+        JobID:
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Attachment:
+      example:
+        node: node
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
+        volumeid: volumeid
+        progress: 1
+        snapshotname: snapshotname
+        state: state
+        status: status
+        mountpoint: mountpoint
+      properties:
+        volumename:
+          title: Volume name
+          type: string
+        volumeid:
+          readOnly: true
+          title: Volume ID
+          type: string
+        snapshotname:
+          title: Snapshot Name
+          type: string
+        snapshotid:
+          readOnly: true
+          title: Snapshot ID
+          type: string
+        node:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        mountpoint:
+          title: Mount point
+          type: string
+        readonly:
+          title: Read Only
+          type: boolean
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
+      required:
+      - node
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

@@ -1,0 +1,1498 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Tenant Cloud Resources API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: Tenant Cloud Resources
+paths:
+  /tenant-cloud-resources/role:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources role
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesRole
+      x-operation-id-source: derived
+    get:
+      operationId: getAllRoles
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRolesResponse'
+          description: Get all tenant cloud roles ok
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Get all tenant cloud roles error
+      security:
+      - storage.io-authorizer: []
+      summary: Get All Tenant roles
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/tenant-cloud-resources/role
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    post:
+      operationId: createRole
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoleRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRoleResponse'
+          description: Successfully created tenant cloud role
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The given tenant cloud role for cloud provider is not a valid role
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The tenant cloud role for cloud provider is already exists with the given cloudProviderAccountId
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Failed to create/update tenant cloud role for cloud provider
+      security:
+      - storage.io-authorizer: []
+      summary: Create tenant cloud role
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/tenant-cloud-resources/role
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant-cloud-resources/vm/zones:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources vm zones
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesVmZones
+      x-operation-id-source: derived
+    get:
+      operationId: getVMZones
+      parameters:
+      - description: Cloud provider type
+        explode: true
+        in: query
+        name: cloudProvider
+        required: false
+        schema:
+          $ref: '#/components/schemas/CloudProviderType'
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVmRegionZonesResponse'
+          description: cloud provider zones ok
+        '404':
+          description: The given cloudProviderAccountId isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: All tenant's cloud VM's available zones error
+      security:
+      - storage.io-authorizer: []
+      summary: Get cloud provider zones for requested region
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/tenant-cloud-resources/vm/zones
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.cloudProvider: method.request.querystring.cloudProvider
+  /tenant-cloud-resources/{cloudProviderAccountId}/role:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources by cloud provider account id role
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesByCloudProviderAccountIdRole
+      x-operation-id-source: derived
+    delete:
+      operationId: deleteRole
+      parameters:
+      - explode: false
+        in: path
+        name: cloudProviderAccountId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudProviderAccountId'
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '202':
+          description: Successfully deleted tenant cloud role for cloud provider
+        '404':
+          description: The given cloudProviderAccountId isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Delete tenant cloud role error
+      security:
+      - storage.io-authorizer: []
+      summary: Delete tenant role resource by the given cloudProviderAccountId query param
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: DELETE
+        uri: http://None:None/tenant-cloud-resources/{cloudProviderAccountId}/role
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.cloudProviderAccountId: method.request.path.cloudProviderAccountId
+    put:
+      operationId: updateRole
+      parameters:
+      - explode: false
+        in: path
+        name: cloudProviderAccountId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudProviderAccountId'
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoleRequest'
+        required: true
+      responses:
+        '204':
+          description: Successfully updated tenant role for AWS cloud provider
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The updated tenant role for AWS cloud provider is not a valid role
+        '404':
+          description: The given cloudProviderAccountId isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Failed to create/update tenant role for AWS cloud provider
+      security:
+      - storage.io-authorizer: []
+      summary: Update tenant cloud role for the given cloudProviderAccountId
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: PUT
+        uri: http://None:None/tenant-cloud-resources/{cloudProviderAccountId}/role
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.cloudProviderAccountId: method.request.path.cloudProviderAccountId
+  /tenant-cloud-resources/{cloudProviderAccountId}/vm/vpcs:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources by cloud provider account id vm vpcs
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesByCloudProviderAccountIdVmVpcs
+      x-operation-id-source: derived
+    get:
+      operationId: getVMVPCs
+      parameters:
+      - explode: false
+        in: path
+        name: cloudProviderAccountId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudProviderAccountId'
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVMVPCsResponse'
+          description: All tenant's Cloud VM's available VPCs ok
+        '404':
+          description: The given cloudProviderAccountId isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: All tenant's cloud VM's available VPCs error
+      security:
+      - storage.io-authorizer: []
+      summary: Get all tenant's cloud VM's available VPCs
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/tenant-cloud-resources/{cloudProviderAccountId}/vm/vpcs
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.cloudProviderAccountId: method.request.path.cloudProviderAccountId
+  /tenant-cloud-resources/{cloudProviderAccountId}/vm/{region}/metadata/{nodeId}:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources by cloud provider account id vm by region…
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesByCloudProviderAccountIdVmByRegionMetadataByNodeId
+      x-operation-id-source: derived
+    get:
+      operationId: getVMMetadataByRegion
+      parameters:
+      - explode: false
+        in: path
+        name: cloudProviderAccountId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudProviderAccountId'
+        style: simple
+      - explode: false
+        in: path
+        name: region
+        required: true
+        schema:
+          $ref: '#/components/schemas/Region'
+        style: simple
+      - explode: false
+        in: path
+        name: nodeId
+        required: true
+        schema:
+          $ref: '#/components/schemas/NodeId'
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVMMetadataResponse'
+          description: Tenant's Cloud VM's metadata ok
+        '404':
+          description: The given cloudProviderAccountId/region/instanceId isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Tenant's cloud VM's metadata error
+      security:
+      - storage.io-authorizer: []
+      summary: Get tenant's cloud VM' metadata by region
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/tenant-cloud-resources/{cloudProviderAccountId}/vm/{region}/metadata/{nodeId}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.cloudProviderAccountId: method.request.path.cloudProviderAccountId
+          integration.request.path.region: method.request.path.region
+          integration.request.path.nodeId: method.request.path.nodeId
+  /tenant-cloud-resources/{cloudProviderAccountId}/vm/{region}/vpcs:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Tenant Cloud Resources
+      summary: Describe tenant cloud resources by cloud provider account id vm by region vpcs
+      x-summary-source: derived
+      operationId: optionsTenantCloudResourcesByCloudProviderAccountIdVmByRegionVpcs
+      x-operation-id-source: derived
+    get:
+      operationId: getVMVPCsByRegion
+      parameters:
+      - explode: false
+        in: path
+        name: cloudProviderAccountId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudProviderAccountId'
+        style: simple
+      - explode: false
+        in: path
+        name: region
+        required: true
+        schema:
+          $ref: '#/components/schemas/Region'
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVMVPCsResponse'
+          description: Tenant's Cloud VM's available VPCs ok
+        '404':
+          description: The given cloudProviderAccountId/region isn't exists
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Tenant's cloud VM's available VPCs error
+      security:
+      - storage.io-authorizer: []
+      summary: Get tenant's cloud VM's available VPCs by region
+      tags:
+      - Tenant Cloud Resources
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/tenant-cloud-resources/{cloudProviderAccountId}/vm/{region}/vpcs
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.cloudProviderAccountId: method.request.path.cloudProviderAccountId
+          integration.request.path.region: method.request.path.region
+components:
+  schemas:
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    GetRolesResponse:
+      example:
+        RoleName: RoleName
+        Policies:
+        - Policies
+        - Policies
+        roles:
+        - azureRole:
+            activeDirectoryId: activeDirectoryId
+            secretId: secretId
+            applicationId: applicationId
+          cloudProvider:
+            accountID: accountID
+            type: aws
+          awsRole:
+            externalId: externalId
+            arn: arn
+        - azureRole:
+            activeDirectoryId: activeDirectoryId
+            secretId: secretId
+            applicationId: applicationId
+          cloudProvider:
+            accountID: accountID
+            type: aws
+          awsRole:
+            externalId: externalId
+            arn: arn
+        RoleId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        roles:
+          items:
+            $ref: '#/components/schemas/GetRolesResponse_roles_inner'
+          type: array
+        RoleId:
+          format: uuid
+          type: string
+        RoleName:
+          type:
+          - string
+          - 'null'
+        Policies:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+      required:
+      - roles
+      type: object
+    CloudProvider:
+      example:
+        accountID: accountID
+        type: aws
+      properties:
+        type:
+          $ref: '#/components/schemas/CloudProviderType'
+        accountID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - accountID
+      - type
+      type: object
+    CreateAzureRoleRequest:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secret:
+          id: id
+          value: value
+        applicationId: applicationId
+        subscriptionId: subscriptionId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        subscriptionId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secret:
+          $ref: '#/components/schemas/AzureSecret'
+    GetVMMetadataResponse:
+      example:
+        vpc:
+          subnetId: subnetId
+          resourceGroup: resourceGroup
+          isDefault: true
+          name: name
+          id: id
+          subnetName: subnetName
+      properties:
+        vpc:
+          $ref: '#/components/schemas/AvailableVPCItem'
+      type: object
+    AzureSecret:
+      example:
+        id: id
+        value: value
+      properties:
+        id:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        value:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AvailableVPCItem:
+      example:
+        subnetId: subnetId
+        resourceGroup: resourceGroup
+        isDefault: true
+        name: name
+        id: id
+        subnetName: subnetName
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subnetId:
+          type: string
+        subnetName:
+          type: string
+        isDefault:
+          type: boolean
+        resourceGroup:
+          type: string
+      required:
+      - id
+      - name
+      - subnetId
+      type: object
+    UpdateAwsRoleRequest:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+      type: object
+    GetRolesResponse_roles_inner:
+      example:
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secretId: secretId
+          applicationId: applicationId
+        cloudProvider:
+          accountID: accountID
+          type: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProvider'
+        awsRole:
+          $ref: '#/components/schemas/AWSRoleItem'
+        azureRole:
+          $ref: '#/components/schemas/AzureRoleItem'
+      required:
+      - cloudProvider
+      type: object
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
+      type: string
+    AzureVMRegion:
+      example:
+        regionDisplayName: regionDisplayName
+        zones:
+        - zones
+        - zones
+      properties:
+        regionDisplayName:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        zones:
+          items:
+            type: string
+          type: array
+      type: object
+    NodeId:
+      type: string
+    CreateRoleResponse:
+      $ref: '#/components/schemas/EmptyResponse'
+    UpdateRoleRequest:
+      example:
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secret:
+            id: id
+            value: value
+          applicationId: applicationId
+        cloudProvider: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        awsRole:
+          $ref: '#/components/schemas/UpdateAwsRoleRequest'
+        azureRole:
+          $ref: '#/components/schemas/UpdateAzureRoleRequest'
+      type: object
+    CloudProviderAccountId:
+      type: string
+    GetVmRegionZonesResponse:
+      example:
+        aws:
+        - Region1:
+          - Zone1
+          - Zone2
+          - Zone3
+          Region2:
+          - Zone4
+          - Zone5
+        azure:
+          key:
+            regionDisplayName: regionDisplayName
+            zones:
+            - zones
+            - zones
+      properties:
+        aws:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          example:
+          - Region1:
+            - Zone1
+            - Zone2
+            - Zone3
+            Region2:
+            - Zone4
+            - Zone5
+          type: object
+        azure:
+          additionalProperties:
+            $ref: '#/components/schemas/AzureVMRegion'
+          type: object
+      type: object
+    AzureRoleItem:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secretId: secretId
+        applicationId: applicationId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secretId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - activeDirectoryId
+      - applicationId
+      - secretId
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    EmptyResponse:
+      type: object
+      x-isnullable: false
+      x-omitempty: false
+    CreateRoleRequest:
+      example:
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secret:
+            id: id
+            value: value
+          applicationId: applicationId
+          subscriptionId: subscriptionId
+        RoleName: RoleName
+        Policies:
+        - Policies
+        - Policies
+        cloudProvider: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
+        RoleId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        awsRole:
+          $ref: '#/components/schemas/CreateAwsRoleRequest'
+        azureRole:
+          $ref: '#/components/schemas/CreateAzureRoleRequest'
+        RoleId:
+          format: uuid
+          type: string
+        RoleName:
+          type:
+          - string
+          - 'null'
+        Policies:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+      type: object
+    CreateAwsRoleRequest:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+    GetVMVPCsResponse:
+      additionalProperties:
+        items:
+          $ref: '#/components/schemas/AvailableVPCItem'
+        type: array
+      example:
+      - Zone1:
+        - id: VpcId1
+          subnetId: VpcSubnetId1
+        - Id: VpcId2
+          SubnetId: VpcSubnetId2
+        Zone2:
+          id: VpcId3
+          subnetId: VpcSubnetId3
+      type: object
+    Region:
+      type: string
+    AWSRoleItem:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: false
+      required:
+      - arn
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    UpdateAzureRoleRequest:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secret:
+          id: id
+          value: value
+        applicationId: applicationId
+      properties:
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        activeDirectoryId:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        secret:
+          $ref: '#/components/schemas/AzureSecret'
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

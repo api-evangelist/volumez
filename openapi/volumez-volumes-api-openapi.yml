@@ -1,0 +1,2845 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Volumes API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: ''
+  name: Volumes
+paths:
+  /volumes:
+    get:
+      operationId: VolumesList
+      parameters:
+      - explode: true
+        in: query
+        name: capacity
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Volume'
+                type: array
+          description: List of volumes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of volumes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of volumes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of volumes
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of volumes
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.capacity: method.request.querystring.capacity
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes
+      x-summary-source: derived
+      operationId: optionsVolumes
+      x-operation-id-source: derived
+    post:
+      operationId: VolumeCreate
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Volume'
+        description: A Volume object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Volume has been created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Create a new volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      x-codegen-request-body-name: body
+  /volumes/plan:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes plan
+      x-summary-source: derived
+      operationId: optionsVolumesPlan
+      x-operation-id-source: derived
+    post:
+      operationId: BatchVolumesPlan
+      parameters:
+      - description: if true will return the volume plan if false will omit the plan from the response
+        explode: true
+        in: query
+        name: verbose
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchVolumesPlan_request'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumePlanOutput'
+          description: volume plan output
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new snapshot
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new snapshot
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new snapshot
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: check if volumes can be created
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/plan
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.verbose: method.request.querystring.verbose
+      x-codegen-request-body-name: body
+  /volumes/snapshot:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes snapshot
+      x-summary-source: derived
+      operationId: optionsVolumesSnapshot
+      x-operation-id-source: derived
+  /volumes/snapshot/{snapshot_group_name}:
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: snapshot_group_name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes snapshot by snapshot group name
+      x-summary-source: derived
+      operationId: optionsVolumesSnapshotBySnapshotGroupName
+      x-operation-id-source: derived
+  /volumes/{volume}:
+    delete:
+      operationId: VolumeDelete
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - allowEmptyValue: true
+        explode: true
+        in: query
+        name: force
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A volume was deleted successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete a volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+          integration.request.querystring.force: method.request.querystring.force
+    get:
+      operationId: VolumeGet
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Volume'
+          description: Properties of a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of a volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume
+      x-summary-source: derived
+      operationId: optionsVolumesByVolume
+      x-operation-id-source: derived
+    patch:
+      operationId: VolumeModify
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Volume'
+        description: A Volume object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A volume was updated successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Modify a volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+      x-codegen-request-body-name: body
+  /volumes/{volume}/describe:
+    get:
+      operationId: VolumeDescribe
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeGroup'
+          description: 'the Volume information '
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Getting volume plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Getting volume plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Getting volume plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: describe existing volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/describe
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume describe
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeDescribe
+      x-operation-id-source: derived
+  /volumes/{volume}/recover:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume recover
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeRecover
+      x-operation-id-source: derived
+    post:
+      operationId: VolumeRecoverInitiate
+      parameters:
+      - explode: false
+        in: path
+        name: volume
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Volume recovery was initiated successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error initiating recovery on volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error initiating recovery on volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error initiating recovery on volume
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Initiate recover on volume
+      tags:
+      - Volumes
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/volumes/{volume}/recover
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.volume: method.request.path.volume
+  /volumes/{volume}/snapshots:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume snapshots
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeSnapshots
+      x-operation-id-source: derived
+  /volumes/{volume}/snapshots/{snapshot}:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume snapshots by snapshot
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeSnapshotsBySnapshot
+      x-operation-id-source: derived
+  /volumes/{volume}/snapshots/{snapshot}/rollback:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume snapshots by snapshot rollback
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeSnapshotsBySnapshotRollback
+      x-operation-id-source: derived
+  /volumes/{volume}/attachments:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume attachments
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeAttachments
+      x-operation-id-source: derived
+  /volumes/{volume}/snapshots/{snapshot}/attachments:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume snapshots by snapshot attachments
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeSnapshotsBySnapshotAttachments
+      x-operation-id-source: derived
+  /volumes/{volume}/snapshots/{snapshot}/attachments/{node}:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Volumes
+      summary: Describe volumes by volume snapshots by snapshot attachments by node
+      x-summary-source: derived
+      operationId: optionsVolumesByVolumeSnapshotsBySnapshotAttachmentsByNode
+      x-operation-id-source: derived
+components:
+  schemas:
+    Volume:
+      example:
+        replicationvolumegroupname: replicationvolumegroupname
+        type: file
+        throttlingscheme: throttlingscheme
+        zone: zone
+        volumerecoveryjob: volumerecoveryjob
+        capacitygroup: capacitygroup
+        state: state
+        zonereplica: zonereplica
+        consistencygroup: consistencygroup
+        policy: policy
+        contentsnapshot: contentsnapshot
+        contentvolume: contentvolume
+        volumegroupid: volumegroupid
+        replicationnode: replicationnode
+        flavor: regular
+        node: node
+        size: 83973
+        volumegroupname: volumegroupname
+        replicationvolumegroupid: replicationvolumegroupid
+        name: name
+        volumeid: volumeid
+        progress: 1
+        maxsize: 6
+        status: status
+        allowdatamovement: false
+      properties:
+        name:
+          minLength: 1
+          title: Volume name
+          type: string
+        volumeid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        type:
+          enum:
+          - file
+          - block
+          type: string
+        contentvolume:
+          type: string
+        contentsnapshot:
+          type: string
+        size:
+          maximum: 1048576
+          minimum: 1
+          title: Size, GiB
+          type: integer
+        maxsize:
+          readOnly: true
+          title: Upper limit size, GiB
+          type: integer
+        policy:
+          minLength: 1
+          type: string
+        consistencygroup:
+          type: string
+        node:
+          readOnly: true
+          type: string
+        zone:
+          minLength: 1
+          type: string
+        zonereplica:
+          type: string
+        volumegroupname:
+          minLength: 1
+          title: Volume Group name
+          type: string
+        volumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        replicationnode:
+          type: string
+        replicationvolumegroupname:
+          minLength: 1
+          title: Replication Volume Group name
+          type: string
+        replicationvolumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Replication Volume ID
+          type: string
+        volumerecoveryjob:
+          minLength: 1
+          readOnly: true
+          title: Volume Recovery Job ID
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          minLength: 1
+          title: Capacity group from which the volume is allocated
+          type: string
+        throttlingscheme:
+          minLength: 1
+          title: Throttling Scheme for the volume
+          type: string
+        allowdatamovement:
+          default: false
+          title: Allow movement of the volume
+          type: boolean
+        flavor:
+          enum:
+          - regular
+          - filedirect
+          type: string
+      required:
+      - name
+      - policy
+      - size
+      - type
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Attachment:
+      example:
+        node: node
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
+        volumeid: volumeid
+        progress: 1
+        snapshotname: snapshotname
+        state: state
+        status: status
+        mountpoint: mountpoint
+      properties:
+        volumename:
+          title: Volume name
+          type: string
+        volumeid:
+          readOnly: true
+          title: Volume ID
+          type: string
+        snapshotname:
+          title: Snapshot Name
+          type: string
+        snapshotid:
+          readOnly: true
+          title: Snapshot ID
+          type: string
+        node:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        mountpoint:
+          title: Mount point
+          type: string
+        readonly:
+          title: Read Only
+          type: boolean
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
+      required:
+      - node
+      type: object
+    VolumeGroup:
+      example:
+        cachemediasize: 1
+        attachments:
+        - node: node
+          allocated_resources: 50
+          snapshotid: snapshotid
+          volumename: volumename
+          readonly: true
+          volumeid: volumeid
+          progress: 1
+          snapshotname: snapshotname
+          state: state
+          status: status
+          mountpoint: mountpoint
+        - node: node
+          allocated_resources: 50
+          snapshotid: snapshotid
+          volumename: volumename
+          readonly: true
+          volumeid: volumeid
+          progress: 1
+          snapshotname: snapshotname
+          state: state
+          status: status
+          mountpoint: mountpoint
+        cachemediabandwidthwrite: 1
+        writecache: true
+        mediasize: 5
+        Volumegroupname: Volumegroupname
+        targetsecret: targetsecret
+        deduplication: true
+        media:
+        - media
+        - media
+        cachesize: 2
+        cachemediaiopsread: 7
+        encryption: true
+        cachemedia:
+        - cachemedia
+        - cachemedia
+        redundancy: 0
+        raidcolumns: 5
+        allocatedsize: 1
+        cachemediabandwidthread: 1
+        mediaiopswrite: 9
+        cacheraidcolumns: 7
+        allocation: allocation
+        cacheredundancy: 4
+        cacheresiliency: cacheresiliency
+        resiliency: resiliency
+        mediabandwidthwrite: 2
+        mediabandwidthread: 7
+        size: 6
+        cachemediaiopswrite: 6
+        mediaiopsread: 3
+        compression: true
+        Integrity: true
+      properties:
+        Volumegroupname:
+          readOnly: true
+          type: string
+        encryption:
+          type: boolean
+        Integrity:
+          type: boolean
+        allocation:
+          type: string
+        compression:
+          type: boolean
+        deduplication:
+          type: boolean
+        writecache:
+          type: boolean
+        redundancy:
+          type: integer
+        size:
+          type: integer
+        targetsecret:
+          minLength: 1
+          title: Target connect secret
+          type: string
+        allocatedsize:
+          type: integer
+        resiliency:
+          type: string
+        raidcolumns:
+          type: integer
+        mediasize:
+          type: integer
+        mediabandwidthwrite:
+          type: integer
+        mediabandwidthread:
+          type: integer
+        mediaiopswrite:
+          type: integer
+        mediaiopsread:
+          type: integer
+        media:
+          items:
+            type: string
+          type: array
+        cachesize:
+          type: integer
+        cacheresiliency:
+          type: string
+        cacheredundancy:
+          type: integer
+        cacheraidcolumns:
+          type: integer
+        cachemediasize:
+          type: integer
+        cachemediabandwidthwrite:
+          type: integer
+        cachemediabandwidthread:
+          type: integer
+        cachemediaiopswrite:
+          type: integer
+        cachemediaiopsread:
+          type: integer
+        cachemedia:
+          items:
+            type: string
+          type: array
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    BatchVolumesPlan_request:
+      properties:
+        Volumes:
+          items:
+            $ref: '#/components/schemas/BatchVolumesPlan_request_Volumes_inner'
+          minItems: 1
+          type: array
+          x-go-name: Volumes
+        CapacityGroup:
+          description: capacity groups to create the volume from (optional)
+          type: string
+          x-go-name: CapacityGroup
+        DefaultZone:
+          description: zone parameter for all volumes that dont have zone parameter
+          type: string
+          x-omitempty: true
+          x-go-name: Zone
+          x-isnullable: false
+        DefaultPolicy:
+          description: policy parameter for all volumes that dont have policy parameter defined in their input
+          type: string
+          x-omitempty: true
+          x-go-name: Policy
+          x-isnullable: false
+      type: object
+    VolumePlanOutput:
+      example:
+        Plans:
+        - volumegroup:
+            cachemediasize: 1
+            attachments:
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            cachemediabandwidthwrite: 1
+            writecache: true
+            mediasize: 5
+            Volumegroupname: Volumegroupname
+            targetsecret: targetsecret
+            deduplication: true
+            media:
+            - media
+            - media
+            cachesize: 2
+            cachemediaiopsread: 7
+            encryption: true
+            cachemedia:
+            - cachemedia
+            - cachemedia
+            redundancy: 0
+            raidcolumns: 5
+            allocatedsize: 1
+            cachemediabandwidthread: 1
+            mediaiopswrite: 9
+            cacheraidcolumns: 7
+            allocation: allocation
+            cacheredundancy: 4
+            cacheresiliency: cacheresiliency
+            resiliency: resiliency
+            mediabandwidthwrite: 2
+            mediabandwidthread: 7
+            size: 6
+            cachemediaiopswrite: 6
+            mediaiopsread: 3
+            compression: true
+            Integrity: true
+          replicationvolumegroup:
+            cachemediasize: 1
+            attachments:
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            cachemediabandwidthwrite: 1
+            writecache: true
+            mediasize: 5
+            Volumegroupname: Volumegroupname
+            targetsecret: targetsecret
+            deduplication: true
+            media:
+            - media
+            - media
+            cachesize: 2
+            cachemediaiopsread: 7
+            encryption: true
+            cachemedia:
+            - cachemedia
+            - cachemedia
+            redundancy: 0
+            raidcolumns: 5
+            allocatedsize: 1
+            cachemediabandwidthread: 1
+            mediaiopswrite: 9
+            cacheraidcolumns: 7
+            allocation: allocation
+            cacheredundancy: 4
+            cacheresiliency: cacheresiliency
+            resiliency: resiliency
+            mediabandwidthwrite: 2
+            mediabandwidthread: 7
+            size: 6
+            cachemediaiopswrite: 6
+            mediaiopsread: 3
+            compression: true
+            Integrity: true
+        - volumegroup:
+            cachemediasize: 1
+            attachments:
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            cachemediabandwidthwrite: 1
+            writecache: true
+            mediasize: 5
+            Volumegroupname: Volumegroupname
+            targetsecret: targetsecret
+            deduplication: true
+            media:
+            - media
+            - media
+            cachesize: 2
+            cachemediaiopsread: 7
+            encryption: true
+            cachemedia:
+            - cachemedia
+            - cachemedia
+            redundancy: 0
+            raidcolumns: 5
+            allocatedsize: 1
+            cachemediabandwidthread: 1
+            mediaiopswrite: 9
+            cacheraidcolumns: 7
+            allocation: allocation
+            cacheredundancy: 4
+            cacheresiliency: cacheresiliency
+            resiliency: resiliency
+            mediabandwidthwrite: 2
+            mediabandwidthread: 7
+            size: 6
+            cachemediaiopswrite: 6
+            mediaiopsread: 3
+            compression: true
+            Integrity: true
+          replicationvolumegroup:
+            cachemediasize: 1
+            attachments:
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            - node: node
+              allocated_resources: 50
+              snapshotid: snapshotid
+              volumename: volumename
+              readonly: true
+              volumeid: volumeid
+              progress: 1
+              snapshotname: snapshotname
+              state: state
+              status: status
+              mountpoint: mountpoint
+            cachemediabandwidthwrite: 1
+            writecache: true
+            mediasize: 5
+            Volumegroupname: Volumegroupname
+            targetsecret: targetsecret
+            deduplication: true
+            media:
+            - media
+            - media
+            cachesize: 2
+            cachemediaiopsread: 7
+            encryption: true
+            cachemedia:
+            - cachemedia
+            - cachemedia
+            redundancy: 0
+            raidcolumns: 5
+            allocatedsize: 1
+            cachemediabandwidthread: 1
+            mediaiopswrite: 9
+            cacheraidcolumns: 7
+            allocation: allocation
+            cacheredundancy: 4
+            cacheresiliency: cacheresiliency
+            resiliency: resiliency
+            mediabandwidthwrite: 2
+            mediabandwidthread: 7
+            size: 6
+            cachemediaiopswrite: 6
+            mediaiopsread: 3
+            compression: true
+            Integrity: true
+        Message: Message
+        Success: true
+      properties:
+        Message:
+          type: string
+        Success:
+          type: boolean
+        Plans:
+          items:
+            $ref: '#/components/schemas/Plan'
+          type: array
+      type: object
+    BatchVolumesPlan_request_Volumes_inner:
+      properties:
+        Policy:
+          description: policy name for the planned volume
+          type: string
+        Size:
+          description: volume size in GiB
+          example: 10
+          title: volume size
+          type: integer
+          x-omitempty: false
+          x-go-name: Size
+          x-isnullable: false
+        Zone:
+          example: us-east-1a
+          type: string
+      required:
+      - Size
+      type: object
+      x-go-name: VolumePlanInput
+    Plan:
+      example:
+        volumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+        replicationvolumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+      properties:
+        volumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+        replicationvolumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+      required:
+      - volumegroup
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

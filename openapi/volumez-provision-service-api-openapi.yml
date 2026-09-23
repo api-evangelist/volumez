@@ -1,0 +1,273 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Provision Service API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: provision-service
+paths:
+  /provision:
+    post:
+      operationId: Provision
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvisionRequest'
+        description: A provisioning object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionResponse'
+          description: provisioning ok
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: provisioning failed
+      security:
+      - storage.io-authorizer: []
+      summary: Volumez connector provisioning
+      tags:
+      - provision-service
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/provision
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+components:
+  schemas:
+    MachineInfo:
+      example:
+        instanceid: instance_id
+        machinename: machine_name
+        accountid: account_id
+        region: region
+        zone: zone
+        resourcenamespace: resource_namespace
+        physicalproximitygroup: physical_proximity_group
+        resiliencydomain: resiliency_domain
+        faultdomain: fault_domain
+        architecture: architecture
+        ipaddresses:
+        - 192.168.1.1
+        - 10.0.0.1
+        publicdns: public.dns.example.com
+        cluster: my-cluster
+        additional:
+        - key: key1
+          value: value1
+        - key: key2
+          value: value2
+      properties:
+        instanceid:
+          type: string
+        machinename:
+          type: string
+        accountid:
+          type: string
+        region:
+          type: string
+        zone:
+          type: string
+        resourcenamespace:
+          type: string
+        physicalproximity_group:
+          type: string
+        resiliencydomain:
+          type: string
+        faultdomain:
+          type: string
+        architecture:
+          type: string
+        ipaddresses:
+          items:
+            type: string
+          type: array
+        publicdns:
+          type: string
+        cluster:
+          type: string
+        additional:
+          items:
+            $ref: '#/components/schemas/AdditionalParam'
+          type: array
+      type: object
+    ProvisionRequest:
+      example:
+        boottime: bootTime
+        hostname: hostName
+        os: os
+        version:
+          major: 0
+          prerelease: preRelease
+          minor: 6
+          component: Component
+          patch: 1
+        cloudprovider: cloudProvider
+        machine_info:
+          instanceid: instanceid
+          machinename: machinename
+          accountid: accountid
+          resourcenamespace: resourceNamespace
+          physicalproximitygroup: physical proximity group
+          resiliencydomain: resiliencyDomain
+          faultdomain: faultDomain
+        tenanthosttoken: tenantHostToken
+      properties:
+        version:
+          $ref: '#/components/schemas/Version'
+        os:
+          type: string
+        tenanthosttoken:
+          type: string
+        hostname:
+          type: string
+        cloudprovider:
+          type: string
+        machineinfo:
+          $ref: '#/components/schemas/MachineInfo'
+        boottime:
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AdditionalParam:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
+    ProvisionResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Version:
+      example:
+        major: 0
+        prerelease: pre-release
+        minor: 6
+        component: component
+        patch: 1
+      properties:
+        component:
+          type: string
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        prerelease:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

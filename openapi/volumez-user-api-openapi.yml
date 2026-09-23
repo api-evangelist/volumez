@@ -1,0 +1,1702 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez User API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: User
+paths:
+  /signup:
+    post:
+      operationId: SignUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+        description: A user signup object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUpResponse'
+          description: Sign up was successful
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 401 Unauthorized
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error signing up
+      summary: Create Tenant's first user
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/signup
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /signout:
+    post:
+      operationId: signOut
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignOutRequest'
+        description: Access Token
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Sign out was successful
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 401 Unauthorized
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error signing out
+      summary: Signs out user from all devices
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/signout
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /signin:
+    post:
+      operationId: signIn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+        description: A signin object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+          description: signin successful
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error signing
+      summary: User SignIn
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/signin
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant/user:
+    get:
+      operationId: getTenantUser
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTenantUserResponse'
+          description: Got Tenant's User successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting user
+      security:
+      - storage.io-authorizer: []
+      summary: Get user details
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/user
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    post:
+      operationId: TenantUserCreate
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddTenantUserRequest'
+        description: new tenant's user
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: New user was created successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error adding user to exist tenant
+      security:
+      - storage.io-authorizer: []
+      summary: Create Tenant's additional user
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/tenant/user
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant/user/requestchangepassword:
+    post:
+      operationId: requestChangePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestChangePassword'
+        description: new user password
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Request for password change done successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error changing password
+      summary: Request change client password
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/tenant/user/requestchangepassword
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant/user/changepassword:
+    post:
+      operationId: approveChangePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordApproveRequest'
+        description: new user password
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: New password changed successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error changing password
+      summary: Change client password
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/tenant/user/changepassword
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant/user/changepasswordloggedin:
+    post:
+      operationId: ChangePasswordLoggedIn
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequestLoggedIn'
+        description: new user password when logged in
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: New password changed successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error changing password while login
+      security:
+      - storage.io-authorizer: []
+      summary: Change clients password when user is logged in
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/tenant/user/changepasswordloggedin
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /tenant/user/confirmation:
+    get:
+      operationId: userConfirm
+      parameters:
+      - description: Cognito Client ID
+        explode: true
+        in: query
+        name: client_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Cognito User Name
+        explode: true
+        in: query
+        name: user_name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Cognito Signup Confirmation Code
+        explode: true
+        in: query
+        name: confirmation_code
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: user has successfully confirmed
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Confirm user signup
+      summary: Confirm user signup
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/user/confirmation
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.client_id: method.request.querystring.client_id
+          integration.request.querystring.user_name: method.request.querystring.user_name
+          integration.request.querystring.confirmation_code: method.request.querystring.confirmation_code
+  /add-user:
+    post:
+      operationId: addUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserRequest'
+        description: New user attributes to add in Cognito
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: Tenant Groups users retrieved successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error Add user to tenant group users
+      summary: Add user to tenant group users
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/add-user
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /disable-user/{email}:
+    post:
+      operationId: disableUser
+      parameters:
+      - description: User email to disable
+        explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: User disabled successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error disable user
+      security:
+      - storage.io-authorizer: []
+      summary: disable user
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/disable-user/{email}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.email: method.request.path.email
+  /enable-user/{email}:
+    post:
+      operationId: enableUser
+      parameters:
+      - description: User email to enable
+        explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: User enabled successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error enable user
+      security:
+      - storage.io-authorizer: []
+      summary: enable user
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/enable-user/{email}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.email: method.request.path.email
+  /invite-user/{email}:
+    post:
+      operationId: inviteUser
+      parameters:
+      - description: User email to invite
+        explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteUserResponse'
+          description: User invited successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error invite a user to join tenant
+      security:
+      - storage.io-authorizer: []
+      summary: invite a user to join tenant (send add user signup email
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/invite-user/{email}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.email: method.request.path.email
+  /users/{tenantId}:
+    get:
+      operationId: TenantUsers
+      parameters:
+      - description: Tenant Id to get all users for
+        explode: false
+        in: path
+        name: tenantId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TenantUser'
+                type: array
+          description: get tenant users ok
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error List all tenant group users
+      security:
+      - storage.io-authorizer: []
+      summary: List all tenant group users
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/users/{tenantId}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.tenantId: method.request.path.tenantId
+  /azuremarketplace/subscription:
+    get:
+      operationId: GetSubscription
+      parameters:
+      - explode: true
+        in: query
+        name: token
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: confirmation of subscription registered
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Subscription not available
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error get subscription
+      summary: get subscription
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/azuremarketplace/subscription
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.token: method.request.querystring.token
+  /tenant/refreshtoken:
+    post:
+      operationId: getTenantRefreshToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetTenantRefreshTokenRequest'
+        required: true
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+          description: 200 response
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/user/tenant/refreshtoken
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Get tenant refresh token
+      x-summary-source: derived
+  /tenant/token:
+    get:
+      operationId: getTenantAccessToken
+      parameters:
+      - description: Tenant token authorization
+        explode: false
+        in: header
+        name: authorization
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantTokenResponse'
+          description: 200 response
+      security:
+      - storage.io-authorizer: []
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/token
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Get tenant access token
+      x-summary-source: derived
+  /tenant/tenantid:
+    get:
+      operationId: GetTenantIDFromTenantToken
+      parameters:
+      - explode: false
+        in: header
+        name: tenanttoken
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTenantIDResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTenantIDResponse'
+          description: 200 response
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/tenantid
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Get tenant ID from tenant token
+      x-summary-source: derived
+  /tenant/{tenantID}/tenanthosts/{tenantHost}:
+    delete:
+      operationId: deleteTenantHost
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: tenantHost
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: tenantID
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantHostDeleteResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantHostDeleteResponse'
+          description: 200 response
+      security:
+      - storage.io-authorizer: []
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: DELETE
+        uri: http://None:None/user/tenant/{tenantID}/tenanthosts/{tenantHost}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.tenantID: method.request.path.tenantID
+          integration.request.path.tenantHost: method.request.path.tenantHost
+      summary: Delete tenant host
+      x-summary-source: derived
+  /tenant/tenanthost/credentials:
+    get:
+      operationId: TenantHostAccessCredentials
+      parameters:
+      - explode: false
+        in: header
+        name: refreshtoken
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: tenantaccesstoken
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+          description: 200 response
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/tenanthost/credentials
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Tenant host access credentials
+      x-summary-source: derived
+  /tenant/tenanthost:
+    get:
+      operationId: getTenantHost
+      parameters:
+      - explode: false
+        in: header
+        name: tenanthosttoken
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: tenantaccesstoken
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTenantHostResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTenantHostResponse'
+          description: 200 response
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/tenanthost
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Get tenant host
+      x-summary-source: derived
+  /tenant/apiaccess/credentials/refresh:
+    get:
+      operationId: RefreshTenantAPIAccessCredentials
+      parameters:
+      - explode: false
+        in: header
+        name: refreshtoken
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+          description: 200 response
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/tenant/apiaccess/credentials/refresh
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Refresh tenant API access credentials
+      x-summary-source: derived
+  /sso/azure/mapping:
+    delete:
+      operationId: deleteAzureSSOMapping
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '204':
+          description: Azure SSO mapping deleted successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting Azure SSO mapping
+      security:
+      - storage.io-authorizer: []
+      summary: Delete Azure SSO Mapping
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: DELETE
+        uri: http://None:None/user/sso/azure/mapping
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    get:
+      operationId: getAzureSSOMapping
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAzureSSOMappingResponse'
+          description: Azure SSO mapping for tenant retrieved successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting Azure SSO mapping for tenant
+      security:
+      - storage.io-authorizer: []
+      summary: Get Azure SSO Mapping
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/sso/azure/mapping
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    put:
+      operationId: putAzureSSOMapping
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutAzureSSOMappingRequest'
+        description: Put Azure SSO Mapping for tenant
+        required: true
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+          description: Azure SSO mapping for tenant created/updated successfully
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating/updating Azure SSO mapping for tenant
+      security:
+      - storage.io-authorizer: []
+      summary: Put Azure SSO Mapping
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: PUT
+        uri: http://None:None/user/sso/azure/mapping
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /sso/callback/{userPoolID}/{applicationClientId}:
+    get:
+      operationId: handleSSOCallback
+      parameters:
+      - description: User Pool ID
+        explode: false
+        in: path
+        name: userPoolID
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Application Client ID
+        explode: false
+        in: path
+        name: applicationClientId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: code
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        '302':
+          description: Redirect with cookies
+          headers:
+            Set-Cookie:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Location:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Origin:
+              example:
+              - https://dev.volumez.com
+              - https://volumez.com
+              explode: false
+              schema:
+                example: '["https://dev.volumez.com","https://volumez.com"]'
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              example: GET, POST, OPTIONS
+              explode: false
+              schema:
+                example: GET, POST, OPTIONS
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              example: Content-Type, Authorization
+              explode: false
+              schema:
+                example: Content-Type, Authorization
+                type: string
+              style: simple
+            Access-Control-Allow-Credentials:
+              example: 'true'
+              explode: false
+              schema:
+                example: 'true'
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error handling SSO callback
+      summary: Handle SSO callback
+      tags:
+      - User
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/user/sso/callback/{userPoolID}/{applicationClientId}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.userPoolID: method.request.path.userPoolID
+          integration.request.path.applicationClientId: method.request.path.applicationClientId
+          integration.request.querystring.code: method.request.querystring.code
+components:
+  schemas:
+    GetTenantUserResponse:
+      example:
+        TenantID: TenantID
+        Email: Email
+        Message: Message
+        StatusCode: 0
+        Name: Name
+      properties:
+        StatusCode:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        Message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Email:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Name:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        TenantID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    ChangePasswordRequestLoggedIn:
+      example:
+        oldPassword: oldPassword
+        oldpassword: oldpassword
+        newPassword: newPassword
+        newpassword: newpassword
+        email: email
+      properties:
+        oldpassword:
+          type: string
+        email:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        newpassword:
+          type: string
+        oldPassword:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        newPassword:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    SignInResponse:
+      example:
+        IdToken: IdToken
+        ExpiresIn: 0
+        TokenType: TokenType
+        RefreshToken: RefreshToken
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        IdToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        RefreshToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        ExpiresIn:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        TokenType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - AccessToken
+      - ExpiresIn
+      - IdToken
+      - RefreshToken
+      - TokenType
+      type: object
+    ChangePasswordApproveRequest:
+      example:
+        password: password
+        name: name
+        guid: guid
+      properties:
+        password:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        name:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        guid:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    InviteUserResponse:
+      example:
+        Status: Status
+        Message: Message
+        ExpiresAt: 0
+        InviteeMail: InviteeMail
+      properties:
+        Message:
+          type: string
+        InviteeMail:
+          type: string
+        Status:
+          type: string
+        ExpiresAt:
+          type: integer
+      required:
+      - ExpiresAt
+      - InviteeMail
+      - Message
+      - Status
+      type: object
+    SignOutRequest:
+      example:
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - AccessToken
+      type: object
+    SignUpRequest:
+      example:
+        password: password
+        cloudProvider: cloudProvider
+        name: name
+        marketToken: marketToken
+        email: email
+      properties:
+        email:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        password:
+          minLength: 8
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        cloudProvider:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: true
+        marketToken:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: true
+      required:
+      - email
+      - name
+      - password
+      type: object
+    PutAzureSSOMappingRequest:
+      example:
+        SecurityGroupID: SecurityGroupID
+      properties:
+        SecurityGroupID:
+          minimum: 1
+          type: string
+      required:
+      - SecurityGroupID
+    SignUpResponse:
+      example:
+        message: message
+        status: 0
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - message
+      type: object
+    AddUserRequest:
+      example:
+        password: password
+        name: name
+        invitedUserToken: invitedUserToken
+        email: email
+      properties:
+        email:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        password:
+          minLength: 8
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        invitedUserToken:
+          maxLength: 300
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - email
+      - invitedUserToken
+      - name
+      - password
+      type: object
+    CreateAddTenantUserRequest:
+      example:
+        password: password
+        name: name
+        tenantId: tenantId
+        email: email
+      properties:
+        email:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        password:
+          minLength: 8
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        tenantId:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - email
+      - name
+      - password
+      - tenantId
+      type: object
+    GetTenantIDResponse:
+      example:
+        TenantID: TenantID
+        Message: Message
+        StatusCode: 0
+      properties:
+        StatusCode:
+          type: integer
+        Message:
+          type: string
+        TenantID:
+          type: string
+      required:
+      - StatusCode
+      type: object
+    GetTenantRefreshTokenRequest:
+      example:
+        hostname: hostname
+        tenantid: tenantid
+        accesstoken: accesstoken
+      properties:
+        accesstoken:
+          type: string
+        hostname:
+          type: string
+        tenantid:
+          type: string
+      required:
+      - accesstoken
+      - hostname
+      type: object
+    GetAzureSSOMappingResponse:
+      example:
+        SecurityGroupID: SecurityGroupID
+      properties:
+        SecurityGroupID:
+          minimum: 1
+          type: string
+      required:
+      - SecurityGroupID
+    TenantHostDeleteResponse:
+      example:
+        Message: Message
+        StatusCode: 0
+      properties:
+        StatusCode:
+          format: int32
+          type: integer
+        Message:
+          type: string
+      required:
+      - StatusCode
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    RefreshTokenResponse:
+      example:
+        IdToken: IdToken
+        TokenType: TokenType
+        AccessToken: AccessToken
+        AccessTokenExpiration: AccessTokenExpiration
+        IdTokenExpiration: IdTokenExpiration
+      properties:
+        AccessToken:
+          type: string
+        IdToken:
+          type: string
+        AccessTokenExpiration:
+          type: string
+        IdTokenExpiration:
+          type: string
+        TokenType:
+          type: string
+      type: object
+    TenantUser:
+      example:
+        Email: Email
+        UserName: UserName
+        CreatedDate: CreatedDate
+        Enabled: true
+        StatusCode: 0
+        Name: Name
+      properties:
+        Email:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        StatusCode:
+          type: integer
+        UserName:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Name:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        CreatedDate:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Enabled:
+          type: boolean
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - CreatedDate
+      - Email
+      - Enabled
+      - Name
+      - UserName
+      type: object
+    GetTenantHostResponse:
+      example:
+        TenantHost: TenantHost
+        TenantID: TenantID
+        Message: Message
+        StatusCode: 0
+      properties:
+        StatusCode:
+          format: int32
+          type: integer
+        Message:
+          type: string
+        TenantHost:
+          type: string
+        TenantID:
+          type: string
+      required:
+      - StatusCode
+      type: object
+    EmptyResponse:
+      type: object
+      x-isnullable: false
+      x-omitempty: false
+    TenantTokenResponse:
+      example:
+        TokenType: TokenType
+        ExpiresIn: 0
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          type: string
+        TokenType:
+          type: string
+        ExpiresIn:
+          type: integer
+      required:
+      - AccessToken
+      - ExpiresIn
+      - TokenType
+      type: object
+    SignInRequest:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        password:
+          minLength: 8
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - email
+      - password
+      type: object
+    RefreshToken:
+      example:
+        token: token
+      properties:
+        token:
+          type: string
+      type: object
+    RequestChangePassword:
+      example:
+        email: email
+      properties:
+        email:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

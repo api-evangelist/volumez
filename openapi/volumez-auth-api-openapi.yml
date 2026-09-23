@@ -1,0 +1,393 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Auth API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: Auth
+paths:
+  /roles/{tenantId}/{userId}:
+    get:
+      operationId: getRolesFromUserID
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: tenant ID
+        explode: false
+        in: path
+        name: tenantId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: user ID
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetRolesResponse'
+                type: array
+          description: Roles found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Roles not found
+      security:
+      - storage.io-authorizer: []
+      summary: Get all user roles
+      tags:
+      - Auth
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/auth/roles/{tenantId}/{userId}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.tenantId: method.request.path.tenantId
+          integration.request.path.userId: method.request.path.userId
+  /roles:
+    get:
+      operationId: getAllRolesForTenant
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetRolesResponse'
+                type: array
+          description: Roles found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Roles not found
+      security:
+      - storage.io-authorizer: []
+      summary: Get all tenant roles
+      tags:
+      - Auth
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        uri: http://None:None/auth/roles
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+  /role/{userId}/{roleId}:
+    patch:
+      operationId: updateUserRole
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: Role updated
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Role update failed
+      security:
+      - storage.io-authorizer: []
+      summary: Update user role
+      tags:
+      - Auth
+      x-amazon-apigateway-integration:
+        httpMethod: PATCH
+        uri: http://None:None/auth/role/{userId}/{roleId}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.userId: method.request.path.userId
+          integration.request.path.roleId: method.request.path.roleId
+components:
+  schemas:
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
+      type: string
+    GetRolesResponse:
+      example:
+        RoleName: RoleName
+        Policies:
+        - Policies
+        - Policies
+        roles:
+        - azureRole:
+            activeDirectoryId: activeDirectoryId
+            secretId: secretId
+            applicationId: applicationId
+          cloudProvider:
+            accountID: accountID
+            type: aws
+          awsRole:
+            externalId: externalId
+            arn: arn
+        - azureRole:
+            activeDirectoryId: activeDirectoryId
+            secretId: secretId
+            applicationId: applicationId
+          cloudProvider:
+            accountID: accountID
+            type: aws
+          awsRole:
+            externalId: externalId
+            arn: arn
+        RoleId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        roles:
+          items:
+            $ref: '#/components/schemas/GetRolesResponse_roles_inner'
+          type: array
+        RoleId:
+          format: uuid
+          type: string
+        RoleName:
+          type:
+          - string
+          - 'null'
+        Policies:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+          x-omitempty: true
+      required:
+      - roles
+      type: object
+    CloudProvider:
+      example:
+        accountID: accountID
+        type: aws
+      properties:
+        type:
+          $ref: '#/components/schemas/CloudProviderType'
+        accountID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - accountID
+      - type
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AWSRoleItem:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: false
+      required:
+      - arn
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    GetRolesResponse_roles_inner:
+      example:
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secretId: secretId
+          applicationId: applicationId
+        cloudProvider:
+          accountID: accountID
+          type: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProvider'
+        awsRole:
+          $ref: '#/components/schemas/AWSRoleItem'
+        azureRole:
+          $ref: '#/components/schemas/AzureRoleItem'
+      required:
+      - cloudProvider
+      type: object
+    AzureRoleItem:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secretId: secretId
+        applicationId: applicationId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secretId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - activeDirectoryId
+      - applicationId
+      - secretId
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

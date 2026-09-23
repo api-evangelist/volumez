@@ -1,0 +1,1027 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Infra Planner API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: Infra Planner
+paths:
+  /infra-planner/create-infra-plan:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Infra Planner
+      summary: Describe infra planner create infra plan
+      x-summary-source: derived
+      operationId: optionsInfraPlannerCreateInfraPlan
+      x-operation-id-source: derived
+    post:
+      operationId: createInfraPlan
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: validate the given resources
+        explode: true
+        in: query
+        name: shouldValidate
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInfraPlanRequest'
+        required: true
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Infra plan request is not valid
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found policy/role
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Create infra plan is failed
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInfraPlanResponse'
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      tags:
+      - Infra Planner
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/infra-planner/create-infra-plan
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.querystring.shouldValidate: method.request.querystring.shouldValidate
+      summary: Create infra plan
+      x-summary-source: derived
+  /infra-planner/create-infra-plan/public:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Infra Planner
+      summary: Describe infra planner create infra plan public
+      x-summary-source: derived
+      operationId: optionsInfraPlannerCreateInfraPlanPublic
+      x-operation-id-source: derived
+    post:
+      operationId: createPublicInfraPlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInfraPlanRequest'
+        required: true
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Infra plan request is not valid
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Create infra plan is failed
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInfraPlanResponse'
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      tags:
+      - Infra Planner
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/infra-planner/create-infra-plan/public
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Create public infra plan
+      x-summary-source: derived
+  /infra-planner/provider-pricing-info:
+    options:
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Infra Planner
+      summary: Describe infra planner provider pricing info
+      x-summary-source: derived
+      operationId: optionsInfraPlannerProviderPricingInfo
+      x-operation-id-source: derived
+    post:
+      operationId: ProviderPricingInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderPricingInfoRequest'
+        required: true
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Infra plan request is not valid
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Create infra plan is failed
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderPricingInfoResponse'
+          description: 200 response
+      tags:
+      - Infra Planner
+      x-amazon-apigateway-integration:
+        httpMethod: POST
+        uri: http://None:None/infra-planner/provider-pricing-info
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      summary: Provider pricing info
+      x-summary-source: derived
+components:
+  schemas:
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    ProviderPriceItem:
+      example:
+        storageType: storageType
+        volumeBasePrice: 0.8008282
+        volumeTotalPrice: 6.0274563
+      properties:
+        storageType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        volumeBasePrice:
+          format: float
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+        volumeTotalPrice:
+          format: float
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - storageType
+      - volumeBasePrice
+      - volumeTotalPrice
+      type: object
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
+      type: string
+    CreateInfraPlanRequest_policy:
+      example:
+        settings:
+          bandwidthWrite: 0
+          resiliencyMedia: 0
+          latencyReadCold: 0
+          snapshotDay: 7
+          integrity: true
+          sed: true
+          encryption: true
+          capacityReservation: 180
+          resiliencyZone: 0
+          snapshotMinute: 4
+          iopsRead: 0
+          resiliencyNode: 0
+          iopsWrite: 0
+          snapshotKeep: 6
+          failurePerformance: true
+          snapshotFrequency: snapshotFrequency
+          latencyRead: 0
+          resiliencyRegion: 0
+          latencyWrite: 0
+          replicationRpo: 368
+          capacityOptimization: capacity
+          localZoneRead: true
+          coldData: 93
+          snapshotHour: 1
+          replicationBandwidth: 1
+          bandwidthRead: 0
+        name: name
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+          x-isnullable: true
+        settings:
+          $ref: '#/components/schemas/CreateInfraPlanRequest_policy_settings'
+      type: object
+    CreateInfraPlanRequest_policy_settings:
+      example:
+        bandwidthWrite: 0
+        resiliencyMedia: 0
+        latencyReadCold: 0
+        snapshotDay: 7
+        integrity: true
+        sed: true
+        encryption: true
+        capacityReservation: 180
+        resiliencyZone: 0
+        snapshotMinute: 4
+        iopsRead: 0
+        resiliencyNode: 0
+        iopsWrite: 0
+        snapshotKeep: 6
+        failurePerformance: true
+        snapshotFrequency: snapshotFrequency
+        latencyRead: 0
+        resiliencyRegion: 0
+        latencyWrite: 0
+        replicationRpo: 368
+        capacityOptimization: capacity
+        localZoneRead: true
+        coldData: 93
+        snapshotHour: 1
+        replicationBandwidth: 1
+        bandwidthRead: 0
+      properties:
+        iopsWrite:
+          description: Enter the maximum write IOPS that a volume is expected to sustain (assuming 8K writes). Write IOPS should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        iopsRead:
+          description: Enter the maximum read IOPS that a volume is expected to sustain (assuming 8K reads). Read IOPS should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        bandwidthWrite:
+          description: Enter the maximum write bandwidth that a volume is expected to sustain. Write Bandwidth should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        bandwidthRead:
+          description: Enter the maximum read bandwidth that a volume is expected to sustain. Read Bandwidth should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencyWrite:
+          description: Enter the maximum latency that a volume is expected to sustain. Write latency should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencyRead:
+          description: Enter the maximum read IOPS that a volume is expected to sustain. Read latency should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencyReadCold:
+          description: ' If not all the reads are hot (i.e., Percentage of Cold Reads is >0) Enter the more relaxed constraints for read latencies of cold data.  Valid values: non-negative integer number, that is larger than “Read Latency”.'
+          minimum: 0
+          type: integer
+        coldData:
+          description: 'Enter the percentage of the volumes capacity that is expected to be cold (i.e. expected to only have infrequent reads). Default is 0%. Values that are greater than 0 give Volumez the option to use more economic media with more relaxed read performance requirements. Valid values: Integers in the range of 0..100.'
+          maximum: 100
+          minimum: 0
+          type: integer
+        localZoneRead:
+          description: Setting this value to Yes directs Volumez to prefer volume configurations where reads are usually happening from disks that are in the same zone as the application. This saves east-west network traffic across zones, however more media per zone will be required to achieve read-IOPs requirements. Set this value to Yes if you have network constraints (bandwidth or cost) across your zones; otherwise set it to No
+          type: boolean
+        failurePerformance:
+          description: Setting this value to Yes directs Volumez to over-provision volumes in a way that even after having a failure, the volumes will have the desired performance. Setting this value to No directs Volumez to provision volumes according to the desired performance, however in a case of failure performance may be impacted. The default value is No.
+          type: boolean
+        capacityOptimization:
+          description: Choosing Capacity directs Volumez to prefer using capacity-saving methods (such as compression, deduplication, erasure coding and thin provisioning) where relevant, in order to consume the minimum amount of raw media. Using such methods might take some CPU cycles, and might reduce the performance of your volumes (it will still be within the range you specified). Choosing Balanced directs Volumez to prefer using some capacity-saving methods where relevant, in order to use less raw media, while consuming a small amount of CPU cycles. “Performance Optimized” directs Volumez to avoid using capacity-saving any methods (such as compression and deduplication) that reduce media consumption. This way applications can get the optimal performance from their media, however more raw media might be consumed to provision Performance-Optimized volumes.
+          enum:
+          - capacity
+          - balanced
+          - performance
+          type: string
+        capacityReservation:
+          description: Enter how much logical capacity is reserved up-front for the applications to use. If more capacity is needed for the volume, it will be allocated based on availability of media. Capacities that are reserved can be used for the volume itself and for its snapshots. For example – Use 0% for thin-provisioned volumes, 130% for thick-provisioned volumes with estimated 30% of space for snapshots. Valid values are 0%-500%, default is 20%.
+          maximum: 500
+          minimum: 0
+          type: integer
+        resiliencyMedia:
+          description: ' Enter how many media failures (e.g. disk, memory card) the system is required to sustain, and still serve volumes of this policy. A value of “0” means any disk failure will result data unavailability and loss. Valid values are 0..3, default value is 2.'
+          maximum: 2
+          minimum: 0
+          type: integer
+        resiliencyNode:
+          description: Enter how many Volumez node (e.g. EC2 instance, server) failures the system is required to sustain, and still serve volumes of this policy. This is different than “Media failures” because sometimes multiple media copies may end on a single node. A value of “0” means any node failure will result data unavailability and loss. Valid values are 0..3, default value is 1.
+          maximum: 2
+          minimum: 0
+          type: integer
+        resiliencyZone:
+          description: 'Enter how many zones (e.g. AWS availability zones, DataCenters Buildings) failures the system is required to sustain, and still serve volumes of this policy. Note: zones are assumed to be within the same metro distance, and resiliency to zone failures means cross-zone network traffic. Valid values are 0..2, default value is 1.'
+          minimum: 0
+          type: integer
+        resiliencyRegion:
+          description: 'Enter how many regions (e.g. AWS regions zones, DataCenters across continents) failures the system is required to sustain, and still serve volumes of this policy. Note: regions are assumed to reside across WAN distance, with some bandwidth limitations. Valid values are 0 and 1, default value is 0.'
+          maximum: 1
+          minimum: 0
+          type: integer
+        replicationRpo:
+          description: 'Enter how many seconds are allowed for the replica to stay behind the primary storage. 0 means synchronous replication. Valid values are 0..3600, default value is 0. Max value: 3600. (1 hour).'
+          maximum: 3600
+          minimum: 0
+          type: integer
+        replicationBandwidth:
+          description: Specifies the maximum bandwidth that Volumez is allowed to consume for replication of this volume (MB/s). 0 means no bandwidth limitation.
+          type: integer
+        encryption:
+          description: 'Enter YESto encrypt the data in server where the application is running. Note: No change is needed in the applications themselves, however encryption will consume some CPU cycles on the application server. Default value NO.'
+          type: boolean
+        sed:
+          description: 'Enter YES to direct Volumez to only use media with disk encryption capabilities. Note that specifying NO can still use such media, however it is not a must to use it. Default value: NO.'
+          type: boolean
+        integrity:
+          description: 'Enter YES to direct Volumez to activate the Device Mapper integrity protection for the volume. This capability provides strong integrity checking. Note: No change is needed in the applications themselves, however Data Integrity will consume non-negligible CPU cycles on the application server. Default value: NO.'
+          type: boolean
+        snapshotKeep:
+          type: integer
+        snapshotFrequency:
+          type: string
+        snapshotDay:
+          type: integer
+        snapshotHour:
+          type: integer
+        snapshotMinute:
+          type: integer
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    ProviderPricingInfoResponse:
+      example:
+        totalPriceList:
+        - storageType: storageType
+          volumeBasePrice: 0.8008282
+          volumeTotalPrice: 6.0274563
+        - storageType: storageType
+          volumeBasePrice: 0.8008282
+          volumeTotalPrice: 6.0274563
+      properties:
+        totalPriceList:
+          items:
+            $ref: '#/components/schemas/ProviderPriceItem'
+          type: array
+      required:
+      - totalPriceList
+      type: object
+    CreateInfraPlanRequest:
+      example:
+        accountId: accountId
+        size: 5
+        cloudProvider: aws
+        osType: ubuntu
+        region: region
+        zones:
+        - zones
+        - zones
+        policy:
+          settings:
+            bandwidthWrite: 0
+            resiliencyMedia: 0
+            latencyReadCold: 0
+            snapshotDay: 7
+            integrity: true
+            sed: true
+            encryption: true
+            capacityReservation: 180
+            resiliencyZone: 0
+            snapshotMinute: 4
+            iopsRead: 0
+            resiliencyNode: 0
+            iopsWrite: 0
+            snapshotKeep: 6
+            failurePerformance: true
+            snapshotFrequency: snapshotFrequency
+            latencyRead: 0
+            resiliencyRegion: 0
+            latencyWrite: 0
+            replicationRpo: 368
+            capacityOptimization: capacity
+            localZoneRead: true
+            coldData: 93
+            snapshotHour: 1
+            replicationBandwidth: 1
+            bandwidthRead: 0
+          name: name
+        subnetIds:
+        - subnetIds
+        - subnetIds
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        policy:
+          $ref: '#/components/schemas/CreateInfraPlanRequest_policy'
+        osType:
+          $ref: '#/components/schemas/OSType'
+        size:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        region:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        zones:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+          x-isnullable: true
+        subnetIds:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+          x-isnullable: true
+        accountId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - cloudProvider
+      - policy
+      - size
+      type: object
+    OSType:
+      enum:
+      - ubuntu
+      - rhel
+      type: string
+    ProviderPricingInfoRequest:
+      example:
+        size: 6
+        cloudProvider: aws
+        iops: 0
+        throughput: 1
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        iops:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        size:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        throughput:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - cloudProvider
+      - iops
+      - size
+      type: object
+    CreateInfraPlanResponse:
+      example:
+        mediaIOPSRead: 5
+        totalPrice: 6.027456183070403
+        volumezPrice: 1.4658129805029452
+        instanceType: instanceType
+        instancesCount: 0
+        mediaIOPSWrite: 5
+        zones:
+        - zones
+        - zones
+        mediaBandwidthWrite: 2
+        providerInstanceType: providerInstanceType
+        mediaSize: 9
+        encryption: true
+        raidColumns: 3
+        raidResiliency: raidResiliency
+        osType: ubuntu
+        redundancy: 2
+        mediaBandwidthRead: 7
+        subnetIds:
+        - subnetIds
+        - subnetIds
+      properties:
+        instancesCount:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        instanceType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        providerInstanceType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        totalPrice:
+          format: double
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+        volumezPrice:
+          format: double
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+        mediaIOPSRead:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        mediaIOPSWrite:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        mediaBandwidthWrite:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        mediaBandwidthRead:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        raidResiliency:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        zones:
+          items:
+            type: string
+          type: array
+        subnetIds:
+          items:
+            type: string
+          type: array
+        osType:
+          $ref: '#/components/schemas/OSType'
+        encryption:
+          type: boolean
+          x-omitempty: false
+          x-isnullable: false
+        mediaSize:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        raidColumns:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        redundancy:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - encryption
+      - instanceType
+      - instancesCount
+      - mediaBandwidthRead
+      - mediaBandwidthWrite
+      - mediaIOPSRead
+      - mediaIOPSWrite
+      - mediaSize
+      - osType
+      - raidColumns
+      - raidResiliency
+      - redundancy
+      - subnetIds
+      - totalPrice
+      - volumezPrice
+      - zones
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

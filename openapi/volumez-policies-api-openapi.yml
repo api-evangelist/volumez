@@ -1,0 +1,1675 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Policies API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- description: Policies allow you to declare the desired characteristics of volumes you will later create. Policies are expressed in terms of outcomes (such as desired performance and resiliency). When you later ask Volumez to create volumes using a policy, it will automatically allocate and configure whatever is necessary to match these desired outcomes.
+  name: Policies
+paths:
+  /policies:
+    get:
+      operationId: PoliciesList
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Policy'
+                type: array
+          description: List of policies
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of policies
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of policies
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting a list of policies
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get a list of policies
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Policies
+      summary: Describe policies
+      x-summary-source: derived
+      operationId: optionsPolicies
+      x-operation-id-source: derived
+    post:
+      operationId: PolicyCreate
+      parameters:
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Policy'
+        description: A Policy object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: New policy was created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error creating new policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Create a new policy
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+      x-codegen-request-body-name: body
+  /policies/{policy}:
+    delete:
+      operationId: PolicyDelete
+      parameters:
+      - explode: false
+        in: path
+        name: policy
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A policy was deleted successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error deleting a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Delete a policy
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: delete
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies/{policy}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.policy: method.request.path.policy
+    get:
+      operationId: PolicyGet
+      parameters:
+      - explode: false
+        in: path
+        name: policy
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+          description: Properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of a policy
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies/{policy}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.policy: method.request.path.policy
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Policies
+      summary: Describe policies by policy
+      x-summary-source: derived
+      operationId: optionsPoliciesByPolicy
+      x-operation-id-source: derived
+    patch:
+      operationId: PolicyModify
+      parameters:
+      - explode: false
+        in: path
+        name: policy
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Policy'
+        description: A Policy object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegularResponse'
+          description: A policy was updated successfully
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error updating a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Modify a policy
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: patch
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies/{policy}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.policy: method.request.path.policy
+      x-codegen-request-body-name: body
+  /policies/{policy}/volumes:
+    get:
+      operationId: PolicyGetVolumes
+      parameters:
+      - explode: false
+        in: path
+        name: policy
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Volume'
+                type: array
+          description: List of volumes, using given policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting properties of a policy
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Get the properties of a policy
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies/{policy}/volumes
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.policy: method.request.path.policy
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Policies
+      summary: Describe policies by policy volumes
+      x-summary-source: derived
+      operationId: optionsPoliciesByPolicyVolumes
+      x-operation-id-source: derived
+  /policies/{policy}/size/{size}/zone/{zone}:
+    get:
+      operationId: PolicyPlan
+      parameters:
+      - explode: false
+        in: path
+        name: policy
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: size
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: zone
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: capacity_group
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+          description: Policy volume group plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting policy volume group plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting policy volume group plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Error getting policy volume group plan
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - storage.io-authorizer: []
+      summary: Show policy volume create plan
+      tags:
+      - Policies
+      x-amazon-apigateway-integration:
+        httpMethod: get
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/policies/{policy}/size/{size}/zone/{zone}
+        passthroughBehavior: when_no_match
+        type: http_proxy
+        timeoutInMillis: 29000
+        requestParameters:
+          integration.request.header.X-Request-ID: context.requestId
+          integration.request.path.policy: method.request.path.policy
+          integration.request.path.size: method.request.path.size
+          integration.request.path.zone: method.request.path.zone
+          integration.request.querystring.capacity_group: method.request.querystring.capacity_group
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: string
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 500 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 400 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 404 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 202 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 409 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: string
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS,POST,PATCH,DELETE'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Policies
+      summary: Describe policies by policy size by size zone by zone
+      x-summary-source: derived
+      operationId: optionsPoliciesByPolicySizeBySizeZoneByZone
+      x-operation-id-source: derived
+components:
+  schemas:
+    Volume:
+      example:
+        replicationvolumegroupname: replicationvolumegroupname
+        type: file
+        throttlingscheme: throttlingscheme
+        zone: zone
+        volumerecoveryjob: volumerecoveryjob
+        capacitygroup: capacitygroup
+        state: state
+        zonereplica: zonereplica
+        consistencygroup: consistencygroup
+        policy: policy
+        contentsnapshot: contentsnapshot
+        contentvolume: contentvolume
+        volumegroupid: volumegroupid
+        replicationnode: replicationnode
+        flavor: regular
+        node: node
+        size: 83973
+        volumegroupname: volumegroupname
+        replicationvolumegroupid: replicationvolumegroupid
+        name: name
+        volumeid: volumeid
+        progress: 1
+        maxsize: 6
+        status: status
+        allowdatamovement: false
+      properties:
+        name:
+          minLength: 1
+          title: Volume name
+          type: string
+        volumeid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        type:
+          enum:
+          - file
+          - block
+          type: string
+        contentvolume:
+          type: string
+        contentsnapshot:
+          type: string
+        size:
+          maximum: 1048576
+          minimum: 1
+          title: Size, GiB
+          type: integer
+        maxsize:
+          readOnly: true
+          title: Upper limit size, GiB
+          type: integer
+        policy:
+          minLength: 1
+          type: string
+        consistencygroup:
+          type: string
+        node:
+          readOnly: true
+          type: string
+        zone:
+          minLength: 1
+          type: string
+        zonereplica:
+          type: string
+        volumegroupname:
+          minLength: 1
+          title: Volume Group name
+          type: string
+        volumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        replicationnode:
+          type: string
+        replicationvolumegroupname:
+          minLength: 1
+          title: Replication Volume Group name
+          type: string
+        replicationvolumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Replication Volume ID
+          type: string
+        volumerecoveryjob:
+          minLength: 1
+          readOnly: true
+          title: Volume Recovery Job ID
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          minLength: 1
+          title: Capacity group from which the volume is allocated
+          type: string
+        throttlingscheme:
+          minLength: 1
+          title: Throttling Scheme for the volume
+          type: string
+        allowdatamovement:
+          default: false
+          title: Allow movement of the volume
+          type: boolean
+        flavor:
+          enum:
+          - regular
+          - filedirect
+          type: string
+      required:
+      - name
+      - policy
+      - size
+      - type
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Policy:
+      example:
+        capacityoptimization: capacity
+        latencywrite: 0
+        resiliencynode: 0
+        snapshotkeep: 1
+        snapshotminute: 6
+        integrity: true
+        sed: true
+        encryption: true
+        failureperformance: true
+        updatebyUseremail: updatebyUseremail
+        latencyreadcold: 0
+        bandwidthwrite: 0
+        resiliencymedia: 0
+        resiliencyzone: 0
+        localzoneread: true
+        iopsread: 0
+        snapshotfrequency: snapshotfrequency
+        snapshotday: 1
+        snapshothour: 1
+        colddata: 93
+        createdbyuserName: createdbyuserName
+        createdtime: createdtime
+        bandwidthread: 0
+        capacityreservation: 180
+        latencyread: 0
+        createdbyuseremail: createdbyuseremail
+        name: name
+        iopswrite: 0
+        updatetime: updatetime
+        updatebyusername: updatebyusername
+      properties:
+        name:
+          description: A name for the policy. The name can be any non-empty string that does not contain a white space.
+          minLength: 1
+          type: string
+        iopswrite:
+          description: Enter the maximum write IOPS that a volume is expected to sustain (assuming 8K writes). Write IOPS should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        iopsread:
+          description: Enter the maximum read IOPS that a volume is expected to sustain (assuming 8K reads). Read IOPS should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        bandwidthwrite:
+          description: Enter the maximum write bandwidth that a volume is expected to sustain. Write Bandwidth should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        bandwidthread:
+          description: Enter the maximum read bandwidth that a volume is expected to sustain. Read Bandwidth should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencywrite:
+          description: Enter the maximum latency that a volume is expected to sustain. Write latency should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencyread:
+          description: Enter the maximum read IOPS that a volume is expected to sustain. Read latency should be a positive integer number. Volumez will guarantee to provide this performance, regardless of the volume size or other volumes.
+          minimum: 0
+          type: integer
+        latencyreadcold:
+          description: ' If not all the reads are hot (i.e., Percentage of Cold Reads is >0) – Enter the more relaxed constraints for read latencies of cold data.  Valid values: non-negative integer number, that is larger than “Read Latency”.'
+          minimum: 0
+          readOnly: true
+          type: integer
+        colddata:
+          description: 'Enter the percentage of the volume’s capacity that is expected to be “cold” (i.e. expected to only have infrequent reads). Default is 0%. Values that are greater than 0 give Volumez the option to use more economic media with more relaxed read performance requirements. Valid values: Integers in the range of 0..100.'
+          maximum: 100
+          minimum: 0
+          readOnly: true
+          type: integer
+        localzoneread:
+          description: Setting this value to “Yes” directs Volumez to prefer volume configurations where reads are usually happening from disks that are in the same zone as the application. This saves east-west network traffic across zones, however more media per zone will be required to achieve read-IOPs requirements. Set this value to “Yes” if you have network constraints (bandwidth or cost) across your zones; otherwise set it to “No”.
+          type: boolean
+        failureperformance:
+          description: Setting this value to “Yes” directs Volumez to over-provision volumes in a way that even after having a failure, the volumes will have the desired performance. Setting this value to “No” directs Volumez to provision volumes according to the desired performance, however in a case of failure – performance may be impacted. The default value is “No”.
+          type: boolean
+        capacityoptimization:
+          description: Choosing “Capacity” directs Volumez to prefer using capacity-saving methods (such as compression, deduplication, erasure coding and thin provisioning) where relevant, in order to consume the minimum amount of raw media. Using such methods might take some CPU cycles, and might reduce the performance of your volumes (it will still be within the range you specified). Choosing “Balanced” directs Volumez to prefer using some capacity-saving methods where relevant, in order to use less raw media, while consuming a small amount of CPU cycles. “Performance Optimized” directs Volumez to avoid using capacity-saving any methods (such as compression and deduplication) that reduce media consumption. This way applications can get the optimal performance from their media, however more raw media might be consumed to provision Performance-Optimized volumes.
+          enum:
+          - capacity
+          - balanced
+          - performance
+          type: string
+        capacityreservation:
+          description: Enter how much logical capacity is reserved up-front for the applications to use. If more capacity is needed for the volume, it will be allocated based on availability of media. Capacities that are reserved can be used for the volume itself and for its snapshots. For example – Use 0% for thin-provisioned volumes, 130% for thick-provisioned volumes with estimated 30% of space for snapshots. Valid values are 0%-500%, default is 20%.
+          maximum: 500
+          minimum: 0
+          type: integer
+        resiliencymedia:
+          description: ' Enter how many media failures (e.g. disk, memory card) the system is required to sustain, and still serve volumes of this policy. A value of “0” means any disk failure will result data unavailability and loss. Valid values are 0..3, default value is 2.'
+          maximum: 2
+          minimum: 0
+          type: integer
+        resiliencynode:
+          description: Enter how many Volumez node (e.g. EC2 instance, server) failures the system is required to sustain, and still serve volumes of this policy. This is different than “Media failures” because sometimes multiple media copies may end on a single node. A value of “0” means any node failure will result data unavailability and loss. Valid values are 0..3, default value is 1.
+          maximum: 2
+          minimum: 0
+          type: integer
+        resiliencyzone:
+          description: 'Enter how many zones (e.g. AWS availability zones, DataCenters Buildings) failures the system is required to sustain, and still serve volumes of this policy. Note: zones are assumed to be within the same metro distance, and resiliency to zone failures means cross-zone network traffic. Valid values are 0..2, default value is 1.'
+          minimum: 0
+          type: integer
+        encryption:
+          description: 'Enter “YES” to encrypt the data in server where the application is running. Note: No change is needed in the applications themselves, however encryption will consume some CPU cycles on the application server. Default value NO.'
+          type: boolean
+        sed:
+          description: 'Enter “YES” to direct Volumez to only use media with disk encryption capabilities. Note that specifying “NO” can still use such media, however it is not a must to use it. Default value: NO.'
+          type: boolean
+        integrity:
+          description: 'Enter “YES” to direct Volumez to activate the “Device Mapper integrity” protection for the volume. This capability provides strong integrity checking. Note: No change is needed in the applications themselves, however Data Integrity will consume non-negligible CPU cycles on the application server. Default value: NO.'
+          type: boolean
+        snapshotkeep:
+          type: integer
+        snapshotfrequency:
+          type: string
+        snapshotday:
+          type: integer
+        snapshothour:
+          type: integer
+        snapshotminute:
+          type: integer
+        createdbyuserName:
+          type: string
+        createdbyuseremail:
+          type: string
+        createdtime:
+          type: string
+        updatebyusername:
+          type: string
+        updatebyUseremail:
+          type: string
+        updatetime:
+          type: string
+      required:
+      - capacityoptimization
+      - name
+      type: object
+    Attachment:
+      example:
+        node: node
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
+        volumeid: volumeid
+        progress: 1
+        snapshotname: snapshotname
+        state: state
+        status: status
+        mountpoint: mountpoint
+      properties:
+        volumename:
+          title: Volume name
+          type: string
+        volumeid:
+          readOnly: true
+          title: Volume ID
+          type: string
+        snapshotname:
+          title: Snapshot Name
+          type: string
+        snapshotid:
+          readOnly: true
+          title: Snapshot ID
+          type: string
+        node:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        mountpoint:
+          title: Mount point
+          type: string
+        readonly:
+          title: Read Only
+          type: boolean
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
+      required:
+      - node
+      type: object
+    Plan:
+      example:
+        volumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+        replicationvolumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+      properties:
+        volumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+        replicationvolumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+      required:
+      - volumegroup
+      type: object
+    VolumeGroup:
+      example:
+        cachemediasize: 1
+        attachments:
+        - node: node
+          allocated_resources: 50
+          snapshotid: snapshotid
+          volumename: volumename
+          readonly: true
+          volumeid: volumeid
+          progress: 1
+          snapshotname: snapshotname
+          state: state
+          status: status
+          mountpoint: mountpoint
+        - node: node
+          allocated_resources: 50
+          snapshotid: snapshotid
+          volumename: volumename
+          readonly: true
+          volumeid: volumeid
+          progress: 1
+          snapshotname: snapshotname
+          state: state
+          status: status
+          mountpoint: mountpoint
+        cachemediabandwidthwrite: 1
+        writecache: true
+        mediasize: 5
+        Volumegroupname: Volumegroupname
+        targetsecret: targetsecret
+        deduplication: true
+        media:
+        - media
+        - media
+        cachesize: 2
+        cachemediaiopsread: 7
+        encryption: true
+        cachemedia:
+        - cachemedia
+        - cachemedia
+        redundancy: 0
+        raidcolumns: 5
+        allocatedsize: 1
+        cachemediabandwidthread: 1
+        mediaiopswrite: 9
+        cacheraidcolumns: 7
+        allocation: allocation
+        cacheredundancy: 4
+        cacheresiliency: cacheresiliency
+        resiliency: resiliency
+        mediabandwidthwrite: 2
+        mediabandwidthread: 7
+        size: 6
+        cachemediaiopswrite: 6
+        mediaiopsread: 3
+        compression: true
+        Integrity: true
+      properties:
+        Volumegroupname:
+          readOnly: true
+          type: string
+        encryption:
+          type: boolean
+        Integrity:
+          type: boolean
+        allocation:
+          type: string
+        compression:
+          type: boolean
+        deduplication:
+          type: boolean
+        writecache:
+          type: boolean
+        redundancy:
+          type: integer
+        size:
+          type: integer
+        targetsecret:
+          minLength: 1
+          title: Target connect secret
+          type: string
+        allocatedsize:
+          type: integer
+        resiliency:
+          type: string
+        raidcolumns:
+          type: integer
+        mediasize:
+          type: integer
+        mediabandwidthwrite:
+          type: integer
+        mediabandwidthread:
+          type: integer
+        mediaiopswrite:
+          type: integer
+        mediaiopsread:
+          type: integer
+        media:
+          items:
+            type: string
+          type: array
+        cachesize:
+          type: integer
+        cacheresiliency:
+          type: string
+        cacheredundancy:
+          type: integer
+        cacheraidcolumns:
+          type: integer
+        cachemediasize:
+          type: integer
+        cachemediabandwidthwrite:
+          type: integer
+        cachemediabandwidthread:
+          type: integer
+        cachemediaiopswrite:
+          type: integer
+        cachemediaiopsread:
+          type: integer
+        cachemedia:
+          items:
+            type: string
+          type: array
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'

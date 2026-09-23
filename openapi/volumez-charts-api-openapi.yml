@@ -1,0 +1,212 @@
+openapi: 3.2.0
+info:
+  description: Volumez orchestrator API
+  title: Volumez Charts API
+  version: 1.0.0 - 8d1ee8c4
+  x-squire-version: 1.54.0
+servers:
+- url: https://api.dev.volumez.com
+tags:
+- name: Charts
+paths:
+  /charts:
+    options:
+      responses:
+        '200':
+          content: {}
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              explode: false
+              schema:
+                type: object
+              style: simple
+            Access-Control-Allow-Methods:
+              explode: false
+              schema:
+                type: object
+              style: simple
+            Access-Control-Allow-Headers:
+              explode: false
+              schema:
+                type: object
+              style: simple
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: when_no_match
+        type: mock
+      tags:
+      - Charts
+      summary: Describe charts
+      x-summary-source: derived
+      operationId: optionsCharts
+      x-operation-id-source: derived
+  /charts/{proxy+}:
+    x-amazon-apigateway-any-method:
+      parameters:
+      - name: authorization
+        in: header
+        required: false
+        type: string
+      - name: theme
+        in: query
+        required: false
+        type: string
+      - name: kiosk
+        in: query
+        required: false
+        type: string
+      - name: orgId
+        in: query
+        required: false
+        type: string
+      - name: proxy
+        in: path
+        required: true
+        type: string
+      - name: refresh
+        in: query
+        required: false
+        type: string
+      - name: from
+        in: query
+        required: false
+        type: string
+      - name: to
+        in: query
+        required: false
+        type: string
+      responses: {}
+      x-amazon-apigateway-integration:
+        httpMethod: ANY
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/{proxy}
+        responses:
+          default:
+            statusCode: '200'
+        requestParameters:
+          integration.request.querystring.from: method.request.querystring.from
+          integration.request.querystring.to: method.request.querystring.to
+          integration.request.querystring.theme: method.request.querystring.theme
+          integration.request.path.proxy: method.request.path.proxy
+          integration.request.querystring.refresh: method.request.querystring.refresh
+          integration.request.querystring.kiosk: method.request.querystring.kiosk
+          integration.request.querystring.orgId: method.request.querystring.orgId
+        passthroughBehavior: when_no_match
+        type: http_proxy
+    options:
+      parameters:
+      - explode: false
+        in: path
+        name: proxy
+        required: true
+        schema:
+          type: string
+        style: simple
+      x-amazon-apigateway-integration:
+        httpMethod: ANY
+        uri: http://vlz-main-nlb-18ba9f518fe57637.elb.us-east-1.amazonaws.com:8991:8000/{proxy}
+        responses:
+          default:
+            statusCode: '200'
+        requestParameters:
+          integration.request.path.proxy: method.request.path.proxy
+        passthroughBehavior: when_no_match
+        type: http_proxy
+      tags:
+      - Charts
+      summary: Describe charts by proxy+
+      x-summary-source: derived
+      operationId: optionsChartsByProxy+
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    storage.io-authorizer:
+      in: header
+      name: authorization
+      type: apiKey
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        providerARNs:
+        - arn:aws:cognito-idp:us-east-1:125714719355:userpool/us-east-1_Mk5LdUo2I
+        type: cognito_user_pools
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNAUTHORIZED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  ACCESS_DENIED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  RESOURCE_NOT_FOUND:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  THROTTLED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_FAILURE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  AUTHORIZER_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  INVALID_API_KEY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_PARAMETERS:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  BAD_REQUEST_BODY:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  REQUEST_TOO_LARGE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  UNSUPPORTED_MEDIA_TYPE:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  API_CONFIGURATION_ERROR:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+  QUOTA_EXCEEDED:
+    responseParameters:
+      gatewayresponse.header.access-control-allow-origin: '''*'''
+    responseTemplates:
+      application/json: '{"Message":$context.error.messageString}'
+x-original-swagger-version: '2.0'
