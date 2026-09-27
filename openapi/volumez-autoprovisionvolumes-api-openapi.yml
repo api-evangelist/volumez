@@ -341,6 +341,15 @@ components:
       - size
       - type
       type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     AutoProvisionInfraPlan:
       example:
         instanceCount: 1
@@ -376,14 +385,12 @@ components:
           title: Number of instance to provision
           type: integer
       type: object
-    ErrorResponse:
+    RegularResponse:
       example:
-        message: message
+        Message: Message
       properties:
-        message:
+        Message:
           type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     AutoProvisionVolume:
       example:
@@ -482,13 +489,6 @@ components:
       - region
       - subnets
       - volume
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

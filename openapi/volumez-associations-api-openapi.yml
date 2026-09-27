@@ -557,15 +557,6 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
     AssociationCreate:
       example:
         volume: volume
@@ -589,6 +580,52 @@ components:
           type: string
         selector:
           minLength: 1
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AssociationModify:
+      example:
+        name: name
+        selector: selector
+        snapshot: snapshot
+      properties:
+        name:
+          title: name
+          type: string
+        snapshot:
+          minLength: 1
+          title: Snapshot
+          type: string
+        selector:
+          minLength: 1
+          type: string
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    SuccessJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        JobID:
+          type: string
+        ObjectID:
           type: string
       type: object
     Association:
@@ -629,43 +666,6 @@ components:
           type: string
         status:
           readOnly: true
-          type: string
-      type: object
-    AssociationModify:
-      example:
-        name: name
-        selector: selector
-        snapshot: snapshot
-      properties:
-        name:
-          title: name
-          type: string
-        snapshot:
-          minLength: 1
-          title: Snapshot
-          type: string
-        selector:
-          minLength: 1
-          type: string
-      type: object
-    SuccessJobResponse:
-      example:
-        Message: Message
-        ObjectID: ObjectID
-        JobID: JobID
-      properties:
-        Message:
-          type: string
-        JobID:
-          type: string
-        ObjectID:
-          type: string
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
           type: string
       type: object
   securitySchemes:

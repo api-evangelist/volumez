@@ -935,6 +935,13 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     Snapshot:
       example:
         snapshotid: snapshotid
@@ -1008,13 +1015,6 @@ components:
       required:
       - consistency
       - name
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

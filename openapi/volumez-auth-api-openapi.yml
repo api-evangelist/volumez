@@ -156,11 +156,104 @@ paths:
           integration.request.path.roleId: method.request.path.roleId
 components:
   schemas:
+    GetRolesResponse_roles_inner:
+      example:
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secretId: secretId
+          applicationId: applicationId
+        cloudProvider:
+          accountID: accountID
+          type: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
+      properties:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProvider'
+        awsRole:
+          $ref: '#/components/schemas/AWSRoleItem'
+        azureRole:
+          $ref: '#/components/schemas/AzureRoleItem'
+      required:
+      - cloudProvider
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     CloudProviderType:
       enum:
       - aws
       - azure
       type: string
+    AzureRoleItem:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secretId: secretId
+        applicationId: applicationId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secretId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - activeDirectoryId
+      - applicationId
+      - secretId
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    CloudProvider:
+      example:
+        accountID: accountID
+        type: aws
+      properties:
+        type:
+          $ref: '#/components/schemas/CloudProviderType'
+        accountID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - accountID
+      - type
+      type: object
+    AWSRoleItem:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: false
+      required:
+      - arn
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
     GetRolesResponse:
       example:
         RoleName: RoleName
@@ -211,99 +304,6 @@ components:
       required:
       - roles
       type: object
-    CloudProvider:
-      example:
-        accountID: accountID
-        type: aws
-      properties:
-        type:
-          $ref: '#/components/schemas/CloudProviderType'
-        accountID:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - accountID
-      - type
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    AWSRoleItem:
-      example:
-        externalId: externalId
-        arn: arn
-      properties:
-        arn:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        externalId:
-          type: string
-          x-omitempty: true
-          x-isnullable: false
-      required:
-      - arn
-      type:
-      - object
-      - 'null'
-      x-omitempty: true
-      x-isnullable: true
-    GetRolesResponse_roles_inner:
-      example:
-        azureRole:
-          activeDirectoryId: activeDirectoryId
-          secretId: secretId
-          applicationId: applicationId
-        cloudProvider:
-          accountID: accountID
-          type: aws
-        awsRole:
-          externalId: externalId
-          arn: arn
-      properties:
-        cloudProvider:
-          $ref: '#/components/schemas/CloudProvider'
-        awsRole:
-          $ref: '#/components/schemas/AWSRoleItem'
-        azureRole:
-          $ref: '#/components/schemas/AzureRoleItem'
-      required:
-      - cloudProvider
-      type: object
-    AzureRoleItem:
-      example:
-        activeDirectoryId: activeDirectoryId
-        secretId: secretId
-        applicationId: applicationId
-      properties:
-        activeDirectoryId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        applicationId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        secretId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - activeDirectoryId
-      - applicationId
-      - secretId
-      type:
-      - object
-      - 'null'
-      x-omitempty: true
-      x-isnullable: true
   securitySchemes:
     storage.io-authorizer:
       in: header

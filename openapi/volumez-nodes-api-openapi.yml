@@ -1405,6 +1405,105 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    Node:
+      example:
+        cloudprovider: cloudprovider
+        accountID: accountID
+        nodecluster: nodecluster
+        credential: credential
+        zone: zone
+        instancetype: instancetype
+        state: state
+        kversion: kversion
+        ResiliencyDomain: ResiliencyDomain
+        ResourceNamespace: ResourceNamespace
+        os: os
+        FaultDomain: FaultDomain
+        offlinetime: offlinetime
+        PhysicalProximityGroup: PhysicalProximityGroup
+        label: label
+        tags: '{}'
+        connectorversion: connectorversion
+        instanceid: instanceid
+        controladdress: controladdress
+        autoprovisionInfraUUID: autoprovisionInfraUUID
+        name: name
+        progress: 0
+        osversion: osversion
+        region: region
+        status: status
+      properties:
+        instanceid:
+          type: string
+        name:
+          minLength: 1
+          type: string
+        os:
+          type: string
+        osversion:
+          type: string
+        kversion:
+          type: string
+        controladdress:
+          type: string
+        credential:
+          type: string
+        accountID:
+          type: string
+        region:
+          type: string
+        zone:
+          type: string
+        ResourceNamespace:
+          description: global namespace for resources in account empty if not aviliable/supported on cloud provider/node
+          type: string
+        PhysicalProximityGroup:
+          description: identifier of the physical location of the node empty if not aviliable/supported on on cloud provider/node
+          type: string
+        ResiliencyDomain:
+          description: virtual domain for the node fault domains if aviliable/supported on on cloud provider/node
+          type: string
+        FaultDomain:
+          description: identifier for node in FaultDomain
+          type: string
+        offlinetime:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        connectorversion:
+          readOnly: true
+          type: string
+        label:
+          type: string
+        tags:
+          type: object
+        cloudprovider:
+          type: string
+        nodecluster:
+          type: string
+        autoprovisionInfraUUID:
+          readOnly: true
+          type: string
+        instancetype:
+          type: string
+      required:
+      - name
+      - os
+      type: object
+    NodeVersion:
+      example:
+        version: version
+      properties:
+        version:
+          type: string
+      type: object
     Volume:
       example:
         replicationvolumegroupname: replicationvolumegroupname
@@ -1539,15 +1638,24 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
-    Tags:
-      additionalProperties:
-        type: string
-      type: object
-    NodeVersion:
+    RegularResponse:
       example:
-        version: version
+        Message: Message
       properties:
-        version:
+        Message:
+          type: string
+      type: object
+    SuccessJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        JobID:
+          type: string
+        ObjectID:
           type: string
       type: object
     NodeDescribeResponse:
@@ -1586,117 +1694,9 @@ components:
           description: Map of volume IDs to volume objects
           type: object
       type: object
-    Node:
-      example:
-        cloudprovider: cloudprovider
-        accountID: accountID
-        nodecluster: nodecluster
-        credential: credential
-        zone: zone
-        instancetype: instancetype
-        state: state
-        kversion: kversion
-        ResiliencyDomain: ResiliencyDomain
-        ResourceNamespace: ResourceNamespace
-        os: os
-        FaultDomain: FaultDomain
-        offlinetime: offlinetime
-        PhysicalProximityGroup: PhysicalProximityGroup
-        label: label
-        tags: '{}'
-        connectorversion: connectorversion
-        instanceid: instanceid
-        controladdress: controladdress
-        autoprovisionInfraUUID: autoprovisionInfraUUID
-        name: name
-        progress: 0
-        osversion: osversion
-        region: region
-        status: status
-      properties:
-        instanceid:
-          type: string
-        name:
-          minLength: 1
-          type: string
-        os:
-          type: string
-        osversion:
-          type: string
-        kversion:
-          type: string
-        controladdress:
-          type: string
-        credential:
-          type: string
-        accountID:
-          type: string
-        region:
-          type: string
-        zone:
-          type: string
-        ResourceNamespace:
-          description: global namespace for resources in account empty if not aviliable/supported on cloud provider/node
-          type: string
-        PhysicalProximityGroup:
-          description: identifier of the physical location of the node empty if not aviliable/supported on on cloud provider/node
-          type: string
-        ResiliencyDomain:
-          description: virtual domain for the node fault domains if aviliable/supported on on cloud provider/node
-          type: string
-        FaultDomain:
-          description: identifier for node in FaultDomain
-          type: string
-        offlinetime:
-          type: string
-        state:
-          readOnly: true
-          type: string
-        status:
-          readOnly: true
-          type: string
-        progress:
-          readOnly: true
-          type: integer
-        connectorversion:
-          readOnly: true
-          type: string
-        label:
-          type: string
-        tags:
-          type: object
-        cloudprovider:
-          type: string
-        nodecluster:
-          type: string
-        autoprovisionInfraUUID:
-          readOnly: true
-          type: string
-        instancetype:
-          type: string
-      required:
-      - name
-      - os
-      type: object
-    SuccessJobResponse:
-      example:
-        Message: Message
-        ObjectID: ObjectID
-        JobID: JobID
-      properties:
-        Message:
-          type: string
-        JobID:
-          type: string
-        ObjectID:
-          type: string
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
+    Tags:
+      additionalProperties:
+        type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

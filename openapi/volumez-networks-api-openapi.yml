@@ -614,6 +614,15 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     Network:
       example:
         zone: zone
@@ -644,15 +653,6 @@ components:
       - ipstart
       - name
       - type
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     RegularResponse:
       example:

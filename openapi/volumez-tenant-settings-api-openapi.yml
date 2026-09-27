@@ -375,6 +375,25 @@ components:
       required:
       - settingsToReset
       type: object
+    ModifyTenantSettingsResponse:
+      $ref: '#/components/schemas/EmptyResponse'
+    ModifyTenantSettingsRequest:
+      example:
+        settingsToModify:
+          support:
+            allowCollectLogs: true
+      properties:
+        settingsToModify:
+          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
+      type: object
+    ModifyTenantSettingsRequest_settingsToModify:
+      example:
+        support:
+          allowCollectLogs: true
+      properties:
+        support:
+          $ref: '#/components/schemas/GetTenantSettingsResponse_support'
+      type: object
     GetTenantSettingsResponse:
       example:
         support:
@@ -385,25 +404,10 @@ components:
       type: object
     ResetTenantSettingsResponse:
       $ref: '#/components/schemas/EmptyResponse'
-    ModifyTenantSettingsResponse:
-      $ref: '#/components/schemas/EmptyResponse'
-    ModifyTenantSettingsRequest_settingsToModify:
-      example:
-        support:
-          allowCollectLogs: true
-      properties:
-        support:
-          $ref: '#/components/schemas/GetTenantSettingsResponse_support'
+    EmptyResponse:
       type: object
-    ModifyTenantSettingsRequest:
-      example:
-        settingsToModify:
-          support:
-            allowCollectLogs: true
-      properties:
-        settingsToModify:
-          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
-      type: object
+      x-isnullable: false
+      x-omitempty: false
     GetTenantSettingsResponse_support:
       example:
         allowCollectLogs: true
@@ -415,10 +419,6 @@ components:
       type:
       - object
       - 'null'
-    EmptyResponse:
-      type: object
-      x-isnullable: false
-      x-omitempty: false
   securitySchemes:
     storage.io-authorizer:
       in: header

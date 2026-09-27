@@ -763,6 +763,15 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     ErrorJobResponse:
       example:
         Message: Message
@@ -778,15 +787,6 @@ components:
           type: string
         JobID:
           type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     Attachment:
       example:

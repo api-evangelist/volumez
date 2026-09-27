@@ -9,6 +9,22 @@ description: Volumez is a SaaS data-infrastructure-as-a-service (DIaaS) company,
   modules for AWS, Azure and OCI, and a generated Go REST client. Through 2026 the company repositioned its public
   site around enterprise agentic-AI infrastructure and retired its public developer portal, API host and status
   page; the machine-readable contract now lives only in its own GitHub organization.
+deliveryModel:
+  model: saas
+  license_evidence:
+    not_product:
+    - volumeztech/volumez-rest-client
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
+  method: derived
 image: https://cdn.prod.website-files.com/697f0ed00fa3efb03f6269c4/698dc3c03de73edbaf042a8a_Share%20thumbnail%20(1).jpg
 url: https://raw.githubusercontent.com/api-evangelist/volumez/refs/heads/main/apis.yml
 x-type: company

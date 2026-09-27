@@ -749,94 +749,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ExportModify:
+    ExportCreate_nodes_inner:
       example:
-        nodes:
-        - node: node
-          role: role
-        - node: node
-          role: role
-        allowed_hosts:
-        - allowed_hosts
-        - allowed_hosts
+        node: node
+        role: role
       properties:
-        allowed_hosts:
-          items:
-            type: string
-          minItems: 1
-          type: array
-        nodes:
-          items:
-            $ref: '#/components/schemas/ExportCreate_nodes_inner'
-          minItems: 1
-          type: array
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
+        node:
+          title: node
           type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    Authentication:
-      example:
-        method: method
-        chap:
-          password: password
-          user: user
-      properties:
-        method:
-          title: method
+        role:
+          title: role
           type: string
-        chap:
-          $ref: '#/components/schemas/Authentication_chap'
-      type: object
-    ExportCreate:
-      example:
-        protocol: protocol
-        snapshotid: snapshotid
-        nodes:
-        - node: node
-          role: role
-        - node: node
-          role: role
-        target_name: target_name
-        volumeid: volumeid
-        allowed_hosts:
-        - allowed_hosts
-        - allowed_hosts
-        authentication:
-          method: method
-          chap:
-            password: password
-            user: user
-      properties:
-        target_name:
-          title: name
-          type: string
-        protocol:
-          title: protocol
-          type: string
-        authentication:
-          $ref: '#/components/schemas/Authentication'
-        volumeid:
-          title: Volume ID
-          type: string
-        snapshotid:
-          title: Snapshot ID
-          type: string
-        allowed_hosts:
-          items:
-            type: string
-          minItems: 1
-          type: array
-        nodes:
-          items:
-            $ref: '#/components/schemas/ExportCreate_nodes_inner'
-          minItems: 1
-          type: array
       type: object
     Export:
       example:
@@ -927,6 +850,73 @@ components:
           title: Port
           type: string
       type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    ExportCreate:
+      example:
+        protocol: protocol
+        snapshotid: snapshotid
+        nodes:
+        - node: node
+          role: role
+        - node: node
+          role: role
+        target_name: target_name
+        volumeid: volumeid
+        allowed_hosts:
+        - allowed_hosts
+        - allowed_hosts
+        authentication:
+          method: method
+          chap:
+            password: password
+            user: user
+      properties:
+        target_name:
+          title: name
+          type: string
+        protocol:
+          title: protocol
+          type: string
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+        volumeid:
+          title: Volume ID
+          type: string
+        snapshotid:
+          title: Snapshot ID
+          type: string
+        allowed_hosts:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        nodes:
+          items:
+            $ref: '#/components/schemas/ExportCreate_nodes_inner'
+          minItems: 1
+          type: array
+      type: object
+    Authentication:
+      example:
+        method: method
+        chap:
+          password: password
+          user: user
+      properties:
+        method:
+          title: method
+          type: string
+        chap:
+          $ref: '#/components/schemas/Authentication_chap'
+      type: object
     SuccessJobResponse:
       example:
         Message: Message
@@ -940,17 +930,27 @@ components:
         ObjectID:
           type: string
       type: object
-    ExportCreate_nodes_inner:
+    ExportModify:
       example:
-        node: node
-        role: role
+        nodes:
+        - node: node
+          role: role
+        - node: node
+          role: role
+        allowed_hosts:
+        - allowed_hosts
+        - allowed_hosts
       properties:
-        node:
-          title: node
-          type: string
-        role:
-          title: role
-          type: string
+        allowed_hosts:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        nodes:
+          items:
+            $ref: '#/components/schemas/ExportCreate_nodes_inner'
+          minItems: 1
+          type: array
       type: object
   securitySchemes:
     storage.io-authorizer:
