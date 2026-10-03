@@ -614,6 +614,13 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     ErrorResponse:
       example:
         message: message
@@ -653,13 +660,6 @@ components:
       - ipstart
       - name
       - type
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

@@ -794,34 +794,6 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
-    ConnectivityCheck:
-      example:
-        targets_selector: targets_selector
-        initiators_selector: initiators_selector
-      properties:
-        initiators_selector:
-          minLength: 1
-          type: string
-        targets_selector:
-          minLength: 1
-          type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
     SuccessJobResponse:
       example:
         Message: Message
@@ -833,6 +805,13 @@ components:
         JobID:
           type: string
         ObjectID:
+          type: string
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
           type: string
       type: object
     Connectivity:
@@ -873,6 +852,27 @@ components:
       - systemtypes2
       - zones1
       - zones2
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    ConnectivityCheck:
+      example:
+        targets_selector: targets_selector
+        initiators_selector: initiators_selector
+      properties:
+        initiators_selector:
+          minLength: 1
+          type: string
+        targets_selector:
+          minLength: 1
+          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

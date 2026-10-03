@@ -374,6 +374,22 @@ paths:
           integration.request.path.alert: method.request.path.alert
 components:
   schemas:
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     Alert:
       example:
         severity: Info
@@ -455,22 +471,6 @@ components:
           minLength: 1
           readOnly: true
           title: Alert Details (according to alert type)
-          type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
           type: string
       type: object
   securitySchemes:

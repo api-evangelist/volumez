@@ -1470,6 +1470,19 @@ paths:
           integration.request.path.media: method.request.path.media
 components:
   schemas:
+    SuccessJobResponse:
+      example:
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
+      properties:
+        Message:
+          type: string
+        JobID:
+          type: string
+        ObjectID:
+          type: string
+      type: object
     VirtualMedia:
       example:
         flavor: stripped
@@ -1530,50 +1543,6 @@ components:
             type: string
           type: array
       type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
-    SuccessJobResponse:
-      example:
-        Message: Message
-        ObjectID: ObjectID
-        JobID: JobID
-      properties:
-        Message:
-          type: string
-        JobID:
-          type: string
-        ObjectID:
-          type: string
-      type: object
-    VirtualMediaCreate:
-      example:
-        flavor: stripped
-        selector: selector
-      properties:
-        selector:
-          minLength: 1
-          type: string
-        flavor:
-          enum:
-          - stripped
-          - raid1
-          - split
-          type: string
-      type: object
     MediaProfile:
       example:
         bandwidthwrite: 5
@@ -1607,6 +1576,37 @@ components:
           type: integer
         freebandwidthwrite:
           type: integer
+      type: object
+    VirtualMediaCreate:
+      example:
+        flavor: stripped
+        selector: selector
+      properties:
+        selector:
+          minLength: 1
+          type: string
+        flavor:
+          enum:
+          - stripped
+          - raid1
+          - split
+          type: string
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
     Media:
       example:

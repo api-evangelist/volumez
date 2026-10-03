@@ -1000,6 +1000,138 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Volume:
+      example:
+        replicationvolumegroupname: replicationvolumegroupname
+        type: file
+        throttlingscheme: throttlingscheme
+        zone: zone
+        volumerecoveryjob: volumerecoveryjob
+        capacitygroup: capacitygroup
+        state: state
+        zonereplica: zonereplica
+        consistencygroup: consistencygroup
+        policy: policy
+        contentsnapshot: contentsnapshot
+        contentvolume: contentvolume
+        volumegroupid: volumegroupid
+        replicationnode: replicationnode
+        flavor: regular
+        node: node
+        size: 83973
+        volumegroupname: volumegroupname
+        replicationvolumegroupid: replicationvolumegroupid
+        name: name
+        volumeid: volumeid
+        progress: 1
+        maxsize: 6
+        status: status
+        allowdatamovement: false
+      properties:
+        name:
+          minLength: 1
+          title: Volume name
+          type: string
+        volumeid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        type:
+          enum:
+          - file
+          - block
+          type: string
+        contentvolume:
+          type: string
+        contentsnapshot:
+          type: string
+        size:
+          maximum: 1048576
+          minimum: 1
+          title: Size, GiB
+          type: integer
+        maxsize:
+          readOnly: true
+          title: Upper limit size, GiB
+          type: integer
+        policy:
+          minLength: 1
+          type: string
+        consistencygroup:
+          type: string
+        node:
+          readOnly: true
+          type: string
+        zone:
+          minLength: 1
+          type: string
+        zonereplica:
+          type: string
+        volumegroupname:
+          minLength: 1
+          title: Volume Group name
+          type: string
+        volumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Volume ID
+          type: string
+        replicationnode:
+          type: string
+        replicationvolumegroupname:
+          minLength: 1
+          title: Replication Volume Group name
+          type: string
+        replicationvolumegroupid:
+          minLength: 1
+          readOnly: true
+          title: Replication Volume ID
+          type: string
+        volumerecoveryjob:
+          minLength: 1
+          readOnly: true
+          title: Volume Recovery Job ID
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        capacitygroup:
+          minLength: 1
+          title: Capacity group from which the volume is allocated
+          type: string
+        throttlingscheme:
+          minLength: 1
+          title: Throttling Scheme for the volume
+          type: string
+        allowdatamovement:
+          default: false
+          title: Allow movement of the volume
+          type: boolean
+        flavor:
+          enum:
+          - regular
+          - filedirect
+          type: string
+      required:
+      - name
+      - policy
+      - size
+      - type
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     VolumeGroup:
       example:
         cachemediasize: 1
@@ -1129,98 +1261,35 @@ components:
             $ref: '#/components/schemas/Attachment'
           type: array
       type: object
-    Volume:
+    Attachment:
       example:
-        replicationvolumegroupname: replicationvolumegroupname
-        type: file
-        throttlingscheme: throttlingscheme
-        zone: zone
-        volumerecoveryjob: volumerecoveryjob
-        capacitygroup: capacitygroup
-        state: state
-        zonereplica: zonereplica
-        consistencygroup: consistencygroup
-        policy: policy
-        contentsnapshot: contentsnapshot
-        contentvolume: contentvolume
-        volumegroupid: volumegroupid
-        replicationnode: replicationnode
-        flavor: regular
         node: node
-        size: 83973
-        volumegroupname: volumegroupname
-        replicationvolumegroupid: replicationvolumegroupid
-        name: name
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
         volumeid: volumeid
         progress: 1
-        maxsize: 6
+        snapshotname: snapshotname
+        state: state
         status: status
-        allowdatamovement: false
+        mountpoint: mountpoint
       properties:
-        name:
-          minLength: 1
+        volumename:
           title: Volume name
           type: string
         volumeid:
-          minLength: 1
           readOnly: true
           title: Volume ID
           type: string
-        type:
-          enum:
-          - file
-          - block
+        snapshotname:
+          title: Snapshot Name
           type: string
-        contentvolume:
-          type: string
-        contentsnapshot:
-          type: string
-        size:
-          maximum: 1048576
-          minimum: 1
-          title: Size, GiB
-          type: integer
-        maxsize:
+        snapshotid:
           readOnly: true
-          title: Upper limit size, GiB
-          type: integer
-        policy:
-          minLength: 1
-          type: string
-        consistencygroup:
+          title: Snapshot ID
           type: string
         node:
-          readOnly: true
-          type: string
-        zone:
-          minLength: 1
-          type: string
-        zonereplica:
-          type: string
-        volumegroupname:
-          minLength: 1
-          title: Volume Group name
-          type: string
-        volumegroupid:
-          minLength: 1
-          readOnly: true
-          title: Volume ID
-          type: string
-        replicationnode:
-          type: string
-        replicationvolumegroupname:
-          minLength: 1
-          title: Replication Volume Group name
-          type: string
-        replicationvolumegroupid:
-          minLength: 1
-          readOnly: true
-          title: Replication Volume ID
-          type: string
-        volumerecoveryjob:
-          minLength: 1
-          readOnly: true
-          title: Volume Recovery Job ID
           type: string
         state:
           readOnly: true
@@ -1231,44 +1300,19 @@ components:
         progress:
           readOnly: true
           type: integer
-        capacitygroup:
-          minLength: 1
-          title: Capacity group from which the volume is allocated
+        mountpoint:
+          title: Mount point
           type: string
-        throttlingscheme:
-          minLength: 1
-          title: Throttling Scheme for the volume
-          type: string
-        allowdatamovement:
-          default: false
-          title: Allow movement of the volume
+        readonly:
+          title: Read Only
           type: boolean
-        flavor:
-          enum:
-          - regular
-          - filedirect
-          type: string
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
       required:
-      - name
-      - policy
-      - size
-      - type
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
+      - node
       type: object
     Policy:
       example:
@@ -1409,6 +1453,15 @@ components:
       - capacityoptimization
       - name
       type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     Plan:
       example:
         volumegroup:
@@ -1532,59 +1585,6 @@ components:
           $ref: '#/components/schemas/VolumeGroup'
       required:
       - volumegroup
-      type: object
-    Attachment:
-      example:
-        node: node
-        allocated_resources: 50
-        snapshotid: snapshotid
-        volumename: volumename
-        readonly: true
-        volumeid: volumeid
-        progress: 1
-        snapshotname: snapshotname
-        state: state
-        status: status
-        mountpoint: mountpoint
-      properties:
-        volumename:
-          title: Volume name
-          type: string
-        volumeid:
-          readOnly: true
-          title: Volume ID
-          type: string
-        snapshotname:
-          title: Snapshot Name
-          type: string
-        snapshotid:
-          readOnly: true
-          title: Snapshot ID
-          type: string
-        node:
-          type: string
-        state:
-          readOnly: true
-          type: string
-        status:
-          readOnly: true
-          type: string
-        progress:
-          readOnly: true
-          type: integer
-        mountpoint:
-          title: Mount point
-          type: string
-        readonly:
-          title: Read Only
-          type: boolean
-        allocated_resources:
-          maximum: 100
-          minimum: 1
-          title: Allocated performance resources
-          type: integer
-      required:
-      - node
       type: object
   securitySchemes:
     storage.io-authorizer:

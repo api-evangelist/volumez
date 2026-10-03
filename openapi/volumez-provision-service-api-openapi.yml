@@ -84,6 +84,13 @@ components:
         boottime:
           type: string
       type: object
+    AdditionalParam:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
     Version:
       example:
         major: 0
@@ -102,24 +109,6 @@ components:
           type: integer
         prerelease:
           type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    ProvisionResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     MachineInfo:
       example:
@@ -177,12 +166,23 @@ components:
             $ref: '#/components/schemas/AdditionalParam'
           type: array
       type: object
-    AdditionalParam:
+    ProvisionResponse:
+      example:
+        message: message
       properties:
-        key:
+        message:
           type: string
-        value:
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
           type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

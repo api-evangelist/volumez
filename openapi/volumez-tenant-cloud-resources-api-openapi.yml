@@ -1009,81 +1009,40 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
-    UpdateAwsRoleRequest:
+    UpdateRoleRequest:
       example:
-        externalId: externalId
-        arn: arn
+        azureRole:
+          activeDirectoryId: activeDirectoryId
+          secret:
+            id: id
+            value: value
+          applicationId: applicationId
+        cloudProvider: aws
+        awsRole:
+          externalId: externalId
+          arn: arn
       properties:
-        arn:
-          type: string
-          x-omitempty: true
-          x-isnullable: true
-        externalId:
-          type: string
-          x-omitempty: true
-          x-isnullable: true
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        awsRole:
+          $ref: '#/components/schemas/UpdateAwsRoleRequest'
+        azureRole:
+          $ref: '#/components/schemas/UpdateAzureRoleRequest'
       type: object
-    CreateRoleResponse:
-      $ref: '#/components/schemas/EmptyResponse'
-    GetVMVPCsResponse:
-      additionalProperties:
-        items:
-          $ref: '#/components/schemas/AvailableVPCItem'
-        type: array
+    CloudProvider:
       example:
-      - Zone1:
-        - id: VpcId1
-          subnetId: VpcSubnetId1
-        - Id: VpcId2
-          SubnetId: VpcSubnetId2
-        Zone2:
-          id: VpcId3
-          subnetId: VpcSubnetId3
-      type: object
-    UpdateAzureRoleRequest:
-      example:
-        activeDirectoryId: activeDirectoryId
-        secret:
-          id: id
-          value: value
-        applicationId: applicationId
+        accountID: accountID
+        type: aws
       properties:
-        applicationId:
+        type:
+          $ref: '#/components/schemas/CloudProviderType'
+        accountID:
           type: string
           x-omitempty: false
           x-isnullable: false
-        activeDirectoryId:
-          type: string
-          x-omitempty: true
-          x-isnullable: true
-        secret:
-          $ref: '#/components/schemas/AzureSecret'
-      type: object
-    AvailableVPCItem:
-      example:
-        subnetId: subnetId
-        resourceGroup: resourceGroup
-        isDefault: true
-        name: name
-        id: id
-        subnetName: subnetName
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        subnetId:
-          type: string
-        subnetName:
-          type: string
-        isDefault:
-          type: boolean
-        resourceGroup:
-          type: string
       required:
-      - id
-      - name
-      - subnetId
+      - accountID
+      - type
       type: object
     CreateRoleRequest:
       example:
@@ -1125,27 +1084,7 @@ components:
           - 'null'
           x-omitempty: true
       type: object
-    UpdateRoleRequest:
-      example:
-        azureRole:
-          activeDirectoryId: activeDirectoryId
-          secret:
-            id: id
-            value: value
-          applicationId: applicationId
-        cloudProvider: aws
-        awsRole:
-          externalId: externalId
-          arn: arn
-      properties:
-        cloudProvider:
-          $ref: '#/components/schemas/CloudProviderType'
-        awsRole:
-          $ref: '#/components/schemas/UpdateAwsRoleRequest'
-        azureRole:
-          $ref: '#/components/schemas/UpdateAzureRoleRequest'
-      type: object
-    NodeId:
+    Region:
       type: string
     AzureVMRegion:
       example:
@@ -1163,6 +1102,70 @@ components:
             type: string
           type: array
       type: object
+    CloudProviderAccountId:
+      type: string
+    AzureSecret:
+      example:
+        id: id
+        value: value
+      properties:
+        id:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        value:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    AzureRoleItem:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secretId: secretId
+        applicationId: applicationId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secretId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - activeDirectoryId
+      - applicationId
+      - secretId
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
+    NodeId:
+      type: string
+    UpdateAzureRoleRequest:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secret:
+          id: id
+          value: value
+        applicationId: applicationId
+      properties:
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        activeDirectoryId:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        secret:
+          $ref: '#/components/schemas/AzureSecret'
+      type: object
     GetVMMetadataResponse:
       example:
         vpc:
@@ -1176,24 +1179,12 @@ components:
         vpc:
           $ref: '#/components/schemas/AvailableVPCItem'
       type: object
-    Region:
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
       type: string
-    CloudProvider:
-      example:
-        accountID: accountID
-        type: aws
-      properties:
-        type:
-          $ref: '#/components/schemas/CloudProviderType'
-        accountID:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - accountID
-      - type
-      type: object
-    AWSRoleItem:
+    CreateAwsRoleRequest:
       example:
         externalId: externalId
         arn: arn
@@ -1205,14 +1196,7 @@ components:
         externalId:
           type: string
           x-omitempty: true
-          x-isnullable: false
-      required:
-      - arn
-      type:
-      - object
-      - 'null'
-      x-omitempty: true
-      x-isnullable: true
+          x-isnullable: true
     GetVmRegionZonesResponse:
       example:
         aws:
@@ -1249,12 +1233,57 @@ components:
             $ref: '#/components/schemas/AzureVMRegion'
           type: object
       type: object
-    EmptyResponse:
+    AvailableVPCItem:
+      example:
+        subnetId: subnetId
+        resourceGroup: resourceGroup
+        isDefault: true
+        name: name
+        id: id
+        subnetName: subnetName
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        subnetId:
+          type: string
+        subnetName:
+          type: string
+        isDefault:
+          type: boolean
+        resourceGroup:
+          type: string
+      required:
+      - id
+      - name
+      - subnetId
       type: object
-      x-isnullable: false
-      x-omitempty: false
-    CloudProviderAccountId:
-      type: string
+    CreateRoleResponse:
+      $ref: '#/components/schemas/EmptyResponse'
+    CreateAzureRoleRequest:
+      example:
+        activeDirectoryId: activeDirectoryId
+        secret:
+          id: id
+          value: value
+        applicationId: applicationId
+        subscriptionId: subscriptionId
+      properties:
+        activeDirectoryId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        applicationId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        subscriptionId:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        secret:
+          $ref: '#/components/schemas/AzureSecret'
     GetRolesResponse_roles_inner:
       example:
         azureRole:
@@ -1276,6 +1305,39 @@ components:
           $ref: '#/components/schemas/AzureRoleItem'
       required:
       - cloudProvider
+      type: object
+    EmptyResponse:
+      type: object
+      x-isnullable: false
+      x-omitempty: false
+    UpdateAwsRoleRequest:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+      type: object
+    GetVMVPCsResponse:
+      additionalProperties:
+        items:
+          $ref: '#/components/schemas/AvailableVPCItem'
+        type: array
+      example:
+      - Zone1:
+        - id: VpcId1
+          subnetId: VpcSubnetId1
+        - Id: VpcId2
+          SubnetId: VpcSubnetId2
+        Zone2:
+          id: VpcId3
+          subnetId: VpcSubnetId3
       type: object
     GetRolesResponse:
       example:
@@ -1327,76 +1389,7 @@ components:
       required:
       - roles
       type: object
-    CloudProviderType:
-      enum:
-      - aws
-      - azure
-      type: string
-    AzureSecret:
-      example:
-        id: id
-        value: value
-      properties:
-        id:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        value:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    AzureRoleItem:
-      example:
-        activeDirectoryId: activeDirectoryId
-        secretId: secretId
-        applicationId: applicationId
-      properties:
-        activeDirectoryId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        applicationId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        secretId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - activeDirectoryId
-      - applicationId
-      - secretId
-      type:
-      - object
-      - 'null'
-      x-omitempty: true
-      x-isnullable: true
-    CreateAzureRoleRequest:
-      example:
-        activeDirectoryId: activeDirectoryId
-        secret:
-          id: id
-          value: value
-        applicationId: applicationId
-        subscriptionId: subscriptionId
-      properties:
-        activeDirectoryId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        applicationId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        subscriptionId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        secret:
-          $ref: '#/components/schemas/AzureSecret'
-    CreateAwsRoleRequest:
+    AWSRoleItem:
       example:
         externalId: externalId
         arn: arn
@@ -1408,7 +1401,14 @@ components:
         externalId:
           type: string
           x-omitempty: true
-          x-isnullable: true
+          x-isnullable: false
+      required:
+      - arn
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
   securitySchemes:
     storage.io-authorizer:
       in: header

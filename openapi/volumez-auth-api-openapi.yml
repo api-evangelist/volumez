@@ -156,6 +156,26 @@ paths:
           integration.request.path.roleId: method.request.path.roleId
 components:
   schemas:
+    CloudProvider:
+      example:
+        accountID: accountID
+        type: aws
+      properties:
+        type:
+          $ref: '#/components/schemas/CloudProviderType'
+        accountID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - accountID
+      - type
+      type: object
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
+      type: string
     GetRolesResponse_roles_inner:
       example:
         azureRole:
@@ -178,20 +198,6 @@ components:
       required:
       - cloudProvider
       type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    CloudProviderType:
-      enum:
-      - aws
-      - azure
-      type: string
     AzureRoleItem:
       example:
         activeDirectoryId: activeDirectoryId
@@ -219,41 +225,15 @@ components:
       - 'null'
       x-omitempty: true
       x-isnullable: true
-    CloudProvider:
+    ErrorResponse:
       example:
-        accountID: accountID
-        type: aws
+        message: message
       properties:
-        type:
-          $ref: '#/components/schemas/CloudProviderType'
-        accountID:
+        message:
           type: string
           x-omitempty: false
           x-isnullable: false
-      required:
-      - accountID
-      - type
       type: object
-    AWSRoleItem:
-      example:
-        externalId: externalId
-        arn: arn
-      properties:
-        arn:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        externalId:
-          type: string
-          x-omitempty: true
-          x-isnullable: false
-      required:
-      - arn
-      type:
-      - object
-      - 'null'
-      x-omitempty: true
-      x-isnullable: true
     GetRolesResponse:
       example:
         RoleName: RoleName
@@ -304,6 +284,26 @@ components:
       required:
       - roles
       type: object
+    AWSRoleItem:
+      example:
+        externalId: externalId
+        arn: arn
+      properties:
+        arn:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        externalId:
+          type: string
+          x-omitempty: true
+          x-isnullable: false
+      required:
+      - arn
+      type:
+      - object
+      - 'null'
+      x-omitempty: true
+      x-isnullable: true
   securitySchemes:
     storage.io-authorizer:
       in: header

@@ -364,36 +364,6 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
-    ResetTenantSettingsRequest:
-      example:
-        settingsToReset:
-          support:
-            allowCollectLogs: true
-      properties:
-        settingsToReset:
-          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
-      required:
-      - settingsToReset
-      type: object
-    ModifyTenantSettingsResponse:
-      $ref: '#/components/schemas/EmptyResponse'
-    ModifyTenantSettingsRequest:
-      example:
-        settingsToModify:
-          support:
-            allowCollectLogs: true
-      properties:
-        settingsToModify:
-          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
-      type: object
-    ModifyTenantSettingsRequest_settingsToModify:
-      example:
-        support:
-          allowCollectLogs: true
-      properties:
-        support:
-          $ref: '#/components/schemas/GetTenantSettingsResponse_support'
-      type: object
     GetTenantSettingsResponse:
       example:
         support:
@@ -404,10 +374,6 @@ components:
       type: object
     ResetTenantSettingsResponse:
       $ref: '#/components/schemas/EmptyResponse'
-    EmptyResponse:
-      type: object
-      x-isnullable: false
-      x-omitempty: false
     GetTenantSettingsResponse_support:
       example:
         allowCollectLogs: true
@@ -419,6 +385,40 @@ components:
       type:
       - object
       - 'null'
+    ModifyTenantSettingsResponse:
+      $ref: '#/components/schemas/EmptyResponse'
+    ResetTenantSettingsRequest:
+      example:
+        settingsToReset:
+          support:
+            allowCollectLogs: true
+      properties:
+        settingsToReset:
+          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
+      required:
+      - settingsToReset
+      type: object
+    ModifyTenantSettingsRequest:
+      example:
+        settingsToModify:
+          support:
+            allowCollectLogs: true
+      properties:
+        settingsToModify:
+          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
+      type: object
+    EmptyResponse:
+      type: object
+      x-isnullable: false
+      x-omitempty: false
+    ModifyTenantSettingsRequest_settingsToModify:
+      example:
+        support:
+          allowCollectLogs: true
+      properties:
+        support:
+          $ref: '#/components/schemas/GetTenantSettingsResponse_support'
+      type: object
   securitySchemes:
     storage.io-authorizer:
       in: header

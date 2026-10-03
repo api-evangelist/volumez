@@ -763,15 +763,6 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
     ErrorJobResponse:
       example:
         Message: Message
@@ -786,6 +777,22 @@ components:
         ObjectID:
           type: string
         JobID:
+          type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
           type: string
       type: object
     Attachment:
@@ -840,13 +847,6 @@ components:
           type: integer
       required:
       - node
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

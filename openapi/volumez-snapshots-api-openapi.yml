@@ -901,31 +901,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ConsistencyGroupSnapshotCreate_request:
-      properties:
-        name:
-          type: string
-          x-omitempty: true
-          x-isnullable: true
-        consistency:
-          enum:
-          - crash
-          - application
-          type: string
-          x-omitempty: true
-          x-go-name: Consistency
-          x-isnullable: true
-        group_name:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        volumes:
-          items:
-            type: string
-          type: array
-          x-omitempty: false
-          x-isnullable: false
-      type: object
     ErrorResponse:
       example:
         message: message
@@ -934,13 +909,6 @@ components:
           type: string
           x-omitempty: false
           x-isnullable: false
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
     Snapshot:
       example:
@@ -1015,6 +983,38 @@ components:
       required:
       - consistency
       - name
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    ConsistencyGroupSnapshotCreate_request:
+      properties:
+        name:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        consistency:
+          enum:
+          - crash
+          - application
+          type: string
+          x-omitempty: true
+          x-go-name: Consistency
+          x-isnullable: true
+        group_name:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        volumes:
+          items:
+            type: string
+          type: array
+          x-omitempty: false
+          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:
