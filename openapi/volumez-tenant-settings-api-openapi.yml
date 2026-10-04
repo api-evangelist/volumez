@@ -364,7 +364,9 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
-    GetTenantSettingsResponse:
+    ResetTenantSettingsResponse:
+      $ref: '#/components/schemas/EmptyResponse'
+    ModifyTenantSettingsRequest_settingsToModify:
       example:
         support:
           allowCollectLogs: true
@@ -372,8 +374,17 @@ components:
         support:
           $ref: '#/components/schemas/GetTenantSettingsResponse_support'
       type: object
-    ResetTenantSettingsResponse:
-      $ref: '#/components/schemas/EmptyResponse'
+    ResetTenantSettingsRequest:
+      example:
+        settingsToReset:
+          support:
+            allowCollectLogs: true
+      properties:
+        settingsToReset:
+          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
+      required:
+      - settingsToReset
+      type: object
     GetTenantSettingsResponse_support:
       example:
         allowCollectLogs: true
@@ -387,17 +398,10 @@ components:
       - 'null'
     ModifyTenantSettingsResponse:
       $ref: '#/components/schemas/EmptyResponse'
-    ResetTenantSettingsRequest:
-      example:
-        settingsToReset:
-          support:
-            allowCollectLogs: true
-      properties:
-        settingsToReset:
-          $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
-      required:
-      - settingsToReset
+    EmptyResponse:
       type: object
+      x-isnullable: false
+      x-omitempty: false
     ModifyTenantSettingsRequest:
       example:
         settingsToModify:
@@ -407,11 +411,7 @@ components:
         settingsToModify:
           $ref: '#/components/schemas/ModifyTenantSettingsRequest_settingsToModify'
       type: object
-    EmptyResponse:
-      type: object
-      x-isnullable: false
-      x-omitempty: false
-    ModifyTenantSettingsRequest_settingsToModify:
+    GetTenantSettingsResponse:
       example:
         support:
           allowCollectLogs: true

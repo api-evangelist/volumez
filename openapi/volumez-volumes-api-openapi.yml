@@ -2146,6 +2146,66 @@ components:
       - size
       - type
       type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
+    Attachment:
+      example:
+        node: node
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
+        volumeid: volumeid
+        progress: 1
+        snapshotname: snapshotname
+        state: state
+        status: status
+        mountpoint: mountpoint
+      properties:
+        volumename:
+          title: Volume name
+          type: string
+        volumeid:
+          readOnly: true
+          title: Volume ID
+          type: string
+        snapshotname:
+          title: Snapshot Name
+          type: string
+        snapshotid:
+          readOnly: true
+          title: Snapshot ID
+          type: string
+        node:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        mountpoint:
+          title: Mount point
+          type: string
+        readonly:
+          title: Read Only
+          type: boolean
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
+      required:
+      - node
+      type: object
     VolumeGroup:
       example:
         cachemediasize: 1
@@ -2275,66 +2335,6 @@ components:
             $ref: '#/components/schemas/Attachment'
           type: array
       type: object
-    Attachment:
-      example:
-        node: node
-        allocated_resources: 50
-        snapshotid: snapshotid
-        volumename: volumename
-        readonly: true
-        volumeid: volumeid
-        progress: 1
-        snapshotname: snapshotname
-        state: state
-        status: status
-        mountpoint: mountpoint
-      properties:
-        volumename:
-          title: Volume name
-          type: string
-        volumeid:
-          readOnly: true
-          title: Volume ID
-          type: string
-        snapshotname:
-          title: Snapshot Name
-          type: string
-        snapshotid:
-          readOnly: true
-          title: Snapshot ID
-          type: string
-        node:
-          type: string
-        state:
-          readOnly: true
-          type: string
-        status:
-          readOnly: true
-          type: string
-        progress:
-          readOnly: true
-          type: integer
-        mountpoint:
-          title: Mount point
-          type: string
-        readonly:
-          title: Read Only
-          type: boolean
-        allocated_resources:
-          maximum: 100
-          minimum: 1
-          title: Allocated performance resources
-          type: integer
-      required:
-      - node
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
     ErrorResponse:
       example:
         message: message
@@ -2364,6 +2364,130 @@ components:
       - Size
       type: object
       x-go-name: VolumePlanInput
+    Plan:
+      example:
+        volumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+        replicationvolumegroup:
+          cachemediasize: 1
+          attachments:
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          - node: node
+            allocated_resources: 50
+            snapshotid: snapshotid
+            volumename: volumename
+            readonly: true
+            volumeid: volumeid
+            progress: 1
+            snapshotname: snapshotname
+            state: state
+            status: status
+            mountpoint: mountpoint
+          cachemediabandwidthwrite: 1
+          writecache: true
+          mediasize: 5
+          Volumegroupname: Volumegroupname
+          targetsecret: targetsecret
+          deduplication: true
+          media:
+          - media
+          - media
+          cachesize: 2
+          cachemediaiopsread: 7
+          encryption: true
+          cachemedia:
+          - cachemedia
+          - cachemedia
+          redundancy: 0
+          raidcolumns: 5
+          allocatedsize: 1
+          cachemediabandwidthread: 1
+          mediaiopswrite: 9
+          cacheraidcolumns: 7
+          allocation: allocation
+          cacheredundancy: 4
+          cacheresiliency: cacheresiliency
+          resiliency: resiliency
+          mediabandwidthwrite: 2
+          mediabandwidthread: 7
+          size: 6
+          cachemediaiopswrite: 6
+          mediaiopsread: 3
+          compression: true
+          Integrity: true
+      properties:
+        volumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+        replicationvolumegroup:
+          $ref: '#/components/schemas/VolumeGroup'
+      required:
+      - volumegroup
+      type: object
     BatchVolumesPlan_request:
       properties:
         Volumes:
@@ -2631,130 +2755,6 @@ components:
           items:
             $ref: '#/components/schemas/Plan'
           type: array
-      type: object
-    Plan:
-      example:
-        volumegroup:
-          cachemediasize: 1
-          attachments:
-          - node: node
-            allocated_resources: 50
-            snapshotid: snapshotid
-            volumename: volumename
-            readonly: true
-            volumeid: volumeid
-            progress: 1
-            snapshotname: snapshotname
-            state: state
-            status: status
-            mountpoint: mountpoint
-          - node: node
-            allocated_resources: 50
-            snapshotid: snapshotid
-            volumename: volumename
-            readonly: true
-            volumeid: volumeid
-            progress: 1
-            snapshotname: snapshotname
-            state: state
-            status: status
-            mountpoint: mountpoint
-          cachemediabandwidthwrite: 1
-          writecache: true
-          mediasize: 5
-          Volumegroupname: Volumegroupname
-          targetsecret: targetsecret
-          deduplication: true
-          media:
-          - media
-          - media
-          cachesize: 2
-          cachemediaiopsread: 7
-          encryption: true
-          cachemedia:
-          - cachemedia
-          - cachemedia
-          redundancy: 0
-          raidcolumns: 5
-          allocatedsize: 1
-          cachemediabandwidthread: 1
-          mediaiopswrite: 9
-          cacheraidcolumns: 7
-          allocation: allocation
-          cacheredundancy: 4
-          cacheresiliency: cacheresiliency
-          resiliency: resiliency
-          mediabandwidthwrite: 2
-          mediabandwidthread: 7
-          size: 6
-          cachemediaiopswrite: 6
-          mediaiopsread: 3
-          compression: true
-          Integrity: true
-        replicationvolumegroup:
-          cachemediasize: 1
-          attachments:
-          - node: node
-            allocated_resources: 50
-            snapshotid: snapshotid
-            volumename: volumename
-            readonly: true
-            volumeid: volumeid
-            progress: 1
-            snapshotname: snapshotname
-            state: state
-            status: status
-            mountpoint: mountpoint
-          - node: node
-            allocated_resources: 50
-            snapshotid: snapshotid
-            volumename: volumename
-            readonly: true
-            volumeid: volumeid
-            progress: 1
-            snapshotname: snapshotname
-            state: state
-            status: status
-            mountpoint: mountpoint
-          cachemediabandwidthwrite: 1
-          writecache: true
-          mediasize: 5
-          Volumegroupname: Volumegroupname
-          targetsecret: targetsecret
-          deduplication: true
-          media:
-          - media
-          - media
-          cachesize: 2
-          cachemediaiopsread: 7
-          encryption: true
-          cachemedia:
-          - cachemedia
-          - cachemedia
-          redundancy: 0
-          raidcolumns: 5
-          allocatedsize: 1
-          cachemediabandwidthread: 1
-          mediaiopswrite: 9
-          cacheraidcolumns: 7
-          allocation: allocation
-          cacheredundancy: 4
-          cacheresiliency: cacheresiliency
-          resiliency: resiliency
-          mediabandwidthwrite: 2
-          mediabandwidthread: 7
-          size: 6
-          cachemediaiopswrite: 6
-          mediaiopsread: 3
-          compression: true
-          Integrity: true
-      properties:
-        volumegroup:
-          $ref: '#/components/schemas/VolumeGroup'
-        replicationvolumegroup:
-          $ref: '#/components/schemas/VolumeGroup'
-      required:
-      - volumegroup
       type: object
   securitySchemes:
     storage.io-authorizer:

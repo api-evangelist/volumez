@@ -186,6 +186,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CapacityGroup:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
     ErrorResponse:
       example:
         message: message
@@ -194,13 +201,6 @@ components:
           type: string
           x-omitempty: false
           x-isnullable: false
-      type: object
-    CapacityGroup:
-      example:
-        name: name
-      properties:
-        name:
-          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

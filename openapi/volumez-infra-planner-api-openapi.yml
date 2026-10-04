@@ -496,36 +496,130 @@ components:
           x-omitempty: false
           x-isnullable: false
       type: object
-    ProviderPriceItem:
+    CloudProviderType:
+      enum:
+      - aws
+      - azure
+      type: string
+    CreateInfraPlanRequest:
       example:
-        storageType: storageType
-        volumeBasePrice: 0.8008282
-        volumeTotalPrice: 6.0274563
+        accountId: accountId
+        size: 5
+        cloudProvider: aws
+        osType: ubuntu
+        region: region
+        zones:
+        - zones
+        - zones
+        policy:
+          settings:
+            bandwidthWrite: 0
+            resiliencyMedia: 0
+            latencyReadCold: 0
+            snapshotDay: 7
+            integrity: true
+            sed: true
+            encryption: true
+            capacityReservation: 180
+            resiliencyZone: 0
+            snapshotMinute: 4
+            iopsRead: 0
+            resiliencyNode: 0
+            iopsWrite: 0
+            snapshotKeep: 6
+            failurePerformance: true
+            snapshotFrequency: snapshotFrequency
+            latencyRead: 0
+            resiliencyRegion: 0
+            latencyWrite: 0
+            replicationRpo: 368
+            capacityOptimization: capacity
+            localZoneRead: true
+            coldData: 93
+            snapshotHour: 1
+            replicationBandwidth: 1
+            bandwidthRead: 0
+          name: name
+        subnetIds:
+        - subnetIds
+        - subnetIds
       properties:
-        storageType:
+        cloudProvider:
+          $ref: '#/components/schemas/CloudProviderType'
+        policy:
+          $ref: '#/components/schemas/CreateInfraPlanRequest_policy'
+        osType:
+          $ref: '#/components/schemas/OSType'
+        size:
+          format: integer
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        region:
+          type: string
+          x-omitempty: true
+          x-isnullable: true
+        zones:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+          x-isnullable: true
+        subnetIds:
+          items:
+            type: string
+          type: array
+          x-omitempty: true
+          x-isnullable: true
+        accountId:
           type: string
           x-omitempty: false
           x-isnullable: false
-        volumeBasePrice:
-          format: float
-          type: number
-          x-omitempty: false
-          x-isnullable: false
-        volumeTotalPrice:
-          format: float
-          type: number
-          x-omitempty: false
-          x-isnullable: false
       required:
-      - storageType
-      - volumeBasePrice
-      - volumeTotalPrice
+      - cloudProvider
+      - policy
+      - size
       type: object
-    OSType:
-      enum:
-      - ubuntu
-      - rhel
-      type: string
+    CreateInfraPlanRequest_policy:
+      example:
+        settings:
+          bandwidthWrite: 0
+          resiliencyMedia: 0
+          latencyReadCold: 0
+          snapshotDay: 7
+          integrity: true
+          sed: true
+          encryption: true
+          capacityReservation: 180
+          resiliencyZone: 0
+          snapshotMinute: 4
+          iopsRead: 0
+          resiliencyNode: 0
+          iopsWrite: 0
+          snapshotKeep: 6
+          failurePerformance: true
+          snapshotFrequency: snapshotFrequency
+          latencyRead: 0
+          resiliencyRegion: 0
+          latencyWrite: 0
+          replicationRpo: 368
+          capacityOptimization: capacity
+          localZoneRead: true
+          coldData: 93
+          snapshotHour: 1
+          replicationBandwidth: 1
+          bandwidthRead: 0
+        name: name
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          x-omitempty: true
+          x-isnullable: true
+        settings:
+          $ref: '#/components/schemas/CreateInfraPlanRequest_policy_settings'
+      type: object
     CreateInfraPlanResponse:
       example:
         mediaIOPSRead: 5
@@ -636,51 +730,6 @@ components:
       - totalPrice
       - volumezPrice
       - zones
-      type: object
-    CloudProviderType:
-      enum:
-      - aws
-      - azure
-      type: string
-    CreateInfraPlanRequest_policy:
-      example:
-        settings:
-          bandwidthWrite: 0
-          resiliencyMedia: 0
-          latencyReadCold: 0
-          snapshotDay: 7
-          integrity: true
-          sed: true
-          encryption: true
-          capacityReservation: 180
-          resiliencyZone: 0
-          snapshotMinute: 4
-          iopsRead: 0
-          resiliencyNode: 0
-          iopsWrite: 0
-          snapshotKeep: 6
-          failurePerformance: true
-          snapshotFrequency: snapshotFrequency
-          latencyRead: 0
-          resiliencyRegion: 0
-          latencyWrite: 0
-          replicationRpo: 368
-          capacityOptimization: capacity
-          localZoneRead: true
-          coldData: 93
-          snapshotHour: 1
-          replicationBandwidth: 1
-          bandwidthRead: 0
-        name: name
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          x-omitempty: true
-          x-isnullable: true
-        settings:
-          $ref: '#/components/schemas/CreateInfraPlanRequest_policy_settings'
       type: object
     CreateInfraPlanRequest_policy_settings:
       example:
@@ -813,6 +862,53 @@ components:
       - 'null'
       x-omitempty: true
       x-isnullable: true
+    OSType:
+      enum:
+      - ubuntu
+      - rhel
+      type: string
+    ProviderPricingInfoResponse:
+      example:
+        totalPriceList:
+        - storageType: storageType
+          volumeBasePrice: 0.8008282
+          volumeTotalPrice: 6.0274563
+        - storageType: storageType
+          volumeBasePrice: 0.8008282
+          volumeTotalPrice: 6.0274563
+      properties:
+        totalPriceList:
+          items:
+            $ref: '#/components/schemas/ProviderPriceItem'
+          type: array
+      required:
+      - totalPriceList
+      type: object
+    ProviderPriceItem:
+      example:
+        storageType: storageType
+        volumeBasePrice: 0.8008282
+        volumeTotalPrice: 6.0274563
+      properties:
+        storageType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        volumeBasePrice:
+          format: float
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+        volumeTotalPrice:
+          format: float
+          type: number
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - storageType
+      - volumeBasePrice
+      - volumeTotalPrice
+      type: object
     ProviderPricingInfoRequest:
       example:
         size: 6
@@ -841,102 +937,6 @@ components:
       - cloudProvider
       - iops
       - size
-      type: object
-    CreateInfraPlanRequest:
-      example:
-        accountId: accountId
-        size: 5
-        cloudProvider: aws
-        osType: ubuntu
-        region: region
-        zones:
-        - zones
-        - zones
-        policy:
-          settings:
-            bandwidthWrite: 0
-            resiliencyMedia: 0
-            latencyReadCold: 0
-            snapshotDay: 7
-            integrity: true
-            sed: true
-            encryption: true
-            capacityReservation: 180
-            resiliencyZone: 0
-            snapshotMinute: 4
-            iopsRead: 0
-            resiliencyNode: 0
-            iopsWrite: 0
-            snapshotKeep: 6
-            failurePerformance: true
-            snapshotFrequency: snapshotFrequency
-            latencyRead: 0
-            resiliencyRegion: 0
-            latencyWrite: 0
-            replicationRpo: 368
-            capacityOptimization: capacity
-            localZoneRead: true
-            coldData: 93
-            snapshotHour: 1
-            replicationBandwidth: 1
-            bandwidthRead: 0
-          name: name
-        subnetIds:
-        - subnetIds
-        - subnetIds
-      properties:
-        cloudProvider:
-          $ref: '#/components/schemas/CloudProviderType'
-        policy:
-          $ref: '#/components/schemas/CreateInfraPlanRequest_policy'
-        osType:
-          $ref: '#/components/schemas/OSType'
-        size:
-          format: integer
-          type: integer
-          x-omitempty: false
-          x-isnullable: false
-        region:
-          type: string
-          x-omitempty: true
-          x-isnullable: true
-        zones:
-          items:
-            type: string
-          type: array
-          x-omitempty: true
-          x-isnullable: true
-        subnetIds:
-          items:
-            type: string
-          type: array
-          x-omitempty: true
-          x-isnullable: true
-        accountId:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - cloudProvider
-      - policy
-      - size
-      type: object
-    ProviderPricingInfoResponse:
-      example:
-        totalPriceList:
-        - storageType: storageType
-          volumeBasePrice: 0.8008282
-          volumeTotalPrice: 6.0274563
-        - storageType: storageType
-          volumeBasePrice: 0.8008282
-          volumeTotalPrice: 6.0274563
-      properties:
-        totalPriceList:
-          items:
-            $ref: '#/components/schemas/ProviderPriceItem'
-          type: array
-      required:
-      - totalPriceList
       type: object
   securitySchemes:
     storage.io-authorizer:

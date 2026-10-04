@@ -341,41 +341,6 @@ components:
       - size
       - type
       type: object
-    AutoProvisionInfraPlan:
-      example:
-        instanceCount: 1
-        price: 1
-        instanceType: instanceType
-        osType: Linux
-        availabilityZones:
-        - availabilityZones
-        - availabilityZones
-      properties:
-        instanceType:
-          minLength: 1
-          title: instance type
-          type: string
-        instanceCount:
-          minimum: 1
-          title: Number of instance to provision
-          type: integer
-        availabilityZones:
-          items:
-            type: string
-          minItems: 1
-          type: array
-        osType:
-          enum:
-          - Linux
-          - Rhel
-          - Ubuntu
-          type: string
-        price:
-          format: float
-          minimum: 1
-          title: Number of instance to provision
-          type: integer
-      type: object
     AutoProvisionVolume:
       example:
         volume:
@@ -480,6 +445,41 @@ components:
       properties:
         Message:
           type: string
+      type: object
+    AutoProvisionInfraPlan:
+      example:
+        instanceCount: 1
+        price: 1
+        instanceType: instanceType
+        osType: Linux
+        availabilityZones:
+        - availabilityZones
+        - availabilityZones
+      properties:
+        instanceType:
+          minLength: 1
+          title: instance type
+          type: string
+        instanceCount:
+          minimum: 1
+          title: Number of instance to provision
+          type: integer
+        availabilityZones:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        osType:
+          enum:
+          - Linux
+          - Rhel
+          - Ubuntu
+          type: string
+        price:
+          format: float
+          minimum: 1
+          title: Number of instance to provision
+          type: integer
       type: object
     ErrorResponse:
       example:

@@ -47,6 +47,32 @@ paths:
           integration.request.header.X-Request-ID: context.requestId
 components:
   schemas:
+    Version:
+      example:
+        major: 0
+        prerelease: pre-release
+        minor: 6
+        component: component
+        patch: 1
+      properties:
+        component:
+          type: string
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        prerelease:
+          type: string
+      type: object
+    AdditionalParam:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
     ProvisionRequest:
       example:
         boottime: bootTime
@@ -84,31 +110,14 @@ components:
         boottime:
           type: string
       type: object
-    AdditionalParam:
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-      type: object
-    Version:
+    ProvisionResponse:
       example:
-        major: 0
-        prerelease: pre-release
-        minor: 6
-        component: component
-        patch: 1
+        message: message
       properties:
-        component:
+        message:
           type: string
-        major:
-          type: integer
-        minor:
-          type: integer
-        patch:
-          type: integer
-        prerelease:
-          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
     MachineInfo:
       example:
@@ -165,15 +174,6 @@ components:
           items:
             $ref: '#/components/schemas/AdditionalParam'
           type: array
-      type: object
-    ProvisionResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     ErrorResponse:
       example:

@@ -621,15 +621,6 @@ components:
         Message:
           type: string
       type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
     Network:
       example:
         zone: zone
@@ -660,6 +651,15 @@ components:
       - ipstart
       - name
       - type
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

@@ -557,6 +557,31 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    AssociationCreate:
+      example:
+        volume: volume
+        name: name
+        selector: selector
+        snapshot: snapshot
+        mountpoint: mountpoint
+      properties:
+        name:
+          title: name
+          type: string
+        volume:
+          title: Volume
+          type: string
+        snapshot:
+          minLength: 1
+          title: Snapshot
+          type: string
+        mountpoint:
+          title: Mount point
+          type: string
+        selector:
+          minLength: 1
+          type: string
+      type: object
     AssociationModify:
       example:
         name: name
@@ -587,46 +612,12 @@ components:
         ObjectID:
           type: string
       type: object
-    AssociationCreate:
-      example:
-        volume: volume
-        name: name
-        selector: selector
-        snapshot: snapshot
-        mountpoint: mountpoint
-      properties:
-        name:
-          title: name
-          type: string
-        volume:
-          title: Volume
-          type: string
-        snapshot:
-          minLength: 1
-          title: Snapshot
-          type: string
-        mountpoint:
-          title: Mount point
-          type: string
-        selector:
-          minLength: 1
-          type: string
-      type: object
     RegularResponse:
       example:
         Message: Message
       properties:
         Message:
           type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     Association:
       example:
@@ -667,6 +658,15 @@ components:
         status:
           readOnly: true
           type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

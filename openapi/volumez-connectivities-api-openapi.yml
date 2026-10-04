@@ -807,13 +807,6 @@ components:
         ObjectID:
           type: string
       type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
     Connectivity:
       example:
         mediaprotocol: mediaprotocol
@@ -853,14 +846,12 @@ components:
       - zones1
       - zones2
       type: object
-    ErrorResponse:
+    RegularResponse:
       example:
-        message: message
+        Message: Message
       properties:
-        message:
+        Message:
           type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
     ConnectivityCheck:
       example:
@@ -873,6 +864,15 @@ components:
         targets_selector:
           minLength: 1
           type: string
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

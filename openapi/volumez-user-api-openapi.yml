@@ -1133,17 +1133,15 @@ paths:
           integration.request.querystring.code: method.request.querystring.code
 components:
   schemas:
-    GetTenantIDResponse:
+    TenantHostDeleteResponse:
       example:
-        TenantID: TenantID
         Message: Message
         StatusCode: 0
       properties:
         StatusCode:
+          format: int32
           type: integer
         Message:
-          type: string
-        TenantID:
           type: string
       required:
       - StatusCode
@@ -1166,44 +1164,6 @@ components:
           type: string
         TokenType:
           type: string
-      type: object
-    RefreshToken:
-      example:
-        token: token
-      properties:
-        token:
-          type: string
-      type: object
-    SignOutRequest:
-      example:
-        AccessToken: AccessToken
-      properties:
-        AccessToken:
-          minLength: 1
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - AccessToken
-      type: object
-    GetTenantHostResponse:
-      example:
-        TenantHost: TenantHost
-        TenantID: TenantID
-        Message: Message
-        StatusCode: 0
-      properties:
-        StatusCode:
-          format: int32
-          type: integer
-        Message:
-          type: string
-        TenantHost:
-          type: string
-        TenantID:
-          type: string
-      required:
-      - StatusCode
       type: object
     SignUpRequest:
       example:
@@ -1246,68 +1206,102 @@ components:
       - name
       - password
       type: object
-    AddUserRequest:
+    RefreshToken:
       example:
-        password: password
-        name: name
-        invitedUserToken: invitedUserToken
+        token: token
+      properties:
+        token:
+          type: string
+      type: object
+    SignOutRequest:
+      example:
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - AccessToken
+      type: object
+    GetAzureSSOMappingResponse:
+      example:
+        SecurityGroupID: SecurityGroupID
+      properties:
+        SecurityGroupID:
+          minimum: 1
+          type: string
+      required:
+      - SecurityGroupID
+    GetTenantRefreshTokenRequest:
+      example:
+        hostname: hostname
+        tenantid: tenantid
+        accesstoken: accesstoken
+      properties:
+        accesstoken:
+          type: string
+        hostname:
+          type: string
+        tenantid:
+          type: string
+      required:
+      - accesstoken
+      - hostname
+      type: object
+    GetTenantIDResponse:
+      example:
+        TenantID: TenantID
+        Message: Message
+        StatusCode: 0
+      properties:
+        StatusCode:
+          type: integer
+        Message:
+          type: string
+        TenantID:
+          type: string
+      required:
+      - StatusCode
+      type: object
+    GetTenantUserResponse:
+      example:
+        TenantID: TenantID
+        Email: Email
+        Message: Message
+        StatusCode: 0
+        Name: Name
+      properties:
+        StatusCode:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        Message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Email:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        Name:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        TenantID:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    RequestChangePassword:
+      example:
         email: email
       properties:
         email:
-          minLength: 1
           type: string
           x-omitempty: false
           x-isnullable: false
-        password:
-          minLength: 8
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        invitedUserToken:
-          maxLength: 300
-          minLength: 1
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      required:
-      - email
-      - invitedUserToken
-      - name
-      - password
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
-    InviteUserResponse:
-      example:
-        Status: Status
-        Message: Message
-        ExpiresAt: 0
-        InviteeMail: InviteeMail
-      properties:
-        Message:
-          type: string
-        InviteeMail:
-          type: string
-        Status:
-          type: string
-        ExpiresAt:
-          type: integer
-      required:
-      - ExpiresAt
-      - InviteeMail
-      - Message
-      - Status
       type: object
     PutAzureSSOMappingRequest:
       example:
@@ -1353,89 +1347,84 @@ components:
       - password
       - tenantId
       type: object
-    GetTenantUserResponse:
-      example:
-        TenantID: TenantID
-        Email: Email
-        Message: Message
-        StatusCode: 0
-        Name: Name
-      properties:
-        StatusCode:
-          type: integer
-          x-omitempty: false
-          x-isnullable: false
-        Message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        Email:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        Name:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        TenantID:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    ChangePasswordApproveRequest:
-      example:
-        password: password
-        name: name
-        guid: guid
-      properties:
-        password:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        name:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        guid:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-      type: object
-    TenantTokenResponse:
-      example:
-        TokenType: TokenType
-        ExpiresIn: 0
-        AccessToken: AccessToken
-      properties:
-        AccessToken:
-          type: string
-        TokenType:
-          type: string
-        ExpiresIn:
-          type: integer
-      required:
-      - AccessToken
-      - ExpiresIn
-      - TokenType
-      type: object
-    ErrorResponse:
+    SignUpResponse:
       example:
         message: message
+        status: 0
       properties:
+        status:
+          type: integer
         message:
           type: string
           x-omitempty: false
           x-isnullable: false
+      required:
+      - message
       type: object
-    RequestChangePassword:
+    ChangePasswordRequestLoggedIn:
       example:
+        oldPassword: oldPassword
+        oldpassword: oldpassword
+        newPassword: newPassword
+        newpassword: newpassword
         email: email
       properties:
+        oldpassword:
+          type: string
         email:
           type: string
           x-omitempty: false
           x-isnullable: false
+        newpassword:
+          type: string
+        oldPassword:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        newPassword:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
+    SignInResponse:
+      example:
+        IdToken: IdToken
+        ExpiresIn: 0
+        TokenType: TokenType
+        RefreshToken: RefreshToken
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        IdToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        RefreshToken:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        ExpiresIn:
+          type: integer
+          x-omitempty: false
+          x-isnullable: false
+        TokenType:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - AccessToken
+      - ExpiresIn
+      - IdToken
+      - RefreshToken
+      - TokenType
+      type: object
+    EmptyResponse:
+      type: object
+      x-isnullable: false
+      x-omitempty: false
     TenantUser:
       example:
         Email: Email
@@ -1478,6 +1467,68 @@ components:
       - Name
       - UserName
       type: object
+    ChangePasswordApproveRequest:
+      example:
+        password: password
+        name: name
+        guid: guid
+      properties:
+        password:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        name:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        guid:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    TenantTokenResponse:
+      example:
+        TokenType: TokenType
+        ExpiresIn: 0
+        AccessToken: AccessToken
+      properties:
+        AccessToken:
+          type: string
+        TokenType:
+          type: string
+        ExpiresIn:
+          type: integer
+      required:
+      - AccessToken
+      - ExpiresIn
+      - TokenType
+      type: object
+    GetTenantHostResponse:
+      example:
+        TenantHost: TenantHost
+        TenantID: TenantID
+        Message: Message
+        StatusCode: 0
+      properties:
+        StatusCode:
+          format: int32
+          type: integer
+        Message:
+          type: string
+        TenantHost:
+          type: string
+        TenantID:
+          type: string
+      required:
+      - StatusCode
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     SignInRequest:
       example:
         password: password
@@ -1497,122 +1548,71 @@ components:
       - email
       - password
       type: object
-    ChangePasswordRequestLoggedIn:
+    AddUserRequest:
       example:
-        oldPassword: oldPassword
-        oldpassword: oldpassword
-        newPassword: newPassword
-        newpassword: newpassword
+        password: password
+        name: name
+        invitedUserToken: invitedUserToken
         email: email
       properties:
-        oldpassword:
-          type: string
         email:
+          minLength: 1
           type: string
           x-omitempty: false
           x-isnullable: false
-        newpassword:
-          type: string
-        oldPassword:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        newPassword:
+        password:
+          minLength: 8
           type: string
           x-omitempty: false
           x-isnullable: false
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+        invitedUserToken:
+          maxLength: 300
+          minLength: 1
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      required:
+      - email
+      - invitedUserToken
+      - name
+      - password
       type: object
-    TenantHostDeleteResponse:
+    InviteUserResponse:
       example:
+        Status: Status
         Message: Message
-        StatusCode: 0
+        ExpiresAt: 0
+        InviteeMail: InviteeMail
       properties:
-        StatusCode:
-          format: int32
-          type: integer
         Message:
           type: string
-      required:
-      - StatusCode
-      type: object
-    GetTenantRefreshTokenRequest:
-      example:
-        hostname: hostname
-        tenantid: tenantid
-        accesstoken: accesstoken
-      properties:
-        accesstoken:
+        InviteeMail:
           type: string
-        hostname:
+        Status:
           type: string
-        tenantid:
-          type: string
-      required:
-      - accesstoken
-      - hostname
-      type: object
-    SignInResponse:
-      example:
-        IdToken: IdToken
-        ExpiresIn: 0
-        TokenType: TokenType
-        RefreshToken: RefreshToken
-        AccessToken: AccessToken
-      properties:
-        AccessToken:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        IdToken:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        RefreshToken:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
-        ExpiresIn:
+        ExpiresAt:
           type: integer
-          x-omitempty: false
-          x-isnullable: false
-        TokenType:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       required:
-      - AccessToken
-      - ExpiresIn
-      - IdToken
-      - RefreshToken
-      - TokenType
+      - ExpiresAt
+      - InviteeMail
+      - Message
+      - Status
       type: object
-    SignUpResponse:
+    ErrorResponse:
       example:
         message: message
-        status: 0
       properties:
-        status:
-          type: integer
         message:
           type: string
           x-omitempty: false
           x-isnullable: false
-      required:
-      - message
       type: object
-    EmptyResponse:
-      type: object
-      x-isnullable: false
-      x-omitempty: false
-    GetAzureSSOMappingResponse:
-      example:
-        SecurityGroupID: SecurityGroupID
-      properties:
-        SecurityGroupID:
-          minimum: 1
-          type: string
-      required:
-      - SecurityGroupID
   securitySchemes:
     storage.io-authorizer:
       in: header
