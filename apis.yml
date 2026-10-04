@@ -1100,6 +1100,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/volumez-capability-edges.yml
+  name: Volumez Business Capability Map
 - type: Overlay
   url: overlays/volumez-orchestrator-api-overlay.yaml
 - type: Website

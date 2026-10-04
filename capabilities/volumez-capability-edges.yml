@@ -1,0 +1,94 @@
+slug: volumez
+provider: Volumez
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 8
+edges:
+- tag: Media
+  spec_file: volumez-media-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: PATCH /media/{media}/assign  MediaAssign  Assign media; POST /media/{media}/drain  MediaDrain;
+    POST /virtualmedia  VirtualMediaCreate  Create (virtual) media
+  reason: Lifecycle management of physical/virtual NVMe storage media (assign, unassign, drain, create)
+    — storage infrastructure management, squarely IT Infrastructure Management.
+- tag: Networks
+  spec_file: volumez-networks-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: POST /networks  NetworkCreate  Create a new network; PATCH /networks/{network}  NetworkModify  Modify
+    a network
+  reason: CRUD over network objects used by the storage fabric — network infrastructure provisioning,
+    i.e. IT Infrastructure Management (compute, storage, network, cloud).
+- tag: Nodes
+  spec_file: volumez-nodes-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: POST /nodes/{node}/hw  NodeHwScan  Node hardware scan; POST /nodes/{node}/drain  NodeDrain;
+    POST /nodes/upgrade/{node}  NodeUpgrade  performing node version upgrade
+  reason: Management of compute nodes and their hardware — inventory, hardware scan, drain, version upgrade
+    — classic infrastructure estate management.
+- tag: Volumes
+  spec_file: volumez-volumes-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: POST /volumes VolumeCreate Create a new volume; GET /volumes/{volume}/describe
+  reason: Operations create, modify, delete and recover block/file storage volumes composed from cloud
+    NVMe media — this is cloud storage infrastructure provisioning, i.e. IT Infrastructure Management.
+    Not a product-engineering or tenant capability since the surface manages infrastructure resources
+    directly.
+- tag: AutoProvisionVolumes
+  spec_file: volumez-autoprovisionvolumes-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.78
+  evidence: '"AutoProvisionVolumes  Create a new auto provisioned volume"; schemas "AutoProvisionInfraPlan",
+    "Volume"'
+  reason: Automated provisioning of block storage volumes and underlying infrastructure plan — IT infrastructure
+    management.
+- tag: Attachments
+  spec_file: volumez-attachments-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: '"AttachmentCreate  Create a new attachment" on "/volumes/{volume}/snapshots/{snapshot}/attachments"'
+  reason: Attaching storage volumes/snapshots to nodes is storage infrastructure provisioning, not document
+    attachments.
+- tag: Auth
+  spec_file: volumez-auth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: '"getRolesFromUserID  Get all user roles", "updateUserRole  Update user role"'
+  reason: Tenant/user role retrieval and assignment is identity and access management.
+- tag: User
+  spec_file: volumez-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /tenant/user  TenantUserCreate  Create Tenant's additional user; POST /disable-user/{email}  disableUser;
+    POST /enable-user/{email}  enableUser; schema PutAzureSSOMappingRequest
+  reason: Beyond sign-in plumbing, the surface manages user account lifecycle (create, enable, disable),
+    password credentials and Azure SSO mapping — identity and access management. Some overlap with tenant
+    identity federation keeps confidence below 0.8.
