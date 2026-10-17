@@ -557,6 +557,15 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
     AssociationCreate:
       example:
         volume: volume
@@ -599,6 +608,13 @@ components:
           minLength: 1
           type: string
       type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     SuccessJobResponse:
       example:
         Message: Message
@@ -610,13 +626,6 @@ components:
         JobID:
           type: string
         ObjectID:
-          type: string
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
           type: string
       type: object
     Association:
@@ -658,15 +667,6 @@ components:
         status:
           readOnly: true
           type: string
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

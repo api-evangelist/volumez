@@ -762,40 +762,26 @@ components:
         chap:
           $ref: '#/components/schemas/Authentication_chap'
       type: object
-    ExportModify:
+    StoragePort:
       example:
-        nodes:
-        - node: node
-          role: role
-        - node: node
-          role: role
-        allowed_hosts:
-        - allowed_hosts
-        - allowed_hosts
+        address: address
+        port: port
       properties:
-        allowed_hosts:
-          items:
-            type: string
-          minItems: 1
-          type: array
-        nodes:
-          items:
-            $ref: '#/components/schemas/ExportCreate_nodes_inner'
-          minItems: 1
-          type: array
+        address:
+          title: Address
+          type: string
+        port:
+          title: Port
+          type: string
       type: object
-    SuccessJobResponse:
+    ErrorResponse:
       example:
-        Message: Message
-        ObjectID: ObjectID
-        JobID: JobID
+        message: message
       properties:
-        Message:
+        message:
           type: string
-        JobID:
-          type: string
-        ObjectID:
-          type: string
+          x-omitempty: false
+          x-isnullable: false
       type: object
     Export:
       example:
@@ -862,17 +848,27 @@ components:
             $ref: '#/components/schemas/StoragePort'
           type: array
       type: object
-    StoragePort:
+    ExportModify:
       example:
-        address: address
-        port: port
+        nodes:
+        - node: node
+          role: role
+        - node: node
+          role: role
+        allowed_hosts:
+        - allowed_hosts
+        - allowed_hosts
       properties:
-        address:
-          title: Address
-          type: string
-        port:
-          title: Port
-          type: string
+        allowed_hosts:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        nodes:
+          items:
+            $ref: '#/components/schemas/ExportCreate_nodes_inner'
+          minItems: 1
+          type: array
       type: object
     ExportCreate:
       example:
@@ -919,18 +915,6 @@ components:
           minItems: 1
           type: array
       type: object
-    ExportCreate_nodes_inner:
-      example:
-        node: node
-        role: role
-      properties:
-        node:
-          title: node
-          type: string
-        role:
-          title: role
-          type: string
-      type: object
     Authentication_chap:
       example:
         password: password
@@ -943,14 +927,30 @@ components:
           title: password
           type: string
       type: object
-    ErrorResponse:
+    SuccessJobResponse:
       example:
-        message: message
+        Message: Message
+        ObjectID: ObjectID
+        JobID: JobID
       properties:
-        message:
+        Message:
           type: string
-          x-omitempty: false
-          x-isnullable: false
+        JobID:
+          type: string
+        ObjectID:
+          type: string
+      type: object
+    ExportCreate_nodes_inner:
+      example:
+        node: node
+        role: role
+      properties:
+        node:
+          title: node
+          type: string
+        role:
+          title: role
+          type: string
       type: object
   securitySchemes:
     storage.io-authorizer:

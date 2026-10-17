@@ -478,6 +478,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
+      type: object
     Job:
       example:
         args: '{}'
@@ -521,13 +528,6 @@ components:
           items:
             type: string
           type: array
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
       type: object
     ErrorResponse:
       example:

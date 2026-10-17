@@ -1139,6 +1139,68 @@ components:
       - capacityoptimization
       - name
       type: object
+    ErrorResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+          x-omitempty: false
+          x-isnullable: false
+      type: object
+    Attachment:
+      example:
+        node: node
+        allocated_resources: 50
+        snapshotid: snapshotid
+        volumename: volumename
+        readonly: true
+        volumeid: volumeid
+        progress: 1
+        snapshotname: snapshotname
+        state: state
+        status: status
+        mountpoint: mountpoint
+      properties:
+        volumename:
+          title: Volume name
+          type: string
+        volumeid:
+          readOnly: true
+          title: Volume ID
+          type: string
+        snapshotname:
+          title: Snapshot Name
+          type: string
+        snapshotid:
+          readOnly: true
+          title: Snapshot ID
+          type: string
+        node:
+          type: string
+        state:
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        progress:
+          readOnly: true
+          type: integer
+        mountpoint:
+          title: Mount point
+          type: string
+        readonly:
+          title: Read Only
+          type: boolean
+        allocated_resources:
+          maximum: 100
+          minimum: 1
+          title: Allocated performance resources
+          type: integer
+      required:
+      - node
+      type: object
     Plan:
       example:
         volumegroup:
@@ -1262,6 +1324,13 @@ components:
           $ref: '#/components/schemas/VolumeGroup'
       required:
       - volumegroup
+      type: object
+    RegularResponse:
+      example:
+        Message: Message
+      properties:
+        Message:
+          type: string
       type: object
     Volume:
       example:
@@ -1387,66 +1456,6 @@ components:
       - policy
       - size
       - type
-      type: object
-    RegularResponse:
-      example:
-        Message: Message
-      properties:
-        Message:
-          type: string
-      type: object
-    Attachment:
-      example:
-        node: node
-        allocated_resources: 50
-        snapshotid: snapshotid
-        volumename: volumename
-        readonly: true
-        volumeid: volumeid
-        progress: 1
-        snapshotname: snapshotname
-        state: state
-        status: status
-        mountpoint: mountpoint
-      properties:
-        volumename:
-          title: Volume name
-          type: string
-        volumeid:
-          readOnly: true
-          title: Volume ID
-          type: string
-        snapshotname:
-          title: Snapshot Name
-          type: string
-        snapshotid:
-          readOnly: true
-          title: Snapshot ID
-          type: string
-        node:
-          type: string
-        state:
-          readOnly: true
-          type: string
-        status:
-          readOnly: true
-          type: string
-        progress:
-          readOnly: true
-          type: integer
-        mountpoint:
-          title: Mount point
-          type: string
-        readonly:
-          title: Read Only
-          type: boolean
-        allocated_resources:
-          maximum: 100
-          minimum: 1
-          title: Allocated performance resources
-          type: integer
-      required:
-      - node
       type: object
     VolumeGroup:
       example:
@@ -1576,15 +1585,6 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
           type: array
-      type: object
-    ErrorResponse:
-      example:
-        message: message
-      properties:
-        message:
-          type: string
-          x-omitempty: false
-          x-isnullable: false
       type: object
   securitySchemes:
     storage.io-authorizer:

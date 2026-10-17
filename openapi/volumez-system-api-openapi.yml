@@ -358,6 +358,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AdditionalParam:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
     MachineInfo:
       example:
         instanceid: instance_id
@@ -413,13 +420,6 @@ components:
           items:
             $ref: '#/components/schemas/AdditionalParam'
           type: array
-      type: object
-    AdditionalParam:
-      properties:
-        key:
-          type: string
-        value:
-          type: string
       type: object
     ErrorResponse:
       example:
